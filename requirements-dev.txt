@@ -1,0 +1,6 @@
+-r requirements-testing.txt
+
+coverage==3.7.1
+Sphinx==1.2.2
+sphinx_rtd_theme==0.1.6  # Sphinx theme
+wheel==0.23.0
