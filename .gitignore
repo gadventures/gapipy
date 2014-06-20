@@ -1,1 +1,7 @@
-docs
+# setuptools/pypi
+build
+dist
+
+docs/_build
+docs/modules.rst
+docs/gapipy.*rst
