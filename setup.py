@@ -3,10 +3,7 @@
 
 import gapipy
 
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup
+from setuptools import setup, find_packages
 
 
 readme = open('README.rst').read()
@@ -30,9 +27,7 @@ setup(
     author='G Adventures',
     author_email='software@gadventures.com',
     url='https://github.com/gadventures/gapipy',
-    packages=[
-        'gapipy',
-    ],
+    packages=find_packages(),
     package_dir={'gapipy': 'gapipy'},
     include_package_data=True,
     install_requires=requirements,
