@@ -48,7 +48,7 @@ class BaseCache(object):
                             specified on :meth:`set`.
     """
 
-    def __init__(self, default_timeout=300):
+    def __init__(self, default_timeout=300, **kwargs):
         self.default_timeout = default_timeout
 
     def get(self, resource_name, resource_id=None):
@@ -88,7 +88,7 @@ class SimpleCache(BaseCache):
     :param threshold: the maximum number of items the cache stores before
                       it starts evicting keys.
     """
-    def __init__(self, threshold=500, default_timeout=300):
+    def __init__(self, threshold=500, default_timeout=300, **kwargs):
         BaseCache.__init__(self, default_timeout)
         self._cache = {}
         self._threshold = threshold
@@ -131,7 +131,7 @@ class RedisCache(BaseCache):
     """Uses the Redis key-value store as a cache backend.
     """
     def __init__(self, host='localhost', port=6379, password=None,
-                 db=0, default_timeout=300, key_prefix=None):
+                 db=0, default_timeout=300, key_prefix=None, **kwargs):
         BaseCache.__init__(self, default_timeout)
         self.key_prefix = key_prefix or ''
         try:
