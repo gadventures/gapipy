@@ -5,3 +5,6 @@ dist
 docs/_build
 docs/modules.rst
 docs/gapipy.*rst
+gapipy.egg-info/*
+
+*.pyc
