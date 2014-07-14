@@ -82,13 +82,17 @@ Caching
 A handful of cache backends are available for your use. The cache backend is
 configurable by adjusting the ``GAPI_CACHE_BACKEND`` environment variable.
 
+* Use `cache_options` when instantiating the Client to override default
+cache client settings.
+* Use `cached=False` when retrieving a resource to get a fresh copy and
+add it to the cache.
+
 ``gapipy.cache.SimpleCache``
     A simple in-memory cache for single process environments and is not
     thread safe.
 
 ``gapipy.cache.RedisCache``
-    A key-value cache store using Redis as a backend. Currently there is no
-    simple way to adjust the cache config when using the client.
+    A key-value cache store using Redis as a backend. 
 
 ``gapipy.cache.NullCache``
     A cache that doesn't cache.
