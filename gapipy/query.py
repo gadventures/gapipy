@@ -32,12 +32,23 @@ class Query(object):
         # serializable types.
         return self._raw_data
 
-    def get(self, resource_id):
-        """Returns an instance of the query resource with the given resource_id."""
+    def get(self, resource_id, cached=True):
+        """
+        Returns an instance of the query resource with the given `resource_id`.
 
-        resource_data = self._client._cache.get(self.resource._resource_name, resource_id)
-        if resource_data is not None:
-            return self.resource(resource_data)
+        If the resource is available in the cache and `cached` is True,
+        no http request will be made. If `cached` is False, a fresh request
+        will be made for the resource, which will be re-added to the cache.
+        This is a good method to invalidate persistent cache backend after
+        receiving a webhook that a resource has changed..
+        """
+        if cached:
+            resource_data = self._client._cache.get(
+                self.resource._resource_name,
+                resource_id,
+            )
+            if resource_data is not None:
+                return self.resource(resource_data)
 
         requestor = APIRequestor(self._client, self.resource._resource_name)
         resource_object = self.resource(requestor.get(resource_id))
