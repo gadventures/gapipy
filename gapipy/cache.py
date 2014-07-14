@@ -166,7 +166,8 @@ class RedisCache(BaseCache):
         return self._client.delete(self.key_prefix + key)
 
     def clear(self):
-        return self._client.flushall()
+        cache_keys = self._client.keys('{}*'.format(self.key_prefix))
+        map(self._client.delete, cache_keys)
 
     def info(self):
         return self._client.info()
