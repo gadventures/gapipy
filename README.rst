@@ -82,9 +82,9 @@ Caching
 A handful of cache backends are available for your use. The cache backend is
 configurable by adjusting the ``GAPI_CACHE_BACKEND`` environment variable.
 
-* Use `cache_options` when instantiating the Client to override default
+* Use ``cache_options`` when instantiating the Client to override default
   cache client settings.
-* Use `cached=False` when retrieving a resource to get a fresh copy and
+* Use ``cached=False`` when retrieving a resource to get a fresh copy and
   add it to the cache.
 
 ``gapipy.cache.SimpleCache``
