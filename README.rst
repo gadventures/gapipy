@@ -86,6 +86,8 @@ configurable by adjusting the ``GAPI_CACHE_BACKEND`` environment variable.
   cache client settings.
 * Use ``cached=False`` when retrieving a resource to get a fresh copy and
   add it to the cache.
+* Use ``Query.is_cached`` to check if a resource is cached
+  e.g. ``api.query(resource_name).is_cached(resource_id)``
 
 ``gapipy.cache.SimpleCache``
     A simple in-memory cache for single process environments and is not

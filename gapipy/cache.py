@@ -74,6 +74,9 @@ class BaseCache(object):
     def count(self):
         raise NotImplementedError
 
+    def is_cached(self, resource_id):
+        return False
+
 
 class NullCache(BaseCache):
     """
@@ -126,6 +129,10 @@ class SimpleCache(BaseCache):
     def count(self):
         return len(self._cache)
 
+    def is_cached(self, resource_name, resource_id):
+        key = make_key(resource_name, resource_id)
+        return key in self._cache
+
 
 class RedisCache(BaseCache):
     """Uses the Redis key-value store as a cache backend.
@@ -171,6 +178,10 @@ class RedisCache(BaseCache):
 
     def info(self):
         return self._client.info()
+
+    def is_cached(self, resource_name, resource_id):
+        key = make_key(resource_name, resource_id)
+        return self._client.exists(key)
 
 
 class RedisHashCache(RedisCache):

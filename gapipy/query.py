@@ -55,6 +55,12 @@ class Query(object):
         self._client._cache.set(self.resource._resource_name, resource_object.to_dict())
         return resource_object
 
+    def is_cached(self, resource_id):
+        return self._client._cache.is_cached(
+            self.resource._resource_name,
+            resource_id
+        )
+
     @_check_listable
     def all(self, limit=None):
         """Generator of instances of the query resource. If limit is set to a
