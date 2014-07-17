@@ -3,17 +3,26 @@
 History
 -------
 
-0.1.0 (2014-06-20)
----------------------
+0.1.3 (2014-07-18)
+------------------
 
-* First release on PyPI.
+* Return ``None`` instead of raising a HTTPError 404 exception when fetching a
+  non-existing resource by id.
+
+
+0.1.2 (2014-07-14)
+------------------
+
+* Added cache options
+
 
 0.1.1 (2014-06-27)
----------------------
+------------------
 
 * Use setuptools find_packages
 
-0.1.2 (2014-07-14)
----------------------
 
-* Added cache options 
+0.1.0 (2014-06-20)
+------------------
+
+* First release on PyPI.

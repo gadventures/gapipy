@@ -1,6 +1,8 @@
 from functools import wraps
 from itertools import islice
 
+from requests import HTTPError
+
 from .request import APIRequestor
 
 
@@ -34,13 +36,14 @@ class Query(object):
 
     def get(self, resource_id, cached=True):
         """
-        Returns an instance of the query resource with the given `resource_id`.
+        Returns an instance of the query resource with the given `resource_id`,
+        or `None` if the resource with the given id does not exist.
 
-        If the resource is available in the cache and `cached` is True,
-        no http request will be made. If `cached` is False, a fresh request
-        will be made for the resource, which will be re-added to the cache.
-        This is a good method to invalidate persistent cache backend after
-        receiving a webhook that a resource has changed..
+        If the resource is available in the cache and `cached` is True, no http
+        request will be made. If `cached` is False, a fresh request will be
+        made for the resource, which will be re-added to the cache. This is a
+        good method to invalidate persistent cache backend after receiving a
+        webhook that a resource has changed.
         """
         if cached:
             resource_data = self._client._cache.get(
@@ -51,7 +54,15 @@ class Query(object):
                 return self.resource(resource_data)
 
         requestor = APIRequestor(self._client, self.resource._resource_name)
-        resource_object = self.resource(requestor.get(resource_id))
+
+        try:
+            data = requestor.get(resource_id)
+        except HTTPError as e:
+            if e.response.status_code == 404:
+                return None
+            raise e
+
+        resource_object = self.resource(data)
         self._client._cache.set(self.resource._resource_name, resource_object.to_dict())
         return resource_object
 
