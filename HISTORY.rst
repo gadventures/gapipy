@@ -8,6 +8,8 @@ History
 
 * Return ``None`` instead of raising a HTTPError 404 exception when fetching a
   non-existing resource by id.
+* Added ability to create resources from the Query objects on the client
+  instance (for example, ``api.customers.create({'name': {'legal_first_name': 'Pat', ...}, ...})``)
 
 
 0.1.2 (2014-07-14)

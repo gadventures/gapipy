@@ -113,6 +113,10 @@ class Query(object):
         response = requestor.list_raw()
         return response.get('count')
 
+    def create(self, data_dict):
+        """Create an instance of the query resource using the given data"""
+        return self.resource.create(self._client, data_dict)
+
     def __iter__(self):
         """Provided as a convenience so that Query objects can be iterated
         without calling `all`.
