@@ -7,8 +7,8 @@ History
 ---------------------
 
 * Removed sending of header `X-HTTP-Method-Override: PATCH` when the update
-    command is called. Now, when `.save(partial=True)` is called, the
-    correct PATCH HTTP method will be sent with the request.
+  command is called. Now, when `.save(partial=True)` is called, the
+  correct PATCH HTTP method will be sent with the request.
 
 0.1.3 (2014-07-18)
 ------------------
