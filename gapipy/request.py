@@ -70,13 +70,13 @@ class APIRequestor(object):
         """
         Update a single resource with the given data.
 
-        For GAPI, all updates are done using the `PATCH` method, regardless of the `partial` argument.
-        Well, that's the plan, once the charming load balancer is updated.
+        When `partial` is True, the http method is `PATCH`. Otherwise, `PUT` is
+        sent.
         """
-        method = 'PUT'
+        method = 'PATCH' if partial else 'PUT'
         if not uri:
             uri = '/{0}/{1}'.format(self.resource, resource_id)
-        return self._request(uri, method, data=data, additional_headers={'X-HTTP-Method-Override': 'PATCH'})
+        return self._request(uri, method, data=data)
 
     def create(self, data, uri=None):
         """

@@ -157,7 +157,7 @@ class UpdateCreateResourceTestCase(unittest.TestCase):
         data['first_name'] = 'Jonathan'
 
         mock_request.assert_called_once_with(
-            '/mocks/1', 'PUT', data=json.dumps(data), additional_headers={'X-HTTP-Method-Override': 'PATCH'})
+            '/mocks/1', 'PUT', data=json.dumps(data))
 
     def test_partial_update_object(self, mock_request):
         data = {
@@ -178,7 +178,7 @@ class UpdateCreateResourceTestCase(unittest.TestCase):
         r.save(partial=True)
         changed = {'first_name': 'Jonathan'}
         mock_request.assert_called_once_with(
-            '/mocks/1', 'PUT', data=json.dumps(changed), additional_headers={'X-HTTP-Method-Override': 'PATCH'})
+            '/mocks/1', 'PATCH', data=json.dumps(changed))
         self.assertEquals(r.to_dict(), r_data)
 
         r.last_name = 'Ivey'
@@ -191,5 +191,5 @@ class UpdateCreateResourceTestCase(unittest.TestCase):
         r.save(partial=True)
         changed = {'last_name': 'Ivey'}
         mock_request.assert_called_with(
-            '/mocks/1', 'PUT', data=json.dumps(changed), additional_headers={'X-HTTP-Method-Override': 'PATCH'})
+            '/mocks/1', 'PATCH', data=json.dumps(changed))
         self.assertEquals(r.to_dict(), r_data)
