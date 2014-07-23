@@ -2,7 +2,7 @@ from .base import BaseModel
 
 
 class IncompleteRequirement(BaseModel):
-    _as_is_fields = ['type', 'name', 'code', 'message']
+    _as_is_fields = ['type', 'name', 'code', 'message', 'flags']
 
     @property
     def _resource_fields(self):
