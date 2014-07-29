@@ -3,6 +3,11 @@
 History
 -------
 
+0.1.5 (2014-07-29)
+---------------------
+
+* Add `details` field to the list of `incomplete_requirements` in a `DepartureService`.
+
 0.1.4 (2014-07-21)
 ---------------------
 
