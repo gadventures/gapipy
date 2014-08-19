@@ -2,6 +2,12 @@
 G API Python Client
 ===============================
 
+.. image:: https://badge.fury.io/py/gapipy.svg
+    :target: http://badge.fury.io/py/gapipy
+
+.. image:: https://travis-ci.org/gadventures/gapipy.svg?branch=master
+    :target: https://travis-ci.org/gadventures/gapipy
+
 A client for the G Adventures REST API (https://developers.gadventures.com)
 
 * GitHub Repository: https://github.com/gadventures/gapipy/
@@ -94,7 +100,7 @@ configurable by adjusting the ``GAPI_CACHE_BACKEND`` environment variable.
     thread safe.
 
 ``gapipy.cache.RedisCache``
-    A key-value cache store using Redis as a backend. 
+    A key-value cache store using Redis as a backend.
 
 ``gapipy.cache.NullCache``
     A cache that doesn't cache.

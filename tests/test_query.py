@@ -2,6 +2,7 @@ import json
 import unittest
 
 from mock import patch
+from requests import HTTPError, Response
 
 from gapipy.client import Client
 from gapipy.query import Query
@@ -25,6 +26,30 @@ class QueryTestCase(unittest.TestCase):
         query = Query(self.client, Tour)
         t = query.get(1234)
         self.assertIsInstance(t, Tour)
+
+    @patch('gapipy.request.APIRequestor._request')
+    def test_get_instance_with_non_existing_id(self, mock_request):
+        response = Response()
+        response.status_code = 404
+        http_error = HTTPError(response=response)
+        mock_request.side_effect = http_error
+
+        query = Query(self.client, Tour)
+        t = query.get(1234)
+        self.assertIsNone(t)
+
+    @patch('gapipy.request.APIRequestor._request')
+    def test_get_instance_by_id_with_non_404_error(self, mock_request):
+        response = Response()
+        response.status_code = 401
+        http_error = HTTPError(response=response)
+        mock_request.side_effect = http_error
+
+        query = Query(self.client, Tour)
+        with self.assertRaises(HTTPError) as cm:
+            query.get(1234)
+
+        self.assertEqual(cm.exception.response.status_code, 401)
 
     @patch('gapipy.request.APIRequestor._request', return_value=PPP_TOUR_DATA)
     def test_resources_are_cached(self, mock_request):
@@ -157,7 +182,7 @@ class UpdateCreateResourceTestCase(unittest.TestCase):
         data['first_name'] = 'Jonathan'
 
         mock_request.assert_called_once_with(
-            '/mocks/1', 'PUT', data=json.dumps(data), additional_headers={'X-HTTP-Method-Override': 'PATCH'})
+            '/mocks/1', 'PUT', data=json.dumps(data))
 
     def test_partial_update_object(self, mock_request):
         data = {
@@ -178,7 +203,7 @@ class UpdateCreateResourceTestCase(unittest.TestCase):
         r.save(partial=True)
         changed = {'first_name': 'Jonathan'}
         mock_request.assert_called_once_with(
-            '/mocks/1', 'PUT', data=json.dumps(changed), additional_headers={'X-HTTP-Method-Override': 'PATCH'})
+            '/mocks/1', 'PATCH', data=json.dumps(changed))
         self.assertEquals(r.to_dict(), r_data)
 
         r.last_name = 'Ivey'
@@ -191,5 +216,5 @@ class UpdateCreateResourceTestCase(unittest.TestCase):
         r.save(partial=True)
         changed = {'last_name': 'Ivey'}
         mock_request.assert_called_with(
-            '/mocks/1', 'PUT', data=json.dumps(changed), additional_headers={'X-HTTP-Method-Override': 'PATCH'})
+            '/mocks/1', 'PATCH', data=json.dumps(changed))
         self.assertEquals(r.to_dict(), r_data)
