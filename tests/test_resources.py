@@ -4,7 +4,7 @@ from unittest import TestCase
 from mock import patch
 
 from gapipy.query import Query
-from gapipy.models import DATE_FORMAT
+from gapipy.models import DATE_FORMAT, AccommodationRoom
 from gapipy.resources import Tour, TourDossier
 from gapipy.resources.base import Resource
 
@@ -104,3 +104,28 @@ class ResourceTestCase(TestCase):
         self.assertIsInstance(f.bar, Bar)
         self.assertEquals(f.bar.id, 1)
         self.assertEquals(f.bar.date, datetime.datetime(2013, 01, 01))
+
+
+class AccommodationRoomTestCase(TestCase):
+
+    def test_room_class_is_set_properly(self):
+        data = {
+            'code': 1234,
+            'min_nights': 1,
+            'max_nights': 2,
+            'price_bands': [],
+            'class': 'Standard',
+        }
+        room = AccommodationRoom(data)
+        self.assertEqual(room.room_class, 'Standard')
+
+    def test_room_class_is_set_properly_when_cached(self):
+        data = {
+            'code': 1234,
+            'min_nights': 1,
+            'max_nights': 2,
+            'price_bands': [],
+            'room_class': 'Standard',
+        }
+        room = AccommodationRoom(data)
+        self.assertEqual(room.room_class, 'Standard')

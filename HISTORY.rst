@@ -3,6 +3,11 @@
 History
 -------
 
+0.1.7 (2014-08-22)
+---------------------
+
+* Fix a bug when initializing AccommodationRoom from cached data.
+
 0.1.6 (2014-08-19)
 ---------------------
 
@@ -33,7 +38,7 @@ History
 
 * Added Query.is_cached
 * Added cache options
- 
+
 0.1.1 (2014-06-27)
 ------------------
 

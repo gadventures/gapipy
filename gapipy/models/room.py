@@ -28,8 +28,17 @@ class AccommodationRoom(Room):
     def __init__(self, data):
         super(AccommodationRoom, self).__init__(data)
 
-        # `class` is a reserved word in python
-        setattr(self, 'room_class', data['class'])
+        # `class` is a reserved word in python, so we instead use `room_class`
+        # as the attribute for the room class.
+
+        room_class = data.get('class')
+        if room_class is None:
+            # Sometimes, the data we receive comes from `gapipy` (for example,
+            # if local caching is used), so the info we need is already at the
+            # `room_class` key.
+            room_class = data.get('room_class')
+
+        setattr(self, 'room_class', room_class)
 
 
 class DepartureRoom(Room):
