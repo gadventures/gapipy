@@ -1,5 +1,4 @@
 from .base import BaseModel, RelatedResourceMixin
-from ..resources.base import Product
 
 
 class AddOn(BaseModel, RelatedResourceMixin):
