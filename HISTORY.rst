@@ -3,6 +3,12 @@
 History
 -------
 
+0.1.8 (2014-09-17)
+---------------------
+
+* Remove the `add_ons` field in `Departure`, and add `addons`.
+
+
 0.1.7 (2014-08-22)
 ---------------------
 

@@ -1,4 +1,4 @@
-from .add_on import AddOn
+from .addon import AddOn
 from .price_band import PriceBand, SeasonalPriceBand
 from .base import BaseModel
 
@@ -51,5 +51,5 @@ class DepartureRoom(Room):
     @property
     def _model_collection_fields(self):
         return super(DepartureRoom, self)._model_fields + [
-            ('add_ons', AddOn),
+            ('addons', AddOn),
         ]

@@ -21,7 +21,7 @@ class Departure(Product):
     _resource_fields = [('tour', 'Tour'), ('tour_dossier', TourDossier)]
     _model_fields = [('start_address', Address), ('finish_address', Address)]
     _model_collection_fields = [
-        ('add_ons', AddOn),
+        ('addons', AddOn),
         ('rooms', DepartureRoom),
         ('lowest_pp2a_prices', PP2aPrice),
     ]

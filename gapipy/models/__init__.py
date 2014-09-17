@@ -1,5 +1,5 @@
 # flake8: NOQA
-from .add_on import AddOn
+from .addon import AddOn
 from .address import Address
 from .price_band import PriceBand, SeasonalPriceBand, PP2aPrice
 from .room import AccommodationRoom, DepartureRoom

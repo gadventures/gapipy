@@ -354,50 +354,66 @@ DUMMY_DEPARTURE = {
     "href": "https://rest.gadventures.com/departures/419504",
     "flags": [],
     "earliest_departure_time": "2013-04-20T00:00:00",
-    "add_ons": [
+    "addons": [
         {
-            "name": "San Agustin Colonial",
+            "product": {
+                "id": "54",
+                "href": "https://rest.gadventures.com/accommodations/54",
+                "name": "San Agustin Colonial",
+                "type": "accommodations",
+                "sub_type": "Hotel"
+            },
+            "start_date": "2013-04-02",
             "finish_date": "2013-04-06",
             "min_days": 1,
-            "id": "54",
-            "href": "https://rest.gadventures.com/accommodations/54",
             "max_days": 5,
-            "start_date": "2013-04-02",
-            "type": "accommodations",
-            "sub_type": "Hotel"
+            "request_space_date": "2013-04-01",
+            "halt_booking_date": "2013-04-01",
         },
         {
-            "name": "San Agustin Colonial",
+            "product": {
+                "id": "54",
+                "href": "https://rest.gadventures.com/accommodations/54",
+                "name": "San Agustin Colonial",
+                "type": "accommodations",
+                "sub_type": "Hotel"
+            },
+            "start_date": "2013-04-20",
             "finish_date": "2013-04-24",
             "min_days": 1,
-            "id": "54",
-            "href": "https://rest.gadventures.com/accommodations/54",
             "max_days": 5,
-            "start_date": "2013-04-20",
-            "type": "accommodations",
-            "sub_type": "Hotel"
+            "request_space_date": "2013-04-01",
+            "halt_booking_date": "2013-04-01",
         },
         {
-            "name": "Airport to Hotel Transfer",
+            "product": {
+                "id": "298",
+                "href": "https://rest.gadventures.com/transports/298",
+                "name": "Airport to Hotel Transfer",
+                "type": "transports",
+                "sub_type": "Transfer"
+            },
+            "start_date": "2013-04-02",
             "finish_date": "2013-04-06",
             "min_days": 1,
-            "id": "298",
-            "href": "https://rest.gadventures.com/transports/298",
             "max_days": 1,
-            "start_date": "2013-04-02",
-            "type": "transports",
-            "sub_type": "Transfer"
+            "request_space_date": "2013-04-01",
+            "halt_booking_date": "2013-04-01",
         },
         {
-            "name": "Peru Culinary Theme Pack",
+            "product": {
+                "id": "4486",
+                "href": "https://rest.gadventures.com/activities/4486",
+                "name": "Peru Culinary Theme Pack",
+                "type": "activities",
+                "sub_type": "Product"
+            },
+            "start_date": "2013-04-16",
             "finish_date": "2013-04-17",
             "min_days": 1,
-            "id": "4486",
-            "href": "https://rest.gadventures.com/activities/4486",
             "max_days": 1,
-            "start_date": "2013-04-16",
-            "type": "activities",
-            "sub_type": "Product"
+            "request_space_date": "2013-04-01",
+            "halt_booking_date": "2013-04-01",
         }
     ],
     "date_created": "2012-01-26T20:29:07Z",
@@ -464,17 +480,21 @@ DUMMY_DEPARTURE = {
                     "min_travellers": 1
                 }
             ],
-            "add_ons": [
+            "addons": [
                 {
-                    "name": "My Own Room",
+                    "product": {
+                        "id": "T419504",
+                        "href": "https://rest.gadventures.com/single_supplements/T419504",
+                        "name": "My Own Room",
+                        "type": "single_supplements",
+                        "sub_type": "Single Supplement"
+                    },
+                    "start_date": "2013-04-06",
                     "finish_date": "2013-04-20",
                     "min_days": 14,
-                    "id": "T419504",
-                    "href": "https://rest.gadventures.com/single_supplements/T419504",
                     "max_days": 14,
-                    "start_date": "2013-04-06",
-                    "type": "single_supplements",
-                    "sub_type": "Single Supplement"
+                    "request_space_date": "2013-04-01",
+                    "halt_booking_date": "2013-04-01",
                 }
             ],
             "availability": {
