@@ -25,3 +25,4 @@ class Departure(Product):
         ('rooms', DepartureRoom),
         ('lowest_pp2a_prices', PP2aPrice),
     ]
+    _deprecated_fields = ['add_ons']

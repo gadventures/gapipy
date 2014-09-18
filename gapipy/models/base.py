@@ -29,6 +29,7 @@ class BaseModel(object):
     _price_fields = []
     _resource_fields = []
     _resource_collection_fields = []
+    _deprecated_fields = []
 
     def __init__(self, data, client=None):
         self._client = client or client_module.current_client
@@ -146,6 +147,7 @@ class BaseModel(object):
             + self._price_fields
             + map(first, self._resource_fields)
             + map(first, self._resource_collection_fields)
+            + self._deprecated_fields
         )
 
     def _convert_from_resource_type(self, key, value):
