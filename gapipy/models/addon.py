@@ -4,6 +4,7 @@ from .base import BaseModel, RelatedResourceMixin
 class AddOn(BaseModel, RelatedResourceMixin):
     _as_is_fields = ['max_days', 'min_days', 'product']
     _date_fields = ['start_date', 'finish_date', 'halt_booking_date', 'request_space_date']
+    _resource_fields = []
 
     def __repr__(self):
         return '<{0} ({1})>'.format(self.__class__.__name__, self.product.name)
