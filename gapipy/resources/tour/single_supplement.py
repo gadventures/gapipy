@@ -14,3 +14,4 @@ class SingleSupplement(Product):
     _date_fields = ['start_date', 'finish_date']
     _date_time_fields_utc = ['date_created', 'date_last_modified']
     _model_collection_fields = [('price_bands', PriceBand)]
+    _resource_fields = [('departure', 'Departure')]
