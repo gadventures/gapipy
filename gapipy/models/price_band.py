@@ -2,7 +2,7 @@ from .base import BaseModel
 
 
 class DateRange(BaseModel):
-    _date_fields = ['start_date', 'end_date']
+    _date_fields = ['start_date', 'finish_date']
 
     def _fill_date_fields(self, data):
         for field in self._date_fields:
@@ -37,6 +37,7 @@ class PriceBand(BaseModel):
 
 
 class SeasonalPriceBand(PriceBand):
+
     @property
     def _model_collection_fields(self):
         return super(SeasonalPriceBand, self)._model_collection_fields + [

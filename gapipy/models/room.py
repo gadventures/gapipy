@@ -15,7 +15,6 @@ class Room(BaseModel):
 
 
 class AccommodationRoom(Room):
-    model_collection_fields = [('price_bands', SeasonalPriceBand)]
 
     @property
     def _as_is_fields(self):
@@ -24,6 +23,10 @@ class AccommodationRoom(Room):
             'max_nights',
             'min_nights',
         ]
+
+    @property
+    def _model_collection_fields(self):
+        return [('price_bands', SeasonalPriceBand)]
 
     def __init__(self, data):
         super(AccommodationRoom, self).__init__(data)
