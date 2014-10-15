@@ -15,9 +15,12 @@ class Resource(BaseModel):
 
     def fetch(self):
         self.is_stub = False
-        requestor = APIRequestor(self._client, self._resource_name)
-        data = requestor.get(self.id, getattr(self, 'href', None))
-        self._fill_fields(data)
+
+        # Fetch the resource using the client bound on it, which handles cache get/set.
+        resource_obj = getattr(self._client, self._resource_name).get(self.id)
+        if resource_obj:
+            self._fill_fields(resource_obj.to_dict())
+
         return self
 
     @classmethod

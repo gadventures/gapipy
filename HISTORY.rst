@@ -3,6 +3,11 @@
 History
 -------
 
+0.1.10 (2014-10-15)
+---------------------
+
+* Improve the performance of ``Resource.fetch`` by handling cache get/set.
+
 0.1.9 (2014-09-23)
 ---------------------
 
