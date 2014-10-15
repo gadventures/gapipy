@@ -3,10 +3,17 @@
 History
 -------
 
-0.1.10 (2014-10-15)
+0.1.11 (2014-10-15)
 ---------------------
 
 * Improve the performance of ``Resource.fetch`` by handling cache get/set.
+
+0.1.10 (2014-10-09)
+---------------------
+
+* Fix a bug in AccommodationRoom price bands. The `season_dates` and
+  `blackout_dates` attributes are now properly set.
+
 
 0.1.9 (2014-09-23)
 ---------------------
