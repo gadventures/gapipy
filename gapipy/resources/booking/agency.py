@@ -12,7 +12,7 @@ class Agency(Resource):
     _is_parent_resource = True
 
     _as_is_fields = ['id', 'href', 'name', 'booking_currencies']
-    _date_time_fields_utc = ['date_created']
+    _date_time_fields_local = ['date_created']
     _model_fields = [('address', Address)]
     _resource_collection_fields = [
         ('bookings', 'Booking'),
