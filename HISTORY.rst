@@ -3,6 +3,11 @@
 History
 -------
 
+0.1.12 (2014-10-20)
+---------------------
+
+* ``date_created`` on the ``Agency`` resource is correctly parsed as a local time.
+
 0.1.11 (2014-10-15)
 ---------------------
 
