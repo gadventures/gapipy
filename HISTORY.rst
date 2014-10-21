@@ -3,6 +3,12 @@
 History
 -------
 
+0.1.14 (2014-10-22)
+---------------------
+
+* Fixed a bug where AgencyDocument was not included in the code base.
+
+
 0.1.13 (2014-10-21)
 ---------------------
 
