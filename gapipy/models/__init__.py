@@ -1,6 +1,7 @@
 # flake8: NOQA
 from .addon import AddOn
 from .address import Address
+from .agency_document import AgencyDocument
 from .price_band import PriceBand, SeasonalPriceBand, PP2aPrice
 from .room import AccommodationRoom, DepartureRoom
 from .incomplete_requirement import IncompleteRequirement

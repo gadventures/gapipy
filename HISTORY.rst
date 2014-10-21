@@ -3,6 +3,11 @@
 History
 -------
 
+0.1.13 (2014-10-21)
+---------------------
+
+* Add ``latitude``, ``longitude``, and ``documents`` to the ``Agency`` resource.
+
 0.1.12 (2014-10-20)
 ---------------------
 
