@@ -3,6 +3,13 @@
 History
 -------
 
+0.1.15 (2014-10-23)
+---------------------
+
+* Fix a bug in the DepartureRoom model. The `price_bands` attribute is now
+  properly set.
+
+
 0.1.14 (2014-10-22)
 ---------------------
 
