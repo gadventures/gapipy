@@ -53,6 +53,6 @@ class DepartureRoom(Room):
 
     @property
     def _model_collection_fields(self):
-        return super(DepartureRoom, self)._model_fields + [
+        return super(DepartureRoom, self)._model_collection_fields + [
             ('addons', AddOn),
         ]
