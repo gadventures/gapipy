@@ -105,6 +105,22 @@ class ResourceTestCase(TestCase):
         self.assertEquals(f.bar.id, 1)
         self.assertEquals(f.bar.date, datetime.datetime(2013, 01, 01))
 
+    def test_null_model_fields(self):
+        from gapipy.models.base import BaseModel
+
+        class Bar(BaseModel):
+            _as_is_fields = ['id']
+            _date_fields = ['date']
+
+        class Foo(Resource):
+            _model_fields = [('bar', Bar)]
+
+        data = {
+            'bar': None
+        }
+        f = Foo(data)
+
+        self.assertEquals(f.bar, None)
 
 class AccommodationRoomTestCase(TestCase):
 

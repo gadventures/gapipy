@@ -107,7 +107,10 @@ class BaseModel(object):
         return model_cls
 
     def _set_model_field(self, field, value):
-        setattr(self, field, self._model_cls(field)(value))
+        if value is None:
+            setattr(self, field, None)
+        else:
+            setattr(self, field, self._model_cls(field)(value))
 
     def _set_model_collection_field(self, field, value):
         model_cls = self._model_cls(field)
