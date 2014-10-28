@@ -3,6 +3,12 @@
 History
 -------
 
+0.1.16 (2014-10-28)
+---------------------
+
+* Fixed a bug where if a model field received `null` as a value, it would fail. Now,
+    if the result is `null`, the model field will have an appropriate `None` value.
+
 0.1.15 (2014-10-23)
 ---------------------
 
