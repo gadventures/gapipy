@@ -3,6 +3,11 @@
 History
 -------
 
+0.1.17 (2014-1107)
+------------------
+
+* Deprecated `RedisHashCache` from cache backends available by default. Was not well tested or reliable.
+
 0.1.16 (2014-10-28)
 ---------------------
 
