@@ -37,7 +37,7 @@ class ResourceTestCase(TestCase):
         t = Tour(PPP_TOUR_DATA)
         self.assertIsInstance(t, Tour)
         self.assertEqual(t.product_line, 'PPP')
-        self.assertIsInstance(t.departures_start_date, datetime.datetime)
+        self.assertIsInstance(t.departures_start_date, datetime.date)
         self.assertIsInstance(t.tour_dossier, TourDossier)
         self.assertIsInstance(t.departures, Query)
 
@@ -73,11 +73,11 @@ class ResourceTestCase(TestCase):
         self.assertFalse(t.is_stub)
         self.assertEquals(
             t.departures_start_date,
-            datetime.datetime.strptime('2013-01-01', DATE_FORMAT)
+            datetime.datetime.strptime('2013-01-01', DATE_FORMAT).date()
         )
         self.assertEquals(
             t.departures_end_date,
-            datetime.datetime.strptime('2014-01-01', DATE_FORMAT)
+            datetime.datetime.strptime('2014-01-01', DATE_FORMAT).date()
         )
 
     def test_model_fields(self):
@@ -103,7 +103,7 @@ class ResourceTestCase(TestCase):
         })
         self.assertIsInstance(f.bar, Bar)
         self.assertEquals(f.bar.id, 1)
-        self.assertEquals(f.bar.date, datetime.datetime(2013, 01, 01))
+        self.assertEquals(f.bar.date, datetime.date(2013, 01, 01))
 
     def test_null_model_fields(self):
         from gapipy.models.base import BaseModel

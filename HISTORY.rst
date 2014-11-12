@@ -3,7 +3,12 @@
 History
 -------
 
-0.1.17 (2014-1107)
+0.1.18 (2014-11-12)
+-------------------
+
+* When setting a date_field, initiate it as a `datetime.date` type. 
+
+0.1.17 (2014-11-07)
 ------------------
 
 * Deprecated `RedisHashCache` from cache backends available by default. Was not well tested or reliable.

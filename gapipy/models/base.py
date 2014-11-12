@@ -73,7 +73,7 @@ class BaseModel(object):
 
     def _set_date_field(self, field, value):
         if value:
-            value = datetime.datetime.strptime(value, DATE_FORMAT)
+            value = datetime.datetime.strptime(value, DATE_FORMAT).date()
         setattr(self, field, value)
 
     def _set_date_time_field_local(self, field, value):
@@ -161,7 +161,7 @@ class BaseModel(object):
             return value._to_dict()
         elif isinstance(value, Decimal):
             return str(value)
-        elif isinstance(value, datetime.datetime):
+        elif isinstance(value, (datetime.date, datetime.datetime)):
             if key in self._date_fields:
                 return datetime.datetime.strftime(value, DATE_FORMAT)
             elif key in self._date_time_fields_utc:
