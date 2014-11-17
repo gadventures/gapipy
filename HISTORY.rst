@@ -3,6 +3,11 @@
 History
 -------
 
+0.1.19 (2014-11-17)
+-------------------
+
+* Fixed a bug with `RedisCache.is_cached` where it would not use the set `key_prefix` when checking for existence in cache. Effectively, it would always return False
+
 0.1.18 (2014-11-12)
 -------------------
 

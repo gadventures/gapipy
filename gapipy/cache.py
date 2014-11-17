@@ -181,4 +181,4 @@ class RedisCache(BaseCache):
 
     def is_cached(self, resource_name, resource_id):
         key = make_key(resource_name, resource_id)
-        return self._client.exists(key)
+        return self._client.exists(self.key_prefix + key)
