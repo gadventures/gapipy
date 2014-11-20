@@ -6,7 +6,7 @@ from requests import HTTPError, Response
 
 from gapipy.client import Client
 from gapipy.query import Query
-from gapipy.resources import Departure, Tour, TourDossier
+from gapipy.resources import Accommodation, Departure, Tour, TourDossier
 from gapipy.resources.base import Resource
 
 from .fixtures import (
@@ -79,17 +79,17 @@ class QueryTestCase(unittest.TestCase):
             })
 
     def test_listing_non_listable_resource_fails(self):
-        message = 'The Departure resource is not listable and/or is only available as a subresource'
+        message = 'The Accommodation resource is not listable and/or is only available as a subresource'
         with self.assertRaisesRegexp(ValueError, message):
-            Query(self.client, Departure).all()
+            Query(self.client, Accommodation).all()
         with self.assertRaisesRegexp(ValueError, message):
-            Query(self.client, Departure).count()
+            Query(self.client, Accommodation).count()
 
     @patch('gapipy.request.APIRequestor._request', return_value=DUMMY_PROMOTION)
     def test_can_retrieve_single_non_listable_resource(self, mock_request):
-        Query(self.client, Departure).get(1234)
+        Query(self.client, Accommodation).get(1234)
         mock_request.assert_called_once_with(
-            '/departures/1234', 'GET')
+            '/accommodations/1234', 'GET')
 
     @patch('gapipy.request.APIRequestor._request', return_value=DUMMY_DEPARTURE)
     def test_can_retrieve_single_subresource_without_parent(self, mock_request):
