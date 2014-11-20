@@ -9,7 +9,7 @@ from .tour_dossier import TourDossier
 class Departure(Product):
 
     _resource_name = 'departures'
-    _is_listable = False
+    _is_listable = True
 
     _as_is_fields = [
         'id', 'href', 'availability', 'flags', 'nearest_start_airport',
