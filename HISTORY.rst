@@ -3,6 +3,11 @@
 History
 -------
 
+0.1.20 (2014-11-20)
+------------------
+
+* Departure resource is now listable via filters.
+
 0.1.19 (2014-11-17)
 -------------------
 
