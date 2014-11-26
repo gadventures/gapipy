@@ -3,6 +3,11 @@
 History
 -------
 
+0.1.21 (2014-11-26)
+------------------
+
+* Fixed a bug with promotions on a Price object. When promotions were accessed, gapipy would query for all promotions, rather than returning the inline list.
+
 0.1.20 (2014-11-20)
 ------------------
 

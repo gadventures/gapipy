@@ -16,11 +16,10 @@ class Price(BaseModel):
     _price_fields = ['amount', 'deposit']
 
     @property
-    def _resource_collection_fields(self):
-        # Import loop prevention.
+    def _model_collection_fields(self):
+        # Import loop prevention
         from gapipy.resources import Promotion
         return [('promotions', Promotion)]
-
 
 class PriceBand(BaseModel):
     _as_is_fields = [
