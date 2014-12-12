@@ -4,6 +4,7 @@ from ...query import Query
 from ...utils import get_resource_class_from_class_name
 
 from ..base import Resource
+from ...models import AdvertisedDeparture
 
 
 BRIEF_ITINERARY_TYPE = 'SUMMARY'
@@ -23,6 +24,9 @@ class TourDossier(Resource):
     _date_fields = ['departures_start_date', 'departures_end_date']
     _resource_fields = [('tour', 'Tour')]
     _resource_collection_fields = [('departures', 'Departure')]
+    _model_collection_fields = [
+        ('advertised_departures', AdvertisedDeparture),
+    ]
 
     def _set_resource_collection_field(self, field, value):
         """Overridden to ensure that the `departures` query has the right
