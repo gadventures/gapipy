@@ -10,7 +10,8 @@ class Accommodation(Product):
     _resource_name = 'accommodations'
     _is_listable = False
 
-    _as_is_fields = ['id', 'href', 'name', 'product_line', 'sku', 'type', 'sub_type', 'phone_numbers']
+    _as_is_fields = ['id', 'href', 'name', 'product_line', 'sku', 'type',
+        'sub_type', 'phone_numbers', 'accommodation_dossier']
     _date_time_fields_utc = ['date_created', 'date_last_modified']
     _model_fields = [('address', Address)]
     _model_collection_fields = [('rooms', AccommodationRoom)]

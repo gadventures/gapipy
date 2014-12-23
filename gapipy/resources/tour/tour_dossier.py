@@ -20,6 +20,7 @@ class TourDossier(Resource):
     _as_is_fields = [
         'id', 'href', 'categories', 'description', 'details', 'product_line',
         'geography', 'images', 'itineraries', 'name', 'site_links',
+        'structured_itineraries',
     ]
     _date_fields = ['departures_start_date', 'departures_end_date']
     _resource_fields = [('tour', 'Tour')]
