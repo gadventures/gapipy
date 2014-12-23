@@ -45,26 +45,33 @@ class Query(object):
         good method to invalidate persistent cache backend after receiving a
         webhook that a resource has changed.
         """
+        try:
+            data = self.get_resource_data(resource_id, cached=cached)
+        except HTTPError as e:
+            if e.response.status_code == 404:
+                return None
+            raise e
+        resource_object = self.resource(data)
+        self._client._cache.set(self.resource._resource_name, resource_object.to_dict())
+        return resource_object
+
+    def get_resource_data(self, resource_id, cached=True):
+        '''
+        Returns a dictionary of resource data, which is used to initialize
+        a Resource object in the `get` method.
+        '''
+        resource_data = None
         if cached:
             resource_data = self._client._cache.get(
                 self.resource._resource_name,
                 resource_id,
             )
             if resource_data is not None:
-                return self.resource(resource_data)
+                return resource_data
 
+        # Cache miss; get fresh data from the backend.
         requestor = APIRequestor(self._client, self.resource._resource_name)
-
-        try:
-            data = requestor.get(resource_id)
-        except HTTPError as e:
-            if e.response.status_code == 404:
-                return None
-            raise e
-
-        resource_object = self.resource(data)
-        self._client._cache.set(self.resource._resource_name, resource_object.to_dict())
-        return resource_object
+        return requestor.get(resource_id)
 
     def purge_cached(self, resource_id):
         return self._client._cache.delete(
