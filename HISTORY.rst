@@ -3,6 +3,11 @@
 History
 -------
 
+0.1.24 (2015-01-07)
+-------------------
+
+* Added ``PlaceDossier`` resource, as well as reference to it from ``Place``
+
 0.1.22 (2014-12-12)
 -------------------
 
