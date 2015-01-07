@@ -10,6 +10,10 @@ from .tour import (  # NOQA
     Transport,
 )
 
+from .dossier import (  # NOQA
+    PlaceDossier,
+)
+
 from .booking import (  # NOQA
     Agency,
     Agent,
@@ -53,7 +57,10 @@ available_public_resources = [
     'Airport', 'Continent', 'Country', 'Feature', 'FeatureCategory', 'Place',
     'State', 'Timezone',
 
-    'Language'
+    # Dossier
+    'PlaceDossier',
+
+    'Language',
 ]
 
 available_private_resources = [

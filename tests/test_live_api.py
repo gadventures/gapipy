@@ -9,10 +9,26 @@ from nose_parameterized import parameterized
 
 from gapipy.client import Client
 from gapipy.resources import (
+    Accommodation,
+    Activity,
+    Airport,
+    Continent,
+    Country,
+    Departure,
+    Feature,
+    FeatureCategory,
+    Language,
+    Place,
+    PlaceDossier,
+    Promotion,
+    SingleSupplement,
+    State,
+    Timezone,
+    Tour,
+    TourCategory,
+    TourDossier,
+    Transport,
     available_public_resources,
-    Accommodation, Activity, Country, Departure, Language, Promotion,
-    SingleSupplement, State, Tour, TourCategory, TourDossier, Transport,
-    Feature, FeatureCategory, Timezone, Place, Airport, Continent,
 )
 
 
@@ -78,6 +94,7 @@ class LiveAPITestCase(TestCase):
         (FeatureCategory, 4),
         (Timezone, 4),
         (Place, 2039527),
+        (PlaceDossier, 711),
         (Airport, 25553),
         (Continent, 'NA'),
     ]

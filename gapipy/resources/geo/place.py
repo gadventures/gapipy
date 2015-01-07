@@ -6,6 +6,7 @@ from .feature import Feature
 from .state import State
 from .timezone import Timezone
 
+from ..dossier import PlaceDossier
 
 class Place(Resource):
 
@@ -22,6 +23,10 @@ class Place(Resource):
         ('state', State),
         ('feature', Feature),
         ('timezone', Timezone),
+    ]
+
+    _model_fields = [
+        ('place_dossier', PlaceDossier),
     ]
 
     def __init__(self, *args, **kwargs):
