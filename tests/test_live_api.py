@@ -10,7 +10,9 @@ from nose_parameterized import parameterized
 from gapipy.client import Client
 from gapipy.resources import (
     Accommodation,
+    AccommodationDossier,
     Activity,
+    ActivityDossier,
     Airport,
     Continent,
     Country,
