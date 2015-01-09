@@ -97,6 +97,8 @@ class LiveAPITestCase(TestCase):
         (PlaceDossier, 711),
         (Airport, 25553),
         (Continent, 'NA'),
+        (AccommodationDossier, 5856),
+        (ActivityDossier, 9695),
     ]
 
     def test_all_public_resources_are_tested(self):
