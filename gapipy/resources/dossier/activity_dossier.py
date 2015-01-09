@@ -15,7 +15,7 @@ class ActivityDossier(Resource):
         'price_per_group_min', 'price_per_group_max',
         'currency',
         # XXX do we need something else for these two?
-        'segment',
+        'dossier_segment',
         'details',
     ]
 
