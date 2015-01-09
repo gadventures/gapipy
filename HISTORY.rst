@@ -3,6 +3,12 @@
 History
 -------
 
+0.1.25 (2015-01-09)
+-------------------
+
+* Added ``ActivityDossier`` and ``AccommodationDossier`` resources, as well as references to it from ``Activity`` and ``Accommodation``.
+
+
 0.1.24 (2015-01-07)
 -------------------
 
