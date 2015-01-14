@@ -34,11 +34,12 @@ class APIRequestor(object):
             url = url.replace(api_proxy, '')
 
         headers = {
-            'Content-Type': 'application/json',
+            # Why send the default?  'Accept': 'application/json',
             'User-Agent': '{0}/{1}'.format(__title__, __version__),
             'X-Application-Key': self.client.application_key,
-            'Accept-Language': self.client.api_language,
         }
+        if self.client.api_language:
+            headers['Accept-Language'] = self.client.api_language
         if additional_headers:
             headers.update(additional_headers)
 
