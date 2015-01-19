@@ -3,6 +3,11 @@
 History
 -------
 
+0.1.27 (2015-01-19)
+-------------------
+
+* Update ``DepartureService`` object to contain a reference to its ``Itinerary``
+
 0.1.26 (2015-01-14)
 -------------------
 
