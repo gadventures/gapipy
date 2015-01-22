@@ -3,6 +3,11 @@
 History
 -------
 
+0.1.28 (2015-01-22)
+-------------------
+
+* Bug fix to correctly send ``Content-Type: application/json`` in POST, PUT, or PATCH.
+
 0.1.27 (2015-01-19)
 -------------------
 

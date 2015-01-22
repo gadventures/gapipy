@@ -7,6 +7,7 @@ ACCEPTABLE_RESPONSE_STATUS_CODES = (
     requests.codes.ok, requests.codes.created, requests.codes.accepted,
 )
 
+JSON_CONTENT_TYPE = 'application/json'
 
 class APIRequestor(object):
 
@@ -34,12 +35,18 @@ class APIRequestor(object):
             url = url.replace(api_proxy, '')
 
         headers = {
-            # Why send the default?  'Accept': 'application/json',
             'User-Agent': '{0}/{1}'.format(__title__, __version__),
             'X-Application-Key': self.client.application_key,
         }
+
+        # gapipy works in JSON. Ensure the receiving API is aware of the type of
+        # payload being sent.
+        if method in ('POST', 'PUT', 'PATCH'):
+            headers['Content-Type'] = JSON_CONTENT_TYPE
+
         if self.client.api_language:
             headers['Accept-Language'] = self.client.api_language
+
         if additional_headers:
             headers.update(additional_headers)
 
