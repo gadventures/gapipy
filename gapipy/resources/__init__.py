@@ -2,6 +2,7 @@ from .tour import (  # NOQA
     Accommodation,
     Activity,
     Departure,
+    Itinerary,
     Promotion,
     SingleSupplement,
     Tour,
@@ -53,8 +54,8 @@ from .language import Language  # NOQA
 
 available_public_resources = [
     # Tour
-    'Accommodation', 'Activity', 'Departure', 'Promotion', 'SingleSupplement',
-    'Tour', 'TourCategory', 'TourDossier', 'Transport',
+    'Accommodation', 'Activity', 'Departure', 'Itinerary', 'Promotion',
+    'SingleSupplement', 'Tour', 'TourCategory', 'TourDossier', 'Transport',
 
     # Geographical
     'Airport', 'Continent', 'Country', 'Feature', 'FeatureCategory', 'Place',

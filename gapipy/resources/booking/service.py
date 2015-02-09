@@ -6,7 +6,6 @@ from ...models import (
     InternationalTicketNumber, TravellerHeight, DepartureServiceRoom,
     DocumentInfo,
 )
-from ...models.base import BaseModel
 
 from ..base import Resource
 
@@ -102,15 +101,11 @@ class ServiceProduct(Service):
         ]
 
 
-class DepartureServiceItinerary(BaseModel):
-    """ Itinerary link from a Departure, until client gets Itinerary objects.  """
-    _as_is_fields = ['id', 'href']
-
 class DepartureService(ServiceProduct):
     _resource_name = 'departure_services'
 
-    _model_fields = [
-        ('itinerary', DepartureServiceItinerary),
+    _resource_fields = [
+        ('itinerary', 'Itinerary'),
     ]
 
     @property
