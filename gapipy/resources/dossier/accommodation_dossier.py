@@ -1,7 +1,6 @@
 from __future__ import unicode_literals
 
 from ..base import Resource
-from ...models.base import BaseModel
 
 
 class AccommodationDossier(Resource):
@@ -11,7 +10,6 @@ class AccommodationDossier(Resource):
         'id', 'href', 'name',
         'website',
         'property_type',
-        # punt:
         'address',
         'details',
         'features',
@@ -22,9 +20,6 @@ class AccommodationDossier(Resource):
 
     _date_time_fields_local = ['date_created', 'date_last_modified']
 
-    @property
-    def _model_fields(self):
-        from ..geo import Place
-        return [
-            ('location', Place),
-        ]
+    _resource_fields = [
+        ('location', 'Place'),
+    ]
