@@ -30,6 +30,7 @@ from gapipy.resources import (
     TourCategory,
     TourDossier,
     Transport,
+    TransportDossier,
     available_public_resources,
 )
 
@@ -101,6 +102,7 @@ class LiveAPITestCase(TestCase):
         (Continent, 'NA'),
         (AccommodationDossier, 5856),
         (ActivityDossier, 9695),
+        (TransportDossier, 51),
     ]
 
     def test_all_public_resources_are_tested(self):

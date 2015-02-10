@@ -14,6 +14,7 @@ from .dossier import (  # NOQA
     AccommodationDossier,
     ActivityDossier,
     PlaceDossier,
+    TransportDossier,
 )
 
 from .booking import (  # NOQA
@@ -60,7 +61,7 @@ available_public_resources = [
     'State', 'Timezone',
 
     # Dossier
-    'AccommodationDossier', 'ActivityDossier', 'PlaceDossier',
+    'AccommodationDossier', 'ActivityDossier', 'PlaceDossier', 'TransportDossier',
 
     'Language',
 ]
