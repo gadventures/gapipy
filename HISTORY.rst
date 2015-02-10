@@ -3,6 +3,14 @@
 History
 -------
 
+0.1.29 (2015-02-10)
+-------------------
+
+* Added ``TransportDossier`` and ``Itinerary`` resources.
+
+* The reference to the itinerary in a ``DepartureService`` is now a
+  full-fledged ``Itinerary`` resource.
+
 0.1.28 (2015-01-22)
 -------------------
 
@@ -34,12 +42,12 @@ History
 * Added ``advertised_departures`` to ``TourDossier``
 
 0.1.21 (2014-11-26)
-------------------
+-------------------
 
 * Fixed a bug with promotions on a Price object. When promotions were accessed, gapipy would query for all promotions, rather than returning the inline list.
 
 0.1.20 (2014-11-20)
-------------------
+-------------------
 
 * Departure resource is now listable via filters.
 
@@ -51,10 +59,10 @@ History
 0.1.18 (2014-11-12)
 -------------------
 
-* When setting a date_field, initiate it as a `datetime.date` type. 
+* When setting a date_field, initiate it as a `datetime.date` type.
 
 0.1.17 (2014-11-07)
-------------------
+-------------------
 
 * Deprecated `RedisHashCache` from cache backends available by default. Was not well tested or reliable.
 
