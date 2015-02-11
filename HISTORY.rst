@@ -3,6 +3,12 @@
 History
 -------
 
+0.1.30 (2015-02-11)
+-------------------
+
+* ``TourDossier.structured_itineraries`` now refers to a list of Itinerary
+  resources
+
 0.1.29 (2015-02-10)
 -------------------
 
