@@ -20,29 +20,40 @@ class TourDossier(Resource):
     _as_is_fields = [
         'id', 'href', 'categories', 'description', 'details', 'product_line',
         'geography', 'images', 'itineraries', 'name', 'site_links',
-        'structured_itineraries',
     ]
     _date_fields = ['departures_start_date', 'departures_end_date']
     _resource_fields = [('tour', 'Tour')]
-    _resource_collection_fields = [('departures', 'Departure')]
+    _resource_collection_fields = [
+        ('departures', 'Departure'),
+        ('structured_itineraries', 'Itinerary'),
+    ]
     _model_collection_fields = [
         ('advertised_departures', AdvertisedDeparture),
     ]
 
     def _set_resource_collection_field(self, field, value):
         """Overridden to ensure that the `departures` query has the right
-        parent resource (i.e. the tour and not the tour dossier).
+        parent resource (i.e. the tour and not the tour dossier), and to handle
+        the special case of structured itineraries being an associated resource
+        that is not a child resource.
         """
 
-        if field != 'departures':
+        from .itinerary import Itinerary
+
+        if field == 'departures':
+            resource_cls = get_resource_class_from_class_name('Departure')
+
+            # Tour dossiers always have the same id as the corresponding tour
+            parent = ('tours', self.id)
+
+            setattr(self, 'departures', Query(self._client, resource_cls, parent=parent, raw_data=value))
+
+        elif field == 'structured_itineraries':
+            itineraries = [Itinerary(i, stub=True) for i in value]
+            setattr(self, 'structured_itineraries', itineraries)
+
+        else:
             return super(TourDossier, self)._set_resource_collection_field(field, value)
-
-        resource_cls = get_resource_class_from_class_name('Departure')
-
-        # Tour dossiers always have the same id as the corresponding tour
-        parent = ('tours', self.id)
-
-        setattr(self, 'departures', Query(self._client, resource_cls, parent=parent, raw_data=value))
 
     def _get_itinerary(self, itinerary_type):
         for itin in self.itineraries:
