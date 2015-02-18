@@ -104,9 +104,11 @@ class ServiceProduct(Service):
 class DepartureService(ServiceProduct):
     _resource_name = 'departure_services'
 
-    _resource_fields = [
-        ('itinerary', 'Itinerary'),
-    ]
+    @property
+    def _resource_fields(self):
+        return (super(DepartureService, self)._resource_fields + [
+            ('itinerary', 'Itinerary'),
+        ])
 
     @property
     def _model_collection_fields(self):
