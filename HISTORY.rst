@@ -3,6 +3,11 @@
 History
 -------
 
+0.1.32 (2015-02-18)
+-------------------
+
+* Changed cache key creation to account for `GAPI_LANGUAGE` when the environment variable is set.
+
 0.1.31 (2015-02-18)
 -------------------
 

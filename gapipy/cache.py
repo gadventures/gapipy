@@ -2,6 +2,7 @@ import collections
 from functools import partial
 from time import time
 
+from gapipy import client as client_module
 
 try:
     import cPickle as pickle
@@ -12,9 +13,13 @@ except ImportError:
 def make_key(resource_name, resource_id=None):
     if not resource_id:
         return resource_name
-    else:
-        return '{0}:{1}'.format(resource_name, resource_id)
 
+    current_client = client_module.current_client
+
+    parts = [resource_name, str(resource_id)]
+    if current_client.api_language:
+        parts.append(current_client.api_language)
+    return ':'.join(parts)
 
 def update(d, u):
     for k, v in u.iteritems():

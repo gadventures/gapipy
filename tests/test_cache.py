@@ -2,7 +2,17 @@ import time
 from unittest import TestCase, skipUnless
 
 from gapipy import cache
+from gapipy.cache import make_key
+from gapipy.client import Client
 
+class CacheTestCase(TestCase):
+    def test_make_key(self):
+        Client()
+        self.assertEquals(make_key('foo', 1), 'foo:1')
+
+    def test_make_key_language(self):
+        Client(api_language='de')
+        self.assertEquals(make_key('foo', 1), 'foo:1:de')
 
 class SimpleCacheTestCase(TestCase):
 
