@@ -3,6 +3,12 @@
 History
 -------
 
+0.1.31 (2015-02-18)
+-------------------
+
+* Fixed a bug when setting _resource_fields in ``DepartureService`` resource
+
+
 0.1.30 (2015-02-11)
 -------------------
 
