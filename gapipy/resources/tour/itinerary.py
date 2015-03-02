@@ -42,7 +42,7 @@ class Itinerary(Resource):
     _resource_name = 'itineraries'
 
     _as_is_fields = [
-        'id', 'href', 'duration', 'meals_included', 'meals_budget',
+        'id', 'href', 'name', 'duration', 'meals_included', 'meals_budget',
         'packing_lists', 'images',
     ]
     _resource_fields = [
