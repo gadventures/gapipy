@@ -16,6 +16,8 @@ from .dossier import (  # NOQA
     ActivityDossier,
     PlaceDossier,
     TransportDossier,
+    DossierDetail,
+    DossierDetailType,
 )
 
 from .booking import (  # NOQA

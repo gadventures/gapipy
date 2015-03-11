@@ -1,12 +1,24 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
 from ..base import Resource
 from ...models.base import BaseModel
+from ...utils import DurationLabelMixin, LocationLabelMixin
 
 
-class ItineraryComponent(BaseModel):
+class OptionalActivity(BaseModel):
+    _resource_fields = [
+        ('activity_dossier', 'ActivityDossier'),
+    ]
+
+    def __repr__(self):
+        return '<{}: {}>'.format(self.__class__.__name__, self.activity_dossier)
+
+
+class ItineraryComponent(BaseModel, DurationLabelMixin, LocationLabelMixin):
     _as_is_fields = [
-        'type', 'summary', 'description', 'instructions', 'duration',
+        'type',
+        'summary', 'description', 'instructions', 'duration',
         'distance_km', 'start_time', 'end_time', 'time_period', 'is_overnight',
     ]
     _resource_fields = [
@@ -19,11 +31,22 @@ class ItineraryComponent(BaseModel):
     def __repr__(self):
         return '<{}: {}>'.format(self.__class__.__name__, self.type)
 
+    @property
+    def is_free_time(self):
+        return self.type == 'FREE_TIME'
+
+    @property
+    def is_activity(self):
+        return self.type == 'ACTIVITY'
+
+    @property
+    def is_transport(self):
+        return self.type == 'TRANSPORT'
+
 
 class ItineraryDay(BaseModel):
     _as_is_fields = [
         'id', 'day', 'summary', 'description', 'instructions', 'meals',
-        'optional_activities',
     ]
     _resource_fields = [
         ('start_location', 'Place'),
@@ -31,6 +54,7 @@ class ItineraryDay(BaseModel):
     ]
     _model_collection_fields = [
         ('components', ItineraryComponent),
+        ('optional_activities', OptionalActivity),
     ]
 
     def __repr__(self):

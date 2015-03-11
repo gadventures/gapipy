@@ -1,9 +1,10 @@
 from __future__ import unicode_literals
 
 from ..base import Resource
+from .details import DossierDetail, DossierDetailsMixin
 
 
-class AccommodationDossier(Resource):
+class AccommodationDossier(Resource, DossierDetailsMixin):
     _resource_name = 'accommodation_dossiers'
 
     _as_is_fields = [
@@ -11,7 +12,6 @@ class AccommodationDossier(Resource):
         'website',
         'property_type',
         'address',
-        'details',
         'features',
         'emails',
         'phone_numbers',
@@ -22,4 +22,8 @@ class AccommodationDossier(Resource):
 
     _resource_fields = [
         ('location', 'Place'),
+    ]
+
+    _model_collection_fields = [
+        ('details', DossierDetail),
     ]
