@@ -2,22 +2,11 @@ from __future__ import unicode_literals
 
 from ...models.base import BaseModel
 from ..base import Resource
+from .details import DossierDetail
 
 
 class PlaceDossierImage(BaseModel):
     _as_is_fields = ['id', 'href', 'date_created', 'date_last_modified']
-
-
-class PlaceDossierDetailType(BaseModel):
-    _as_is_fields = ['code', 'label', 'description']
-
-
-class PlaceDossierDetail(BaseModel):
-    _as_is_fields = ['body']
-
-    _model_fields = [
-        ('detail_type', PlaceDossierDetailType),
-    ]
 
 
 class PlaceDossier(Resource):
@@ -34,6 +23,6 @@ class PlaceDossier(Resource):
     ]
 
     _model_collection_fields = [
-        ('details', PlaceDossierDetail),
+        ('details', DossierDetail),
         ('images', PlaceDossierImage),  # TODO: replace with Image resource
     ]
