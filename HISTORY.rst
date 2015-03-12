@@ -3,6 +3,11 @@
 History
 -------
 
+0.1.34 (2015-03-12)
+-------------------
+
+* Added `duration_min` & `duration_max` to `ActivityDossier` model
+
 0.1.34 (2015-03-11)
 -------------------
 
