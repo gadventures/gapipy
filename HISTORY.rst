@@ -10,6 +10,8 @@ History
 * All Dossiers with `details`:
   * Now represented as list of `DossierDetail` models
   * Added convenience methods for retrieving specific details
+* `ItineraryComponent` and `ActivityDossier` use new `Duration` model
+  for their `duration` field/property
 * Added `duration_label` and `location_label` to `ItineraryComponent`
 * Added `duration_label`, `price_per_person_label`, and `price_per_group_label`
   to `ActivityDossier`

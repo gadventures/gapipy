@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from ..base import Resource
 from ...models.base import BaseModel
-from ...utils import DurationLabelMixin, LocationLabelMixin
+from ...utils import duration_label, LocationLabelMixin, DurationLabelMixin
 
 
 class OptionalActivity(BaseModel):
@@ -15,10 +15,23 @@ class OptionalActivity(BaseModel):
         return '<{}: {}>'.format(self.__class__.__name__, self.activity_dossier)
 
 
+class Duration(BaseModel):
+    _as_is_fields = [
+        'min_hr', 'max_hr',
+    ]
+
+    def __repr__(self):
+        return '<{}: {},{}>'.format(self.__class__.__name__, self.min_hr, self.max_hr)
+
+    @property
+    def label(self):
+        return duration_label(self.min_hr, self.max_hr)
+
+
 class ItineraryComponent(BaseModel, DurationLabelMixin, LocationLabelMixin):
     _as_is_fields = [
         'type',
-        'summary', 'description', 'instructions', 'duration',
+        'summary', 'description', 'instructions',
         'distance_km', 'start_time', 'end_time', 'time_period', 'is_overnight',
     ]
     _resource_fields = [
@@ -26,6 +39,9 @@ class ItineraryComponent(BaseModel, DurationLabelMixin, LocationLabelMixin):
         ('end_location', 'Place'),
         ('activity_dossier', 'ActivityDossier'),
         ('transport_dossier', 'TransportDossier'),
+    ]
+    _model_fields = [
+        ('duration', 'Duration'),
     ]
 
     def __repr__(self):

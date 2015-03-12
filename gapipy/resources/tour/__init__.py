@@ -2,7 +2,7 @@
 from .accommodation import Accommodation
 from .activity import Activity
 from .departure import Departure
-from .itinerary import Itinerary, OptionalActivity
+from .itinerary import Itinerary, OptionalActivity, Duration
 from .promotion import Promotion
 from .single_supplement import SingleSupplement
 from .tour import Tour

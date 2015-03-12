@@ -1,7 +1,9 @@
 from .tour import (  # NOQA
     Accommodation,
     Activity,
+    OptionalActivity,
     Departure,
+    Duration,
     Itinerary,
     Promotion,
     SingleSupplement,

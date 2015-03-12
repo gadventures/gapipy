@@ -35,14 +35,20 @@ class ActivityDossier(Resource, DossierDetailsMixin, DurationLabelMixin, Locatio
     @property
     def duration(self):
         """
-        Simulate the duration dict in `ItineraryComponent` objects,
-        so we can reuse the `DurationLabelMixin`
+        Simulate the Duration model in `ItineraryComponent` objects,
+        so we can reuse the methods therein until this models inconsistency
+        can be rectified (currently, this model has two duration fields
+        instead of a duration map/obj).
         """
-        if self.duration_min or self.duration_max:
-            return {
-                'min_hr': self.duration_min,
-                'max_hr': self.duration_max,
-            }
+        if not self.duration_min or not self.duration_max:
+            return None
+
+        from gapipy.resources import Duration
+        duration = Duration(data=dict(
+            min_hr=self.duration_min,
+            max_hr=self.duration_max)
+        )
+        return duration
 
     @property
     def price_per_person_label(self):

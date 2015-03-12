@@ -106,26 +106,15 @@ def location_label(start, end):
     return start.name
 
 
-def duration_label(duration):
+def duration_label(min_hr, max_hr):
     """
     Helper to output a friendly duration single value or range.
-
-    `duration` is a dict, like:
-        {
-            'min_hr': 'VALUE',
-            'max_hr': 'VALUE'
-        }
     """
-    if not duration:
+    if not min_hr:
         return ''
-
-    min_hr, max_hr = duration['min_hr'], duration['max_hr']
-    if min_hr and max_hr:
+    if max_hr:
         return '{}-{}'.format(humanize_time(min_hr), humanize_time(max_hr))
-    elif min_hr:
-        return humanize_time(min_hr)
-    elif max_hr:
-        return humanize_time(max_hr)
+    return humanize_time(min_hr)
 
 
 class LocationLabelMixin(object):
@@ -146,4 +135,6 @@ class DurationLabelMixin(object):
     """
     @property
     def duration_label(self):
-        return duration_label(self.duration)
+        if not self.duration:
+            return ''
+        return self.duration.label

@@ -48,7 +48,9 @@ class UtilsTestCase(TestCase):
         self.assertEqual(humanize_time(1.0), '1h')
 
     def test_duration_label(self):
-        self.assertEqual(duration_label({'min_hr': '1.5', 'max_hr': '2.5'}), '1h30m-2h30m')
+        self.assertEqual(duration_label(1.5, 2.5), '1h30m-2h30m')
+        self.assertEqual(duration_label(1, None), '1h')
+        self.assertEqual(duration_label('3.0', None), '3h')
 
     def test_location_label(self):
         import collections
