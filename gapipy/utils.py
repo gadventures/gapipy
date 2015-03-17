@@ -20,6 +20,18 @@ def get_available_resource_classes():
     return [getattr(resource_module, r) for r in available_resources]
 
 
+def is_free(amount):
+    """
+    Explit zero amounts are interpreted as Free!
+    """
+    return (
+        amount == 0 or
+        amount == 0.00 or
+        amount == '0' or
+        amount == '0.00'
+    )
+
+
 def humanize_amount(amount, force_decimal=False):
     """
     Takes an `amount` (float) and removes any unnecessary decimals,
@@ -27,6 +39,9 @@ def humanize_amount(amount, force_decimal=False):
 
     TODO: Internationalization support
     """
+    if is_free(amount):
+        return 'Free'
+
     amount = float(amount)
     if amount % 1 or force_decimal:
         return '%.2f' % amount
@@ -37,22 +52,9 @@ def humanize_price(amount_min, amount_max, currency):
     """
     Format a single price or price range for display.
     """
-    # TODO: Better currency support; requires Currency API resource
-
-    def is_free(amount):
-        return (
-            amount == 0 or
-            amount == 0.00 or
-            amount == '0' or
-            amount == '0.00'
-        )
-
     # No price, nothing to display
     if amount_min is None:
         return ''
-    # Explit zero amounts are interpreted as Free!
-    elif is_free(amount_min):
-        return 'Free'
 
     # Price Range
     if amount_max:
@@ -68,7 +70,7 @@ def humanize_price(amount_min, amount_max, currency):
     # Single Price
     return '{}{}'.format(
         humanize_amount(amount_min),
-        currency,
+        currency if not is_free(amount_min) else '',
     )
 
 

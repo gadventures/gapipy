@@ -26,6 +26,7 @@ class UtilsTestCase(TestCase):
         self.assertEqual(humanize_price(0.00, None, 'CAD'), FREE)
         self.assertEqual(humanize_price('0', None, 'CAD'), FREE)
         self.assertEqual(humanize_price('0.00', None, 'CAD'), FREE)
+        self.assertEqual(humanize_price('0.00', 5.00, 'CAD'), 'Free-5CAD')
 
     def test_humanize_price_none(self):
         out = humanize_price(None, None, 'CAD')

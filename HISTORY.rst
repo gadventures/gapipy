@@ -3,7 +3,12 @@
 History
 -------
 
-0.1.34 (2015-03-12)
+0.1.36 (2015-03-17)
+-------------------
+
+* Support free to amount price range formatting (e.g. Free-10CAD)
+
+0.1.35 (2015-03-12)
 -------------------
 
 * Added `duration_min` & `duration_max` to `ActivityDossier` model
