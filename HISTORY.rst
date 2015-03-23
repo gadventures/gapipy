@@ -3,6 +3,11 @@
 History
 -------
 
+0.1.38 (2015-03-23)
+-------------------
+
+* Fixed: Due to inconsistencies in the G API with regards to nested resources, the `fetch` function was modified to use the raw data from the API, rather than a specific set of allowed fields.
+
 0.1.37 (2015-03-23)
 -------------------
 
