@@ -1,8 +1,6 @@
 from __future__ import unicode_literals
 
-from ...utils import (
-    get_resource_class_from_class_name, get_resource_class_from_resource_name
-)
+from ...utils import get_resource_class_from_resource_name
 from ..base import Resource, Product
 
 
@@ -21,18 +19,19 @@ class Promotion(Resource):
         'sale_start_date', 'sale_finish_date'
     ]
     _price_fields = ['discount_amount', 'discount_percent']
-    _resource_collection_fields = [('products', Product)]
+    _model_collection_fields = [('products', Product)]
 
-    def _fill_resource_collection_fields(self, data):
-        for field, resource_cls in self._resource_collection_fields:
-            if isinstance(resource_cls, basestring):
-                resource_cls = get_resource_class_from_class_name(resource_cls)
+    def _set_model_collection_field(self, field, data):
+        # Only products needs special treatment.
+        if field != 'products':
+            return super(Promotion, self)._set_model_collection_field(field, data)
 
-            products = data[field]
-            if products:
-                product_type = products[0]['type']
-                resource_cls = get_resource_class_from_resource_name(product_type)
-                product_stubs = [resource_cls(p, stub=True) for p in products]
-                setattr(self, field, product_stubs)
-            else:
-                setattr(self, field, [])
+        product_stubs = []
+        # Each product can be a different resource, so derive the resource from
+        # the "type" within the stubbed object.
+        for product in data:
+            product_type = product['type']
+            resource_cls = get_resource_class_from_resource_name(product_type)
+            stub = resource_cls(product, stub=True)
+            product_stubs.append(stub)
+        setattr(self, field, product_stubs)

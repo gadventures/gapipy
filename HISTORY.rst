@@ -3,6 +3,11 @@
 History
 -------
 
+0.1.37 (2015-03-23)
+-------------------
+
+* Fixed: Iterating over ``products`` within the ``promotions`` object now works as expected. Previously, accessing the ``products`` attribute would result in a Query object with incorrect parameters.
+
 0.1.36 (2015-03-17)
 -------------------
 
