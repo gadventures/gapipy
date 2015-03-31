@@ -9,6 +9,7 @@ ACCEPTABLE_RESPONSE_STATUS_CODES = (
 
 JSON_CONTENT_TYPE = 'application/json'
 
+
 class APIRequestor(object):
 
     def __init__(self, client, resource, options=None, parent=None):
@@ -22,6 +23,14 @@ class APIRequestor(object):
 
         assert method in ['GET', 'POST', 'PUT', 'PATCH'], "Only 'GET', 'POST', 'PUT', and 'PATCH' are allowed."
 
+        url = self._get_url(uri)
+        headers = self._get_headers(method, additional_headers)
+        response = self._make_call(method, url, headers, data, options)
+        return response
+
+    def _get_url(self, uri):
+        """Return the full URL to make a request to for the given `uri`"""
+
         # Support supplying a full url
         if '://' in uri:
             url = uri
@@ -33,6 +42,11 @@ class APIRequestor(object):
         api_proxy = self.client.api_proxy
         if api_proxy:
             url = url.replace(api_proxy, '')
+
+        return url
+
+    def _get_headers(self, method, additional_headers):
+        """Return a dictionary of HTTP headers to set on the request to the API."""
 
         headers = {
             'User-Agent': '{0}/{1}'.format(__title__, __version__),
@@ -50,13 +64,20 @@ class APIRequestor(object):
         if additional_headers:
             headers.update(additional_headers)
 
-        if api_proxy:
-            headers.update({'X-Api-Proxy': api_proxy})
+        if self.client.api_proxy:
+            headers.update({'X-Api-Proxy': self.client.api_proxy})
 
+        return headers
+
+    def _make_call(self, method, url, headers, data, params):
+        """Make the actual request to the API, using the given URL, headers,
+        data and extra parameters.
+        """
         requests_call = getattr(requests, method.lower())
 
         self.client.logger.debug('Making a {0} request to {1}'.format(method, url))
-        response = requests_call(url, headers=headers, data=data, params=options)
+
+        response = requests_call(url, headers=headers, data=data, params=params)
 
         if response.status_code in ACCEPTABLE_RESPONSE_STATUS_CODES:
             return response.json()
