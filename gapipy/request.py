@@ -12,20 +12,20 @@ JSON_CONTENT_TYPE = 'application/json'
 
 class APIRequestor(object):
 
-    def __init__(self, client, resource, options=None, parent=None):
+    def __init__(self, client, resource, params=None, parent=None):
         self.client = client
         self.resource = resource
-        self.options = options
+        self.params = params
         self.parent = parent
 
-    def _request(self, uri, method, data=None, options=None, additional_headers=None):
+    def _request(self, uri, method, data=None, params=None, additional_headers=None):
         """Make an HTTP request to a target API method with proper headers."""
 
         assert method in ['GET', 'POST', 'PUT', 'PATCH'], "Only 'GET', 'POST', 'PUT', and 'PATCH' are allowed."
 
         url = self._get_url(uri)
         headers = self._get_headers(method, additional_headers)
-        response = self._make_call(method, url, headers, data, options)
+        response = self._make_call(method, url, headers, data, params)
         return response
 
     def _get_url(self, uri):
@@ -130,7 +130,7 @@ class APIRequestor(object):
             else:
                 uri = '/{0}'.format(self.resource)
 
-        return self._request(uri, 'GET', options=self.options)
+        return self._request(uri, 'GET', params=self.params)
 
     def list(self, uri=None):
         """Generator for listing resources"""
