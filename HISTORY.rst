@@ -3,6 +3,12 @@
 History
 -------
 
+0.1.39 (2015-03-31)
+-------------------
+
+* Refactor ``APIRequestor._request``. While this should not change existing functionality, it is now possible to override specific methods on ``APIRequestor`` if needed.
+
+
 0.1.38 (2015-03-23)
 -------------------
 
@@ -35,7 +41,7 @@ History
 * Added `duration_label` and `location_label` to `ItineraryComponent`
 * Added `duration_label`, `price_per_person_label`, and `price_per_group_label`
   to `ActivityDossier`
- 
+
 
 0.1.33 (2015-03-02)
 -------------------
