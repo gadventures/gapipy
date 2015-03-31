@@ -22,14 +22,14 @@ class APIRequestorTestCase(unittest.TestCase):
     def test_list_resource(self, mock_request):
         requestor = APIRequestor(self.client, 'resources')
         requestor.list_raw()
-        mock_request.assert_called_once_with('/resources', 'GET', options=None)
+        mock_request.assert_called_once_with('/resources', 'GET', params=None)
 
     def test_list_resource_with_parent(self, mock_request):
         parent = ('parent', '1234')
         requestor = APIRequestor(self.client, 'child', parent=parent)
         requestor.list_raw()
         mock_request.assert_called_once_with(
-            '/parent/1234/child', 'GET', options=None)
+            '/parent/1234/child', 'GET', params=None)
 
     @patch('gapipy.request.APIRequestor.list_raw')
     def test_list_generator(self, mock_list, mock_request):
