@@ -68,12 +68,12 @@ class QueryTestCase(unittest.TestCase):
         query = Query(self.client, Tour).filter(tour_dossier_code='PPP')
         list(query)  # force query evaluation
         mock_request.assert_called_once_with(
-            '/tours', 'GET', options={'tour_dossier_code': 'PPP'})
+            '/tours', 'GET', params={'tour_dossier_code': 'PPP'})
 
         # Check that filters can be chained
         list(query.filter(departures_start_date='2014-01-01'))
         mock_request.assert_called_with(
-            '/tours', 'GET', options={
+            '/tours', 'GET', params={
                 'tour_dossier_code': 'PPP',
                 'departures_start_date': '2014-01-01'
             })
@@ -118,7 +118,7 @@ class QueryTestCase(unittest.TestCase):
             self.assertIsInstance(dossier, TourDossier)
 
         mock_request.assert_called_once_with(
-            '/tour_dossiers', 'GET', options={})
+            '/tour_dossiers', 'GET', params={})
 
     @patch('gapipy.request.APIRequestor._request', return_value=TOUR_DOSSIER_LIST_DATA)
     def test_fetch_all_with_limit(self, mock_request):
@@ -131,7 +131,7 @@ class QueryTestCase(unittest.TestCase):
             self.assertIsInstance(dossier, TourDossier)
 
         mock_request.assert_called_once_with(
-            '/tour_dossiers', 'GET', options={})
+            '/tour_dossiers', 'GET', params={})
 
     def test_fetch_all_with_wrong_argument_for_limit(self):
         message = '`limit` must be a positive integer'

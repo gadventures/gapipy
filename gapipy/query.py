@@ -94,7 +94,7 @@ class Query(object):
         requestor = APIRequestor(
             self._client,
             self.resource._resource_name,
-            options=self.filters,
+            params=self.filters,
             parent=self.parent
         )
         generator = requestor.list()
@@ -126,7 +126,7 @@ class Query(object):
         requestor = APIRequestor(
             self._client,
             self.resource._resource_name,
-            options=self.filters,
+            params=self.filters,
             parent=self.parent
         )
         response = requestor.list_raw()
