@@ -105,6 +105,12 @@ class DepartureService(ServiceProduct):
     _resource_name = 'departure_services'
 
     @property
+    def _price_fields(self):
+        return super(DepartureService, self)._price_fields + [
+            'deposit',
+        ]
+
+    @property
     def _resource_fields(self):
         return (super(DepartureService, self)._resource_fields + [
             ('itinerary', 'Itinerary'),
