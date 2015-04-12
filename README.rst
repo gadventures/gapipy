@@ -117,3 +117,21 @@ Dependencies
 The only dependency needed to use the client is requests_.
 
 .. _requests: http://python-requests.org
+
+Testing
+-------
+
+Running tests is pretty simple. Just install the requirements and use nose.
+
+    pip install -r requirements-testing.txt
+
+Once installed, test unit tests:
+
+    nosetests -A integration!=1
+
+Otherwise, you'll want to include a GAPI Application Key so the integration
+tests can successfully hit the API.
+
+    export GAPI_APPLICATION_KEY=MY_SECRET_KEY; nosetests
+
+Thanks for helping!
