@@ -103,7 +103,7 @@ class ResourceTestCase(TestCase):
         })
         self.assertIsInstance(f.bar, Bar)
         self.assertEquals(f.bar.id, 1)
-        self.assertEquals(f.bar.date, datetime.date(2013, 01, 01))
+        self.assertEquals(f.bar.date, datetime.date(2013, 1, 1))
 
     def test_null_model_fields(self):
         from gapipy.models.base import BaseModel
