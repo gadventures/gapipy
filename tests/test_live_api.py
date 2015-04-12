@@ -67,7 +67,7 @@ class TourDossierTestCase(TestCase):
 
     def test_get_image_url(self):
         url = self.dossier.get_map_url()
-        self.assertIsInstance(url, basestring)
+        self.assertIsInstance(url, items)
 
     def test_get_countries(self):
         countries = self.dossier.get_visited_countries()
@@ -75,7 +75,7 @@ class TourDossierTestCase(TestCase):
 
     def test_get_trip_detail(self):
         detail = self.dossier.get_trip_detail('Max Pax')
-        self.assertIsInstance(detail, basestring)
+        self.assertIsInstance(detail, items)
 
 
 @attr('integration')
