@@ -3,6 +3,7 @@ from .tour import (  # NOQA
     Activity,
     OptionalActivity,
     Departure,
+    DepartureComponent,
     Duration,
     Itinerary,
     Promotion,
@@ -60,6 +61,7 @@ available_public_resources = [
     # Tour
     'Accommodation', 'Activity', 'Departure', 'Itinerary', 'Promotion',
     'SingleSupplement', 'Tour', 'TourCategory', 'TourDossier', 'Transport',
+    'DepartureComponent',
 
     # Geographical
     'Airport', 'Continent', 'Country', 'Feature', 'FeatureCategory', 'Place',

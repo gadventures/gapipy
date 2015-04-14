@@ -2,6 +2,7 @@
 from .accommodation import Accommodation
 from .activity import Activity
 from .departure import Departure
+from .departure_component import DepartureComponent
 from .itinerary import Itinerary, OptionalActivity, Duration
 from .promotion import Promotion
 from .single_supplement import SingleSupplement

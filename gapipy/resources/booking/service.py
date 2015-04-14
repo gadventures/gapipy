@@ -11,6 +11,7 @@ from ..base import Resource
 
 from ..tour import (
     Departure,
+    DepartureComponent,
     Accommodation,
     Activity,
     Transport,
@@ -115,6 +116,12 @@ class DepartureService(ServiceProduct):
         return (super(DepartureService, self)._resource_fields + [
             ('itinerary', 'Itinerary'),
         ])
+
+    @property
+    def _resource_collection_fields(self):
+        return super(DepartureService, self)._resource_collection_fields + [
+            ('components', DepartureComponent),
+        ]
 
     @property
     def _model_collection_fields(self):

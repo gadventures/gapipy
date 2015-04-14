@@ -3,6 +3,11 @@
 History
 -------
 
+0.1.41 (2015-04-14)
+------------------
+
+* Added `DepartureComponent` resource. See the [official G API documentation for details](https://developers.gadventures.com/docs/departure_component.html)
+
 0.1.40 (2015-04-06)
 -------------------
 
