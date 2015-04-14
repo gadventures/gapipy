@@ -25,7 +25,7 @@ class DepartureComponent(Resource):
     ]
 
     _date_fields = ["start_date"]
-    _date_time_fields_utc = ["date_created", "date_last_modified"]
+    _date_time_fields_local = ["date_created", "date_last_modified"]
 
     _model_fields = [
         ("associated_dossier", AssociatedDossier),
