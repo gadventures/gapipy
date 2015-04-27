@@ -42,7 +42,9 @@ data. The fields are parsed and converted to python objects as specified in the
 resource class.
 
 A nested resource will only be instantiated when its corresponding attribute is
-accessed in the parent resource.
+accessed in the parent resource. These resources may be returned as a ``stub``,
+and upon access of an attribute not present, will internally call ``.fetch()``
+on the resource to populate it.
 
 A field pointing to the URL for a collection of a child resources will hold a
 ``Query`` object for that resource. As for nested resources, it will only be
