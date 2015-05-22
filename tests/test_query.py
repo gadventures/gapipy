@@ -51,18 +51,6 @@ class QueryTestCase(unittest.TestCase):
 
         self.assertEqual(cm.exception.response.status_code, 401)
 
-    @patch('gapipy.request.APIRequestor._request', return_value=PPP_TOUR_DATA)
-    def test_resources_are_cached(self, mock_request):
-        query = Query(self.client, Tour)
-        self.assertEqual(self.cache.count(), 0)
-
-        query.get(21346)
-        self.assertEqual(self.cache.count(), 1)
-        self.assertEqual(len(mock_request.mock_calls), 1)
-
-        query.get(21346)
-        self.assertEqual(len(mock_request.mock_calls), 1)
-
     @patch('gapipy.request.APIRequestor._request')
     def test_filtered_query(self, mock_request):
         query = Query(self.client, Tour).filter(tour_dossier_code='PPP')
@@ -138,6 +126,26 @@ class QueryTestCase(unittest.TestCase):
         with self.assertRaisesRegexp(ValueError, message):
             query = Query(self.client, Tour).all(limit=-1)
             list(query)  # force the query to evaluate
+
+
+class QueryCacheTestCase(unittest.TestCase):
+    def setUp(self):
+        self.client = Client(cache_backend='gapipy.cache.SimpleCache')
+        self.cache = self.client._cache
+        self.cache.clear()
+
+    @patch('gapipy.request.APIRequestor._request', return_value=PPP_TOUR_DATA)
+    def test_resources_are_cached(self, mock_request):
+        query = Query(self.client, Tour)
+
+        self.assertEqual(self.cache.count(), 0)
+
+        query.get(21346)
+        self.assertEqual(self.cache.count(), 1)
+        self.assertEqual(len(mock_request.mock_calls), 1)
+
+        query.get(21346)
+        self.assertEqual(len(mock_request.mock_calls), 1)
 
 
 class MockResource(Resource):

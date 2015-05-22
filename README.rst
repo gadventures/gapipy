@@ -106,7 +106,7 @@ configurable by adjusting the ``GAPI_CACHE_BACKEND`` environment variable.
 ``gapipy.cache.RedisCache``
     A key-value cache store using Redis as a backend.
 
-``gapipy.cache.NullCache``
+``gapipy.cache.NullCache`` (Default)
     A cache that doesn't cache.
 
 Since the cache backend is defined by a python module path, you are free to use

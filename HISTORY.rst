@@ -3,6 +3,11 @@
 History
 -------
 
+0.1.44 (2015-05-22)
+-------------------
+
+* Changed default `cache_backend` to use `gapipy.cache.NullCache`. Previously, `SimpleCache` was the default and led to confusion in production environments, specifically as to why resources were not matching the API output. Now, by default, to get any caching from gapipy you must explicitly set it.
+
 0.1.43 (2015-04-29)
 -------------------
 
