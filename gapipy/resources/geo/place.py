@@ -38,6 +38,6 @@ class Place(Resource):
         corresponding Place (stub) instances.
         """
         if 'admin_divisions' in self._raw_data:
-            raw_admin_divisions = self._raw_data['admin_divisions']
+            raw_admin_divisions = self._raw_data['admin_divisions'] or []
             admin_divisions = [self.__class__(d, stub=True) for d in raw_admin_divisions]
             self.admin_divisions = admin_divisions
