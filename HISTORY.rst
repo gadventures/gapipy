@@ -3,6 +3,11 @@
 History
 -------
 
+0.1.45 (2015-05-27)
+-------------------
+
+* Fixed ``products`` within the ``Promotion`` resource to properly retain ``type`` and ``sub_type`` fields after being parsed into a dictionary.
+
 0.1.44 (2015-05-22)
 -------------------
 
