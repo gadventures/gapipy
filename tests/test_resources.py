@@ -5,7 +5,7 @@ from mock import patch
 
 from gapipy.query import Query
 from gapipy.models import DATE_FORMAT, AccommodationRoom
-from gapipy.resources import Tour, TourDossier
+from gapipy.resources import Tour, TourDossier, Promotion
 from gapipy.resources.base import Resource
 
 from .fixtures import PPP_TOUR_DATA, PPP_DOSSIER_DATA
@@ -145,3 +145,38 @@ class AccommodationRoomTestCase(TestCase):
         }
         room = AccommodationRoom(data)
         self.assertEqual(room.room_class, 'Standard')
+
+class PromotionTestCase(TestCase):
+    @patch('gapipy.request.APIRequestor._request')
+    def test_product_type_is_set_properly(self, mock_request):
+        data = {
+            'products': [
+                {
+                    'type': 'departures',
+                    'sub_type': 'Tour',
+                    'id': 1,
+                }
+            ],
+        }
+
+        promotion = Promotion(data)
+        product = promotion.products[0]
+        self.assertEqual(product.type, 'departures')
+        self.assertEqual(product.to_dict(), {
+            'id': 1,
+            'type': 'departures',
+            'sub_type': 'Tour',
+        })
+
+        # Ensure when the product implicitly fetched it makes a request, and
+        # retains the type fields.
+        self.assertEqual(mock_request.call_count, 0)
+        mock_request.return_value = {
+            'finish_address': {
+                'country': {
+                    'name': 'Australia',
+                }
+            }
+        }
+        self.assertEqual(product.finish_address.country.name, 'Australia')
+        self.assertEqual(product.type, 'departures')
