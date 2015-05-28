@@ -1,6 +1,10 @@
 import json
+import logging
 from gapipy.request import APIRequestor
 from gapipy.models.base import BaseModel
+
+
+logger = logging.getLogger(__name__)
 
 
 class Resource(BaseModel):
@@ -14,6 +18,7 @@ class Resource(BaseModel):
         super(Resource, self).__init__(data, client)
 
     def fetch(self):
+        logger.info('Fetching %s/%s', self._resource_name, self.id)
         self.is_stub = False
 
         # Fetch the resource using the client bound on it, which handles cache get/set.
