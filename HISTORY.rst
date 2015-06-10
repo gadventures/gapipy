@@ -3,6 +3,11 @@
 History
 -------
 
+0.1.46 (2015-06-10)
+------------------
+
+* Added ``associated_services`` and ``original_departure_service`` to various service resources and ``departure_services`` model respectively.
+
 0.1.45 (2015-05-27)
 -------------------
 
