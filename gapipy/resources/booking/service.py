@@ -2,9 +2,14 @@ from __future__ import unicode_literals
 
 from ...utils import get_resource_class_from_resource_name
 from ...models import (
-    IncompleteRequirement, ArrivalFlightDetail, DepartureFlightDetail,
-    InternationalTicketNumber, TravellerHeight, DepartureServiceRoom,
+    ArrivalFlightDetail,
+    AssociatedService,
+    DepartureFlightDetail,
+    DepartureServiceRoom,
     DocumentInfo,
+    IncompleteRequirement,
+    InternationalTicketNumber,
+    TravellerHeight,
 )
 
 from ..base import Resource
@@ -115,6 +120,7 @@ class DepartureService(ServiceProduct):
     def _resource_fields(self):
         return (super(DepartureService, self)._resource_fields + [
             ('itinerary', 'Itinerary'),
+            ('original_departure_service', DepartureService),
         ])
 
     @property
@@ -125,14 +131,14 @@ class DepartureService(ServiceProduct):
 
     @property
     def _model_collection_fields(self):
-        return (super(DepartureService, self)._model_collection_fields + [
-            ('rooms', DepartureServiceRoom),
-            ('incomplete_requirements', IncompleteRequirement),
+        return super(DepartureService, self)._model_collection_fields + [
             ('arrival_flight_details', ArrivalFlightDetail),
             ('departure_flight_details', DepartureFlightDetail),
+            ('incomplete_requirements', IncompleteRequirement),
             ('international_ticket_numbers', InternationalTicketNumber),
+            ('rooms', DepartureServiceRoom),
             ('traveller_heights', TravellerHeight),
-        ])
+        ]
 
 
 class AccommodationService(ServiceProduct):
@@ -142,6 +148,12 @@ class AccommodationService(ServiceProduct):
     def _as_is_fields(self):
         return super(AccommodationService, self)._as_is_fields + [
             'room',
+        ]
+
+    @property
+    def _model_collection_fields(self):
+        return super(AccommodationService, self)._model_collection_fields + [
+            ('associated_services', AssociatedService),
         ]
 
 
@@ -154,6 +166,12 @@ class TransportService(ServiceProduct):
             'flight_number', 'pickup_time',
         ]
 
+    @property
+    def _model_collection_fields(self):
+        return super(TransportService, self)._model_collection_fields + [
+            ('associated_services', AssociatedService),
+        ]
+
 
 class ActivityService(ServiceProduct):
     _resource_name = 'activity_services'
@@ -161,8 +179,9 @@ class ActivityService(ServiceProduct):
     @property
     def _model_collection_fields(self):
         return (super(ActivityService, self)._model_collection_fields + [
-            ('incomplete_requirements', IncompleteRequirement),
             ('arrival_flight_details', ArrivalFlightDetail),
+            ('associated_services', AssociatedService),
+            ('incomplete_requirements', IncompleteRequirement),
         ])
 
 

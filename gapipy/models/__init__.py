@@ -4,6 +4,7 @@ from .address import Address
 from .advertised_departure import AdvertisedDeparture
 from .agency_document import AgencyDocument
 from .arrival_flight_detail import ArrivalFlightDetail
+from .associated_service import AssociatedService
 from .departure_flight_detail import DepartureFlightDetail
 from .departure_service_room import DepartureServiceRoom
 from .document_info import DocumentInfo
