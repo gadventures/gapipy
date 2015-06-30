@@ -88,7 +88,7 @@ class APIRequestor(object):
     def get(self, resource_id=None, uri=None):
         """Get a single resource with the given resource_id or uri"""
 
-        if not (resource_id or uri):
+        if resource_id is None and uri is None:
             raise ValueError(
                 'Need to provide at least one of `resource_id` or `uri` as argument')
         if not uri:
