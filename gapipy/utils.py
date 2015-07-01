@@ -28,7 +28,7 @@ def dict_to_model(class_name=None):
     like so:
 
     _model_collection_fields = [
-        ('phone_numbers', dict_to_model('Phone Numbers'),
+        ('phone_numbers', dict_to_model('Phone Numbers')),
     ]
 
     The optional`class_name` simply improves readability of the object
