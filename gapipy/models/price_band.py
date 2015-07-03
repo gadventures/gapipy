@@ -32,7 +32,7 @@ class PriceBand(BaseModel):
         return [('prices', Price)]
 
     def available_currencies(self):
-        return self.prices.keys()
+        return list(self.prices.keys())
 
 
 class SeasonalPriceBand(PriceBand):

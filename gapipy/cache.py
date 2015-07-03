@@ -5,7 +5,7 @@ from time import time
 from gapipy import client as client_module
 
 try:
-    import cPickle as pickle
+    import pickle as pickle
 except ImportError:
     import pickle
 
@@ -22,7 +22,7 @@ def make_key(resource_name, resource_id=None):
     return ':'.join(parts)
 
 def update(d, u):
-    for k, v in u.iteritems():
+    for k, v in u.items():
         if isinstance(v, collections.Mapping):
             r = update(d.get(k, {}), v)
             d[k] = r
@@ -41,7 +41,7 @@ def _items(mappingorseq):
         >>> for k, v in _items({i: i*i} for i in xrange(5)):
         ...     assert k*k == v
     """
-    return mappingorseq.iteritems() if hasattr(mappingorseq, 'iteritems') \
+    return iter(mappingorseq.items()) if hasattr(mappingorseq, 'iteritems') \
         else mappingorseq
 
 
@@ -68,7 +68,7 @@ class BaseCache(object):
 
     def get_many(self, resource_name, ids):
         func = partial(self.get, resource_name)
-        return map(func, ids)
+        return list(map(func, ids))
 
     def delete(self, resource_name, resource_id=None):
         pass
@@ -179,7 +179,7 @@ class RedisCache(BaseCache):
 
     def clear(self):
         cache_keys = self._client.keys('{}*'.format(self.key_prefix))
-        map(self._client.delete, cache_keys)
+        list(map(self._client.delete, cache_keys))
 
     def info(self):
         return self._client.info()

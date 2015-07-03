@@ -43,7 +43,7 @@ class BaseModel(object):
         # Initially we populate base fields, as model/resource fields may rely
         # on these to be present.
         remaining_data = {}
-        for field, value in data.iteritems():
+        for field, value in data.items():
             if field in self._as_is_fields:
                 self._set_as_is_field(field, value)
             elif field in self._date_fields:
@@ -58,7 +58,7 @@ class BaseModel(object):
                 remaining_data[field] = value
 
         # Populate resource/model fields.
-        for field, value in remaining_data.iteritems():
+        for field, value in remaining_data.items():
             if field in first(self._model_fields):
                 self._set_model_field(field, value)
             elif field in first(self._model_collection_fields):
@@ -102,7 +102,7 @@ class BaseModel(object):
         model_cls = [cls for f, cls in fields if f == field][0]
 
         # FIXME: This will not work for the model_*_fields.
-        if isinstance(model_cls, basestring):
+        if isinstance(model_cls, str):
             model_cls = get_resource_class_from_class_name(model_cls)
         return model_cls
 
@@ -145,11 +145,11 @@ class BaseModel(object):
             + self._date_fields
             + self._date_time_fields_utc
             + self._date_time_fields_local
-            + map(first, self._model_fields)
-            + map(first, self._model_collection_fields)
+            + list(map(first, self._model_fields))
+            + list(map(first, self._model_collection_fields))
             + self._price_fields
-            + map(first, self._resource_fields)
-            + map(first, self._resource_collection_fields)
+            + list(map(first, self._resource_fields))
+            + list(map(first, self._resource_collection_fields))
             + self._deprecated_fields
         )
 
@@ -172,9 +172,9 @@ class BaseModel(object):
             return value
 
     def to_dict(self):
-        properties = {k: v for k, v in self.__dict__.iteritems() if k in self._allowed_fields()}
+        properties = {k: v for k, v in self.__dict__.items() if k in self._allowed_fields()}
         data = {}
-        for key, value in properties.iteritems():
+        for key, value in properties.items():
             if isinstance(value, (list, tuple)):
                 data[key] = [self._convert_from_resource_type(key, a) for a in value]
             else:
