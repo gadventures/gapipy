@@ -1,11 +1,11 @@
 """These tests mostly ensure that any change in the shape of the data
 returned by the API is detected.
 """
-
 from unittest import TestCase
 
 from nose.plugins.attrib import attr
 from nose_parameterized import parameterized
+import six
 
 from gapipy.client import Client
 from gapipy.resources import (
@@ -68,7 +68,7 @@ class TourDossierTestCase(TestCase):
 
     def test_get_image_url(self):
         url = self.dossier.get_map_url()
-        self.assertIsInstance(url, str)
+        self.assertIsInstance(url, six.string_types)
 
     def test_get_countries(self):
         countries = self.dossier.get_visited_countries()
@@ -76,7 +76,7 @@ class TourDossierTestCase(TestCase):
 
     def test_get_trip_detail(self):
         detail = self.dossier.get_trip_detail('Max Pax')
-        self.assertIsInstance(detail, str)
+        self.assertIsInstance(detail, six.string_types)
 
 
 @attr('integration')
