@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 from ...utils import get_resource_class_from_resource_name
 from ...models import (
@@ -39,11 +39,10 @@ class TypeBasedServiceMeta(type):
 
 
 class Service(Resource):
+    __metaclass__ = TypeBasedServiceMeta
     _resource_name = 'services'
     _is_listable = False
     _is_parent_resource = True
-
-    __metaclass__ = TypeBasedServiceMeta
 
     @property
     def _as_is_fields(self):
