@@ -85,6 +85,7 @@ class UtilsTestCase(TestCase):
         model = wrapper(data)
 
         self.assertEqual(str(model), 'Profile')
+        self.assertEqual(repr(model), '<Profile>')
         self.assertEqual(model.id, '123')
         self.assertEqual(model.name.first, 'Foo')
         self.assertEqual(model.name.last, 'Baz')

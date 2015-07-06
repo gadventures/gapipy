@@ -225,7 +225,7 @@ class DictToModel(object):
         return self._class_name
 
     def __repr__(self):
-        return self.__str__()
+        return '<{}>'.format(self.__str__())
 
     def _humanize(self, class_name):
         return class_name.replace("_", " ").title()
