@@ -1,5 +1,6 @@
-import datetime
 from decimal import Decimal
+from itertools import ifilter, ifilterfalse
+import datetime
 
 from gapipy import client as client_module
 from gapipy.query import Query
@@ -194,3 +195,47 @@ class RelatedResourceMixin(object):
             getattr(self, self._related_resource_lookup))
         resource = resource_cls({'id': self.id, 'href': self.href}, stub=True)
         setattr(self, 'resource', resource)
+
+class DictToModel(object):
+    """
+    A simple container that is used by `utils.dict_to_model` to help create
+    dot-accessible models without being explicit about field definitions.
+
+    This class simply iterates over any complex values and recursively creates
+    new objects for those their respective keys, allowing the entire path to be
+    dot-accessible.
+    """
+    def __init__(self, data, class_name=None):
+        self._class_name = self._humanize(class_name) if class_name else ''
+
+        # Add any shallow data to this object as primitive types.
+        shallow = self._shallow(data)
+        self.__dict__.update(shallow)
+
+        # Anything that will contain nested values that need to be dot
+        # accessible receive treatment of having its own class representation.
+        for k, v in self._deep(data).items():
+            if isinstance(v, (list, tuple)):
+                value = [DictToModel(i, class_name=k) for i in v]
+            else:
+                value = DictToModel(v, class_name=k)
+            setattr(self, k, value)
+
+    def __str__(self):
+        return self._class_name
+
+    def __repr__(self):
+        return '<{}>'.format(self.__str__())
+
+    def _humanize(self, class_name):
+        return class_name.replace("_", " ").title()
+
+    def _get_data(self, data):
+        """ Use as predicate for _shallow, _deep """
+        return isinstance(data[1], (dict, list))
+
+    def _shallow(self, data):
+        return {k: v for k, v in ifilterfalse(self._get_data, data.items())}
+
+    def _deep(self, data):
+        return {k: v for k, v in ifilter(self._get_data, data.items())}

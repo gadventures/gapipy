@@ -3,10 +3,11 @@ from __future__ import unicode_literals
 from unittest import TestCase
 
 from gapipy.utils import (
+    dict_to_model,
+    duration_label,
     humanize_amount,
     humanize_price,
     humanize_time,
-    duration_label,
     location_label,
 )
 
@@ -60,3 +61,38 @@ class UtilsTestCase(TestCase):
         place_2 = Place(name='Montreal')
         self.assertEqual(location_label(place_1, place_2), 'Toronto – Montreal')
         self.assertEqual(location_label(place_1, place_1), 'Toronto')
+
+    def test_dict_to_model(self):
+        data = {
+            'id': '123',
+            'name': {
+                'first': 'Foo',
+                'last': 'Baz',
+                'reverse': {
+                    'first': 'Oof',
+                    'last': 'Zab',
+                },
+            },
+            'phone_numbers': [
+                {
+                    'number': '555-555-5555',
+                }
+
+            ],
+        }
+
+        wrapper = dict_to_model('Profile')
+        model = wrapper(data)
+
+        self.assertEqual(str(model), 'Profile')
+        self.assertEqual(repr(model), '<Profile>')
+        self.assertEqual(model.id, '123')
+        self.assertEqual(model.name.first, 'Foo')
+        self.assertEqual(model.name.last, 'Baz')
+        self.assertEqual(str(model.name), 'Name')
+
+        self.assertEqual(model.name.reverse.first, 'Oof')
+        self.assertEqual(model.name.reverse.last, 'Zab')
+
+        self.assertEqual(str(model.phone_numbers[0]), 'Phone Numbers')
+        self.assertEqual(model.phone_numbers[0].number, '555-555-5555')
