@@ -3,8 +3,14 @@
 History
 -------
 
+
+0.1.47 (2015-07-08)
+-------------------
+
+* Fixed a bug in ``APIRequestor.get``. Requesting a resource with with an id of ``0`` won't raise an Exception anymore.
+
 0.1.46 (2015-06-10)
-------------------
+-------------------
 
 * Added ``associated_services`` and ``original_departure_service`` to various service resources and ``departure_services`` model respectively.
 
@@ -22,7 +28,7 @@ History
 -------------------
 
 * Fixed `Place` init with empty admin_divisions
- 
+
 
 0.1.42 (2015-04-29)
 -------------------
@@ -30,7 +36,7 @@ History
 * Added `description` to `TourCategory` resource.
 
 0.1.41 (2015-04-14)
-------------------
+-------------------
 
 * Added `DepartureComponent` resource. See the [official G API documentation for details](https://developers.gadventures.com/docs/departure_component.html)
 
