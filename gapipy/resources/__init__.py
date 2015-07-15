@@ -29,6 +29,7 @@ from .booking import (  # NOQA
     Booking,
     Customer,
     Invoice,
+    DeclinedReason,
     Document,
     Nationality,
     AccommodationService,
@@ -59,25 +60,55 @@ from .language import Language  # NOQA
 
 available_public_resources = [
     # Tour
-    'Accommodation', 'Activity', 'Departure', 'Itinerary', 'Promotion',
-    'SingleSupplement', 'Tour', 'TourCategory', 'TourDossier', 'Transport',
+    'Accommodation',
+    'Activity',
+    'Departure',
     'DepartureComponent',
+    'Itinerary',
+    'Promotion',
+    'SingleSupplement',
+    'Tour',
+    'TourCategory',
+    'TourDossier',
+    'Transport',
 
     # Geographical
-    'Airport', 'Continent', 'Country', 'Feature', 'FeatureCategory', 'Place',
-    'State', 'Timezone',
+    'Airport',
+    'Continent',
+    'Country',
+    'Feature',
+    'FeatureCategory',
+    'Place',
+    'State',
+    'Timezone',
 
     # Dossier
-    'AccommodationDossier', 'ActivityDossier', 'PlaceDossier', 'TransportDossier',
-
+    'AccommodationDossier',
+    'ActivityDossier',
+    'PlaceDossier',
+    'TransportDossier',
     'Language',
 ]
 
 available_private_resources = [
-    'Agency', 'Agent', 'Booking', 'Customer', 'Invoice', 'Document',
-    'Nationality', 'AccommodationService', 'ActivityService',
-    'DepartureService', 'FeeService', 'FlightService', 'InsuranceService',
-    'SingleSupplementService', 'TransportService', 'Payment', 'Refund',
+    'AccommodationService',
+    'ActivityService',
+    'Agency',
+    'Agent',
+    'Booking',
+    'Customer',
+    'DeclinedReason',
+    'DepartureService',
+    'Document',
+    'FeeService',
+    'FlightService',
+    'InsuranceService',
+    'Invoice',
+    'Nationality',
+    'Payment',
+    'Refund',
+    'SingleSupplementService',
+    'TransportService',
 ]
 
 available_resources = available_public_resources + available_private_resources
