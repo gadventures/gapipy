@@ -3,6 +3,7 @@ from .agency import Agency
 from .agent import Agent
 from .booking import Booking
 from .customer import Customer
+from .declined_reason import DeclinedReason
 from .document import Invoice, Document
 from .nationality import Nationality
 from .service import (
