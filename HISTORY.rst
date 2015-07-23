@@ -3,6 +3,12 @@
 History
 -------
 
+0.1.49 (2015-07-23)
+-------------------
+
+* Added new fields to ``Itinerary`` revolving around variations.
+* Added ``declined_reason`` to all service resources.
+
 0.1.48 (2015-07-15)
 -------------------
 
