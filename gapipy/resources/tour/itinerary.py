@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from ..base import Resource
 from ...models.base import BaseModel
-from ...utils import duration_label, LocationLabelMixin, DurationLabelMixin
+from ...utils import DurationLabelMixin, LocationLabelMixin, duration_label
 
 
 class OptionalActivity(BaseModel):
@@ -77,13 +77,20 @@ class ItineraryDay(BaseModel):
         return '<{} {}>'.format(self.__class__.__name__, self.day)
 
 
+class ValidDuringRange(BaseModel):
+    _date_fields = ['start_date', 'end_date']
+
+    def __repr__(self):
+        return '<{} ({} - {})>'.format(self.__class__.__name__, self.start_date, self.end_date)
+
+
 class Itinerary(Resource):
 
     _resource_name = 'itineraries'
 
     _as_is_fields = [
         'id', 'href', 'name', 'duration', 'meals_included', 'meals_budget',
-        'packing_lists', 'images',
+        'packing_lists', 'images', 'variation_id',
     ]
     _resource_fields = [
         ('start_location', 'Place'),
@@ -91,4 +98,6 @@ class Itinerary(Resource):
     ]
     _model_collection_fields = [
         ('days', ItineraryDay),
+        ('variations', 'Itinerary'),
+        ('valid_during_ranges', ValidDuringRange),
     ]
