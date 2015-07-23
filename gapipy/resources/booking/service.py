@@ -23,6 +23,8 @@ from ..tour import (
     SingleSupplement,
 )
 from .customer import Customer
+from .declined_reason import DeclinedReason
+
 
 class TypeBasedServiceMeta(type):
     def __call__(cls, *args, **kwargs):
@@ -78,6 +80,7 @@ class Service(Resource):
     def _resource_fields(self):
         return [
             ('booking', 'Booking'),
+            ('declined_reason', DeclinedReason),
             ('customers', Customer),
         ]
 
