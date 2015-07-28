@@ -21,6 +21,7 @@ def make_key(resource_name, resource_id=None):
         parts.append(current_client.api_language)
     return ':'.join(parts)
 
+
 def update(d, u):
     for k, v in u.iteritems():
         if isinstance(v, collections.Mapping):
@@ -79,7 +80,7 @@ class BaseCache(object):
     def count(self):
         raise NotImplementedError
 
-    def is_cached(self, resource_id):
+    def is_cached(self, resource_name, resource_id):
         return False
 
 
