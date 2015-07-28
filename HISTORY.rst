@@ -3,6 +3,11 @@
 History
 -------
 
+0.1.50 (2015-07-28)
+-------------------
+
+* Fixed an issue with the default ``gapipy.cache.NullCache`` when ``is_cached`` was used.
+
 0.1.49 (2015-07-23)
 -------------------
 
