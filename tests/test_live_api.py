@@ -87,7 +87,7 @@ class LiveAPITestCase(TestCase):
         (Activity, 4486),
         (Country, 'CA'),
         (Departure, 419504),
-        (DepartureComponent, 3983802),
+        (DepartureComponent, '55_3983802'),
         (Itinerary, 978),
         (Language, '250'),
         (Promotion, 18336),
