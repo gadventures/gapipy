@@ -3,6 +3,12 @@
 History
 -------
 
+0.1.51 (2015-08-31)
+-------------------
+
+* Added the ``components`` field to the ``Departure`` resource.
+
+
 0.1.50 (2015-07-28)
 -------------------
 
