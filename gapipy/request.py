@@ -85,14 +85,22 @@ class APIRequestor(object):
             response.reason = response.text
             return response.raise_for_status()
 
-    def get(self, resource_id=None, uri=None):
-        """Get a single resource with the given resource_id or uri"""
+    def get(self, resource_id=None, uri=None, variation_id=None):
+        """
+        Get a single resource with the given resource_id or uri
 
+        If a resource_id is supplied, a variation_id may also be given -- when
+        generating the URI, the variation_id will come after the resource_id,
+        separated by a slash.
+        """
         if resource_id is None and uri is None:
             raise ValueError(
                 'Need to provide at least one of `resource_id` or `uri` as argument')
         if not uri:
-            uri = '/{0}/{1}'.format(self.resource, resource_id)
+            components = ['', self.resource, str(resource_id)]
+            if variation_id:
+                components.append(str(variation_id))
+            uri = '/'.join(components)
         return self._request(uri, 'GET')
 
     def update(self, resource_id, data, partial=True, uri=None):

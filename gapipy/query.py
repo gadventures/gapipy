@@ -34,10 +34,11 @@ class Query(object):
         # serializable types.
         return self._raw_data
 
-    def get(self, resource_id, cached=True):
+    def get(self, resource_id, variation_id=None, cached=True):
         """
-        Returns an instance of the query resource with the given `resource_id`,
-        or `None` if the resource with the given id does not exist.
+        Returns an instance of the query resource with the given `resource_id`
+        (and optional `variation_id`) or `None` if the resource with the given
+        id does not exist.
 
         If the resource is available in the cache and `cached` is True, no http
         request will be made. If `cached` is False, a fresh request will be
@@ -46,7 +47,8 @@ class Query(object):
         webhook that a resource has changed.
         """
         try:
-            data = self.get_resource_data(resource_id, cached=cached)
+            data = self.get_resource_data(resource_id,
+                variation_id=variation_id, cached=cached)
         except HTTPError as e:
             if e.response.status_code == 404:
                 return None
@@ -55,7 +57,7 @@ class Query(object):
         self._client._cache.set(self.resource._resource_name, resource_object.to_dict())
         return resource_object
 
-    def get_resource_data(self, resource_id, cached=True):
+    def get_resource_data(self, resource_id, variation_id=None, cached=True):
         '''
         Returns a dictionary of resource data, which is used to initialize
         a Resource object in the `get` method.
@@ -65,24 +67,27 @@ class Query(object):
             resource_data = self._client._cache.get(
                 self.resource._resource_name,
                 resource_id,
+                variation_id,
             )
             if resource_data is not None:
                 return resource_data
 
         # Cache miss; get fresh data from the backend.
         requestor = APIRequestor(self._client, self.resource._resource_name)
-        return requestor.get(resource_id)
+        return requestor.get(resource_id, variation_id=variation_id)
 
-    def purge_cached(self, resource_id):
+    def purge_cached(self, resource_id, variation_id=None):
         return self._client._cache.delete(
             self.resource._resource_name,
             resource_id,
+            variation_id,
         )
 
-    def is_cached(self, resource_id):
+    def is_cached(self, resource_id, variation_id=None):
         return self._client._cache.is_cached(
             self.resource._resource_name,
-            resource_id
+            resource_id,
+            variation_id,
         )
 
     @_check_listable

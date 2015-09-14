@@ -22,7 +22,9 @@ class Resource(BaseModel):
         self.is_stub = False
 
         # Fetch the resource using the client bound on it, which handles cache get/set.
-        resource_obj = getattr(self._client, self._resource_name).get(self.id)
+        resource_obj = getattr(self._client, self._resource_name).get(
+            self.id,
+            variation_id=getattr(self, 'variation_id', None))
         if resource_obj:
             self._fill_fields(resource_obj._raw_data)
 
