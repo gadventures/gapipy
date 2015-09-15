@@ -3,6 +3,13 @@
 History
 -------
 
+0.2.0 (2015-09-15)
+------------------
+
+* Modified objects within ``cache`` module to handle ``variation_id``, which is
+    exposed within the ``Itinerary`` object. Previously, the ``Itinerary`` would
+    not be correctly stored in cache with its variant reference.
+
 0.1.51 (2015-08-31)
 -------------------
 
