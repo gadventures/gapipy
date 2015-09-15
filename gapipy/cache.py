@@ -10,13 +10,16 @@ except ImportError:
     import pickle
 
 
-def make_key(resource_name, resource_id=None):
+def make_key(resource_name, resource_id=None, variation_id=None):
     if not resource_id:
         return resource_name
 
     current_client = client_module.current_client
 
     parts = [resource_name, str(resource_id)]
+    if variation_id:
+        parts.append(str(variation_id))
+
     if current_client.api_language:
         parts.append(current_client.api_language)
     return ':'.join(parts)
@@ -57,7 +60,7 @@ class BaseCache(object):
     def __init__(self, default_timeout=300, **kwargs):
         self.default_timeout = default_timeout
 
-    def get(self, resource_name, resource_id=None):
+    def get(self, resource_name, resource_id=None, variation_id=None):
         return None
 
     def set(self, resource_name, data_dict):
@@ -110,14 +113,15 @@ class SimpleCache(BaseCache):
                 if expires <= now or idx % 3 == 0:
                     self._cache.pop(key, None)
 
-    def get(self, resource_name, resource_id=None):
-        key = make_key(resource_name, resource_id)
+    def get(self, resource_name, resource_id=None, variation_id=None):
+        key = make_key(resource_name, resource_id, variation_id)
         expires, value = self._cache.get(key, (0, None))
         if expires > time():
             return pickle.loads(value)
 
     def set(self, resource_name, data_dict, timeout=None):
-        key = make_key(resource_name, data_dict.get('id'))
+        key = make_key(resource_name,
+            data_dict.get('id'), data_dict.get('variation_id'))
         if timeout is None:
             timeout = self.default_timeout
         self._prune()
@@ -125,8 +129,8 @@ class SimpleCache(BaseCache):
         self._cache[key] = (time() + timeout, pickle.dumps(data_dict,
                             pickle.HIGHEST_PROTOCOL))
 
-    def delete(self, resource_name, resource_id=None):
-        key = make_key(resource_name, resource_id)
+    def delete(self, resource_name, resource_id=None, variation_id=None):
+        key = make_key(resource_name, resource_id, variation_id)
         return self._cache.pop(key, None)
 
     def clear(self):
@@ -135,8 +139,8 @@ class SimpleCache(BaseCache):
     def count(self):
         return len(self._cache)
 
-    def is_cached(self, resource_name, resource_id):
-        key = make_key(resource_name, resource_id)
+    def is_cached(self, resource_name, resource_id, variation_id=None):
+        key = make_key(resource_name, resource_id, variation_id)
         return key in self._cache
 
 
@@ -163,19 +167,20 @@ class RedisCache(BaseCache):
     def dump_object(self, value):
         return pickle.dumps(value)
 
-    def get(self, resource_name, resource_id=None):
-        key = make_key(resource_name, resource_id)
+    def get(self, resource_name, resource_id=None, variation_id=None):
+        key = make_key(resource_name, resource_id, variation_id)
         return self.load_object(self._client.get(self.key_prefix + key))
 
     def set(self, resource_name, data_dict, timeout=None):
-        key = make_key(resource_name, data_dict.get('id', None))
+        key = make_key(resource_name,
+            data_dict.get('id', None), data_dict.get('variation_id'))
         if timeout is None:
             timeout = self.default_timeout
         data = self.dump_object(data_dict)
         return self._client.setex(self.key_prefix + key, data, timeout)
 
-    def delete(self, resource_name, resource_id=None):
-        key = make_key(resource_name, resource_id)
+    def delete(self, resource_name, resource_id=None, variation_id=None):
+        key = make_key(resource_name, resource_id, variation_id)
         return self._client.delete(self.key_prefix + key)
 
     def clear(self):
@@ -185,6 +190,6 @@ class RedisCache(BaseCache):
     def info(self):
         return self._client.info()
 
-    def is_cached(self, resource_name, resource_id):
-        key = make_key(resource_name, resource_id)
+    def is_cached(self, resource_name, resource_id, variation_id=None):
+        key = make_key(resource_name, resource_id, variation_id)
         return self._client.exists(self.key_prefix + key)

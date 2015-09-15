@@ -14,6 +14,11 @@ class CacheTestCase(TestCase):
         Client(api_language='de')
         self.assertEquals(make_key('foo', 1), 'foo:1:de')
 
+    def test_make_key_variation_id(self):
+        Client()
+        self.assertEqual(make_key('foo', 1, 9000), 'foo:1:9000')
+
+
 class SimpleCacheTestCase(TestCase):
 
     def test_get_set(self):
@@ -27,6 +32,12 @@ class SimpleCacheTestCase(TestCase):
         c.set('foo', {'id': 100, 'xyz': 'bar'})
         data = c.get('foo', 100)
         self.assertEquals(data, {'id': 100, 'xyz': 'bar'})
+
+    def test_get_set_resource_and_variation_id(self):
+        c = cache.SimpleCache()
+        c.set('foo', {'id': 100, 'xyz': 'bar', 'variation_id': 9000})
+        data = c.get('foo', 100, 9000)
+        self.assertEquals(data, {'id': 100, 'xyz': 'bar', 'variation_id': 9000})
 
     def test_get_many_resource_id(self):
         c = cache.SimpleCache()
@@ -81,6 +92,12 @@ class RedisCacheTestCase(TestCase):
 
         c.set('a', {'results': (1, 2, 3)})
         self.assertEquals(c.get('a'), {'results': (1, 2, 3)})
+
+    def test_get_set_resource_and_variation_id(self):
+        c = self.make_cache()
+        c.set('foo', {'id': 100, 'xyz': 'bar', 'variation_id': 9000})
+        data = c.get('foo', 100, 9000)
+        self.assertEquals(data, {'id': 100, 'xyz': 'bar', 'variation_id': 9000})
 
     def test_get_many(self):
         c = self.make_cache()
