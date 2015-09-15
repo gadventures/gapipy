@@ -84,6 +84,24 @@ class ValidDuringRange(BaseModel):
         return '<{} ({} - {})>'.format(self.__class__.__name__, self.start_date, self.end_date)
 
 
+class DetailType(BaseModel):
+    _as_is_fields = ['id', 'name']
+
+    def __repr__(self):
+        return '<{} {}>'.format(self.__class__.__name__, self.name)
+
+
+class Detail(BaseModel):
+    _as_is_fields = ['body']
+
+    _model_fields = [
+        ('type', DetailType),
+    ]
+
+    def __repr__(self):
+        return '<{} {}: {}>'.format(self.__class__.__name__, self.type.name, self.body[:100])
+
+
 class Itinerary(Resource):
 
     _resource_name = 'itineraries'
@@ -99,6 +117,7 @@ class Itinerary(Resource):
     ]
     _model_collection_fields = [
         ('days', ItineraryDay),
+        ('details', Detail),
         ('variations', 'Itinerary'),
         ('valid_during_ranges', ValidDuringRange),
     ]
