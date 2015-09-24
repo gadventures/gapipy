@@ -17,9 +17,9 @@ class Price(BaseModel):
 
     @property
     def _model_collection_fields(self):
-        # Import loop prevention
-        from gapipy.resources import Promotion
-        return [('promotions', Promotion)]
+        from .price_promotion import PricePromotion
+        return [('promotions', PricePromotion)]
+
 
 class PriceBand(BaseModel):
     _as_is_fields = [
