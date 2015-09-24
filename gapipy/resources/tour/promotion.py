@@ -38,7 +38,7 @@ class Promotion(Resource):
         'product_start_date', 'product_finish_date',
         'sale_start_date', 'sale_finish_date'
     ]
-    _price_fields = ['discount_amount', 'discount_percent']
+    _price_fields = ['amount', 'discount_amount', 'discount_percent']
     _model_collection_fields = [('products', Product)]
 
     def _set_model_collection_field(self, field, data):
