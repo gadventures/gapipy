@@ -127,7 +127,7 @@ following options:
 * Use ``pool_maxsize`` to set the max number of connections in each pool.
   Defaults to 10.
 * Set ``pool_block`` to ``True`` if the connection pool should block and wait
-  for a connection to be releases when it has reached ``pool_maxsize``. If
+  for a connection to be released when it has reached ``pool_maxsize``. If
   ``False`` and the pool is already at ``pool_maxsize`` a new connection will
   be created without blocking, but it will not be saved once it is used.
   Defaults to ``False``.
