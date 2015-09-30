@@ -1,3 +1,5 @@
+import logging
+import re
 import requests
 
 from . import __title__, __version__
@@ -9,14 +11,57 @@ ACCEPTABLE_RESPONSE_STATUS_CODES = (
 
 JSON_CONTENT_TYPE = 'application/json'
 
+logger = logging.getLogger(__name__)
+
 
 class APIRequestor(object):
+
+    SESSION = None
 
     def __init__(self, client, resource, params=None, parent=None):
         self.client = client
         self.resource = resource
         self.params = params
         self.parent = parent
+
+    def _get_api_root_prefix(self):
+        """ Returns the protocol plus "://" of self.client.api_root """
+        match = re.search(r'^[^:/]*://', self.client.api_root)
+        return match.group(0) if match else ''
+
+    def _set_session(self):
+        """ Sets self.SESSION to a new requests.Session """
+        session = requests.Session()
+        adapter = requests.adapters.HTTPAdapter(
+            pool_connections=self.client.pool_connections,
+            pool_maxsize=self.client.pool_maxsize,
+        )
+        logger.info(
+            'Created connection pool (pool_connections={}, pool_maxsize={})')
+
+        prefix = self._get_api_root_prefix()
+        if prefix:
+            session.mount(prefix, adapter)
+            logger.info('Mounted connection pool for "{}"'.format(prefix))
+        else:
+            session.mount('http://', adapter)
+            session.mount('https://', adapter)
+            logger.info(
+                'Could not find protocol prefix in API_ROOT, mounted '
+                'connection pool on both http and https.')
+
+        self.SESSION = session
+
+    def _get_session(self):
+        """
+        Return the requests.Session belonging to self.
+
+        Will return self.SESSION, first constructing and assigning it if
+        necessary.
+        """
+        if self.SESSION is None:
+            self._set_session()
+        return self.SESSION
 
     def _request(self, uri, method, data=None, params=None, additional_headers=None):
         """Make an HTTP request to a target API method with proper headers."""
@@ -69,11 +114,23 @@ class APIRequestor(object):
 
         return headers
 
+    def _get_call_method(self, method):
+        """
+        Return the method used to make a `method` request.
+
+        Uses a requests.Session if self.client._use_connection_pool, otherwise,
+        just uses requests.
+        """
+        pooling = self.client.use_connection_pool
+        return getattr(
+            self._get_session() if pooling else requests,
+            method.lower())
+
     def _make_call(self, method, url, headers, data, params):
         """Make the actual request to the API, using the given URL, headers,
         data and extra parameters.
         """
-        requests_call = getattr(requests, method.lower())
+        requests_call = self._get_call_method(method)
 
         self.client.logger.debug('Making a {0} request to {1}'.format(method, url))
 
