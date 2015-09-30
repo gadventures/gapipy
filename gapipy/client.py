@@ -18,8 +18,9 @@ default_config = {
     'cache_backend': os.environ.get('GAPI_CACHE_BACKEND', 'gapipy.cache.NullCache'),
     'cache_options': {'threshold': 500, 'default_timeout': 3600},
     'debug': os.environ.get('GAPI_CLIENT_DEBUG', False),
-    'pool_connections': os.environ.get('GAPI_CLIENT_POOL_CONNECTIONS', 100),
-    'pool_maxsize': os.environ.get('GAPI_CLIENT_POOL_MAXSIZE', 200),
+    'pool_block': os.environ.get('GAPI_CLIENT_POOL_BLOCK', False),
+    'pool_connections': os.environ.get('GAPI_CLIENT_POOL_CONNECTIONS', 10),
+    'pool_maxsize': os.environ.get('GAPI_CLIENT_POOL_MAXSIZE', 10),
     'use_connection_pool': os.environ.get('GAPI_CLIENT_USE_CONNECTION_POOL', False),
 }
 
@@ -40,6 +41,7 @@ class Client(object):
         self.api_proxy = get_config(config, 'api_proxy')
         self.api_language = get_config(config, 'api_language')
         self.cache_backend = get_config(config, 'cache_backend')
+        self.pool_block = get_config(config, 'pool_block')
         self.pool_connections = get_config(config, 'pool_connections')
         self.pool_maxsize = get_config(config, 'pool_maxsize')
         self.use_connection_pool = get_config(config, 'use_connection_pool')

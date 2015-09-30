@@ -33,11 +33,12 @@ class APIRequestor(object):
         """ Sets self.SESSION to a new requests.Session """
         session = requests.Session()
         adapter = requests.adapters.HTTPAdapter(
+            pool_block=self.client.pool_block,
             pool_connections=self.client.pool_connections,
             pool_maxsize=self.client.pool_maxsize,
         )
         logger.info(
-            'Created connection pool (pool_connections={}, pool_maxsize={})')
+            'Created connection pool (pool_block={}, pool_connections={}, pool_maxsize={})')
 
         prefix = self._get_api_root_prefix()
         if prefix:
