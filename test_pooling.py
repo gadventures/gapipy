@@ -32,7 +32,7 @@ requests.
 from gapipy import Client
 
 CONFIG = {
-    'application_key': 'live_cbffd8f96024191a1c3e4124997a0c7ccd670904',
+    'application_key': 'something',
     #'api_root': 'http://localhost:5000',
     'api_root': 'https://rest.gadventures.com',
     'use_connection_pool': False,
