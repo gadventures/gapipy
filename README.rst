@@ -113,6 +113,33 @@ Since the cache backend is defined by a python module path, you are free to use
 a cache backend outside of this project.
 
 
+Connection Pooling
+------------------
+
+We use the ``requests`` library, and you can take advantage of the provided
+connection pooling options by passing in a ``'connection_pool_options'`` dict
+to your client.
+
+Values inside the ``'connection_pool_options'`` dict of interest are as
+follows:
+
+* Set ``enable`` to ``True`` to enable pooling. Defaults to ``False``.
+* Use ``number`` to set the number of connection pools to cache.
+  Defaults to 10.
+* Use ``maxsize`` to set the max number of connections in each pool.
+  Defaults to 10.
+* Set ``block`` to ``True`` if the connection pool should block and wait
+  for a connection to be released when it has reached ``maxsize``. If
+  ``False`` and the pool is already at ``maxsize`` a new connection will
+  be created without blocking, but it will not be saved once it is used.
+  Defaults to ``False``.
+
+See also:
+
+* http://www.python-requests.org/en/latest/api/#requests.adapters.HTTPAdapter
+* http://urllib3.readthedocs.org/en/latest/pools.html#urllib3.connectionpool.HTTPConnectionPool
+
+
 Dependencies
 ------------
 

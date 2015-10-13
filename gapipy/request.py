@@ -73,7 +73,7 @@ class APIRequestor(object):
         """Make the actual request to the API, using the given URL, headers,
         data and extra parameters.
         """
-        requests_call = getattr(requests, method.lower())
+        requests_call = getattr(self.client.requestor, method.lower())
 
         self.client.logger.debug('Making a {0} request to {1}'.format(method, url))
 

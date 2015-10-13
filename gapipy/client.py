@@ -1,5 +1,7 @@
 import logging
 import os
+import re
+import requests
 from importlib import import_module
 
 from .utils import get_available_resource_classes
@@ -18,8 +20,22 @@ default_config = {
     'cache_backend': os.environ.get('GAPI_CACHE_BACKEND', 'gapipy.cache.NullCache'),
     'cache_options': {'threshold': 500, 'default_timeout': 3600},
     'debug': os.environ.get('GAPI_CLIENT_DEBUG', False),
+    'connection_pool_options': {
+        'enable': os.environ.get('GAPI_CLIENT_CONNECTION_POOL_ENABLE', False),
+        'block': os.environ.get('GAPI_CLIENT_CONNECTION_POOL_BLOCK', False),
+        'number': os.environ.get('GAPI_CLIENT_CONNECTION_POOL_NUMBER', 10),
+        'maxsize': os.environ.get('GAPI_CLIENT_CONNECTION_POOL_MAXSIZE', 10),
+    },
 }
 
+def _get_protocol_prefix(api_root):
+    """
+    Returns the protocol plus "://" of api_root.
+
+    This is likely going to be "https://".
+    """
+    match = re.search(r'^[^:/]*://', api_root)
+    return match.group(0) if match else ''
 
 def get_config(config, name):
     return config.get(name, default_config[name])
@@ -38,11 +54,18 @@ class Client(object):
         self.api_language = get_config(config, 'api_language')
         self.cache_backend = get_config(config, 'cache_backend')
 
+        # begin with default connection pool options and overwrite any that the
+        # client has specified
+        self.connection_pool_options = default_config['connection_pool_options']
+        self.connection_pool_options.update(get_config(config, 'connection_pool_options'))
+
+
         log_level = 'DEBUG' if get_config(config, 'debug') else 'ERROR'
         self.logger = logger
         self.logger.setLevel(log_level)
 
         self._set_cache_instance(get_config(config, 'cache_options'))
+        self._set_requestor(self.connection_pool_options)
 
         # Prevent install issues where setup.py digs down the path and
         # eventually fails on a missing requests requirement by importing Query
@@ -57,6 +80,53 @@ class Client(object):
         module = import_module(module_name)
         cache = getattr(module, class_name)(**cache_options)
         self._cache = cache
+
+    def _set_requestor(self, pool_options):
+        """
+        Set the requestor based on connection pooling options.
+
+        If connection pooling is disabled, just set `requests`. If connection
+        pooling is enabled, set up a `requests.Session`.
+        """
+        if not pool_options['enable']:
+            self._requestor = requests
+            return
+
+        session = requests.Session()
+        adapter = requests.adapters.HTTPAdapter(
+            pool_block=pool_options['block'],
+            pool_connections=pool_options['number'],
+            pool_maxsize=pool_options['maxsize'],
+        )
+        logger.info(
+            'Created connection pool (block={}, number={}, maxsize={})'.format(
+                pool_options['block'],
+                pool_options['number'],
+                pool_options['maxsize']))
+
+        prefix = _get_protocol_prefix(self.api_root)
+        if prefix:
+            session.mount(prefix, adapter)
+            logger.info('Mounted connection pool for "{}"'.format(prefix))
+        else:
+            session.mount('http://', adapter)
+            session.mount('https://', adapter)
+            logger.info(
+                'Could not find protocol prefix in API root, mounted '
+                'connection pool on both http and https.')
+
+        self._requestor = session
+
+    @property
+    def requestor(self):
+        """
+        Return a requestor, an object we'll use to make HTTP requests.
+
+        This is either going to be `requests` (if connection pooling is
+        disabled), or a `requests.Session` (if connection pooling is enabled), or
+        an AttributeError (if `__init__` has not happened yet).
+        """
+        return self._requestor
 
     def query(self, resource_name):
         try:
