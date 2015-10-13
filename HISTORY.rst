@@ -3,6 +3,11 @@
 History
 -------
 
+0.4.0 (2015-10-13)
+------------------
+
+* Added connection pooling options, see docs for details on ``connection_pool_options``.
+
 0.3.0 (2015-09-24)
 ------------------
 
