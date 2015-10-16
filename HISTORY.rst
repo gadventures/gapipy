@@ -3,6 +3,11 @@
 History
 -------
 
+0.4.1 (2015-10-16)
+------------------
+
+* Moved an import of ``requests`` down from the module level. Fixes issues in CI environments.
+
 0.4.0 (2015-10-13)
 ------------------
 
