@@ -1,7 +1,6 @@
 import logging
 import os
 import re
-import requests
 from importlib import import_module
 
 from .utils import get_available_resource_classes
@@ -88,6 +87,10 @@ class Client(object):
         If connection pooling is disabled, just set `requests`. If connection
         pooling is enabled, set up a `requests.Session`.
         """
+        # We had been importing this at the top of the module, but that seemed
+        # to break some CI environments
+        import requests
+
         if not pool_options['enable']:
             self._requestor = requests
             return
