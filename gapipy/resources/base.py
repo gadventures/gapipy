@@ -13,7 +13,8 @@ class Resource(BaseModel):
     _is_parent_resource = False
     _is_listable = True  # True if resource can be listed/queried (i.e /{resource_name} is an endpoint)
 
-    def __init__(self, data, stub=False, client=None):
+    def __init__(self, data, client, stub=False):
+        assert(client)
         self.is_stub = stub
         super(Resource, self).__init__(data, client)
 
@@ -34,7 +35,7 @@ class Resource(BaseModel):
     def create(cls, client, data_dict):
         request = APIRequestor(client, cls._resource_name)
         response = request.create(json.dumps(data_dict))
-        return cls(response)
+        return cls(response, client)
 
     def __getattr__(self, name):
         # If we try to access a field that's allowed, and this resource is a

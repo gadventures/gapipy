@@ -28,8 +28,8 @@ class AccommodationRoom(Room):
     def _model_collection_fields(self):
         return [('price_bands', SeasonalPriceBand)]
 
-    def __init__(self, data):
-        super(AccommodationRoom, self).__init__(data)
+    def __init__(self, data, client):
+        super(AccommodationRoom, self).__init__(data, client)
 
         # `class` is a reserved word in python, so we instead use `room_class`
         # as the attribute for the room class.

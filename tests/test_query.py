@@ -8,10 +8,44 @@ from gapipy.client import Client
 from gapipy.query import Query
 from gapipy.resources import Accommodation, Departure, Tour, TourDossier
 from gapipy.resources.base import Resource
+from gapipy.utils import get_available_resource_classes
 
 from .fixtures import (
     PPP_TOUR_DATA, TOUR_DOSSIER_LIST_DATA, DUMMY_DEPARTURE, DUMMY_PROMOTION,
 )
+
+
+class QueryKeyTestCase(unittest.TestCase):
+
+    def setUp(self):
+        # Any ol' resource will do.
+        self.client = Client()
+        self.resource = get_available_resource_classes()[0]
+        self.resource_name = self.resource._resource_name
+
+    def test_query_key_with_language(self):
+        self.client.api_language = 'de'
+        query = Query(self.client, self.resource)
+        key = query.query_key(1)
+        expected = '{}:1:de'.format(self.resource_name)
+        self.assertEqual(key, expected)
+
+        # Unsetting the language should also remove it from the key
+        self.client.api_language = None
+        key = query.query_key(1)
+        expected = '{}:1'.format(self.resource_name)
+        self.assertEqual(key, expected)
+
+    def test_query_key_with_variation_id(self):
+        query = Query(self.client, self.resource)
+        key = query.query_key(1, 2)
+        expected = '{}:1:2'.format(self.resource_name)
+        self.assertEqual(key, expected)
+
+    def test_query_key_no_resource_id(self):
+        query = Query(self.client, self.resource)
+        key = query.query_key()
+        self.assertEqual(key, self.resource_name)
 
 
 class QueryTestCase(unittest.TestCase):
@@ -155,14 +189,18 @@ class MockResource(Resource):
 
 @patch('gapipy.request.APIRequestor._request')
 class UpdateCreateResourceTestCase(unittest.TestCase):
+
+    def setUp(self):
+        self.client = Client()
+
     def test_object_accessor(self, mock_request):
         data = {'first_name': 'Jon', 'last_name': 'Ive', 'id': None}
-        r = MockResource(data)
+        r = MockResource(data, self.client)
         self.assertEquals(r.first_name, data['first_name'])
 
     def test_object_attr_modify(self, mock_request):
         data = {'first_name': 'Jon', 'last_name': 'Ive', 'id': None}
-        r = MockResource(data)
+        r = MockResource(data, self.client)
         r.first_name = 'Jonathan'
         self.assertEquals(r.first_name, 'Jonathan')
 
@@ -172,7 +210,7 @@ class UpdateCreateResourceTestCase(unittest.TestCase):
             'last_name': 'Ive',
             'id': None,
         }
-        r = MockResource(data)
+        r = MockResource(data, self.client)
         r.save()
         mock_request.assert_called_once_with(
             '/mocks', 'POST', data=json.dumps(data))
@@ -183,7 +221,7 @@ class UpdateCreateResourceTestCase(unittest.TestCase):
             'last_name': 'Ive',
             'id': 1,
         }
-        r = MockResource(data)
+        r = MockResource(data, self.client)
 
         r.first_name = 'Jonathan'
         r.save()
@@ -199,7 +237,7 @@ class UpdateCreateResourceTestCase(unittest.TestCase):
             'id': 1,
         }
         mock_request.return_value = data
-        r = MockResource(data)
+        r = MockResource(data, self.client)
 
         r.first_name = 'Jonathan'
         r_data = {

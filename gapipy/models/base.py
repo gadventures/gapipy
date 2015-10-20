@@ -2,7 +2,6 @@ from decimal import Decimal
 from itertools import ifilter, ifilterfalse
 import datetime
 
-from gapipy import client as client_module
 from gapipy.query import Query
 from gapipy.utils import (
     get_resource_class_from_class_name,
@@ -32,8 +31,9 @@ class BaseModel(object):
     _resource_collection_fields = []
     _deprecated_fields = []
 
-    def __init__(self, data, client=None):
-        self._client = client or client_module.current_client
+    def __init__(self, data, client):
+        assert(client)
+        self._client = client
         self._raw_data = data
         self._fill_fields(data)
 
@@ -111,11 +111,11 @@ class BaseModel(object):
         if value is None:
             setattr(self, field, None)
         else:
-            setattr(self, field, self._model_cls(field)(value))
+            setattr(self, field, self._model_cls(field)(value, self._client))
 
     def _set_model_collection_field(self, field, value):
         model_cls = self._model_cls(field)
-        items = [model_cls(m) for m in value]
+        items = [model_cls(m, self._client) for m in value]
         setattr(self, field, items)
 
     def _set_resource_field(self, field, value):
@@ -126,7 +126,7 @@ class BaseModel(object):
             for v in value:
                 stub.append(self._model_cls(field)(v, stub=True))
         elif value:
-            stub = self._model_cls(field)(value, stub=True)
+            stub = self._model_cls(field)(value, self._client, stub=True)
         setattr(self, field, stub)
 
     def _set_resource_collection_field(self, field, value):
@@ -195,6 +195,7 @@ class RelatedResourceMixin(object):
             getattr(self, self._related_resource_lookup))
         resource = resource_cls({'id': self.id, 'href': self.href}, stub=True)
         setattr(self, 'resource', resource)
+
 
 class DictToModel(object):
     """
