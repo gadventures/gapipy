@@ -5,10 +5,15 @@ from mock import patch
 
 from gapipy.query import Query
 from gapipy.models import DATE_FORMAT, AccommodationRoom
-from gapipy.resources import Tour, TourDossier, Promotion
+from gapipy.resources import (
+    Departure,
+    Promotion,
+    Tour,
+    TourDossier,
+)
 from gapipy.resources.base import Resource
 
-from .fixtures import PPP_TOUR_DATA, PPP_DOSSIER_DATA
+from .fixtures import DUMMY_DEPARTURE, PPP_TOUR_DATA, PPP_DOSSIER_DATA
 
 
 class ResourceTestCase(TestCase):
@@ -180,3 +185,12 @@ class PromotionTestCase(TestCase):
         }
         self.assertEqual(product.finish_address.country.name, 'Australia')
         self.assertEqual(product.type, 'departures')
+
+
+class PricePromotionTestCase(TestCase):
+    def test_fake_amount_is_set_properly(self):
+        departure = Departure(DUMMY_DEPARTURE)
+        prices = departure.rooms[0].price_bands[0].prices
+        for price in prices:
+            promotion = price.promotions[0].to_dict()
+            self.assertTrue('amount' in promotion)
