@@ -435,43 +435,85 @@ DUMMY_DEPARTURE = {
                     "min_age": 12,
                     "prices": [
                         {
-                            "promotions": [],
+                            "promotions": [
+                                {
+                                    "amount": "2199.20",
+                                    "href": "https://rest.gadventures.com/promotions/48500",
+                                    "id": "48500"
+                                },
+                            ],
                             "currency": "AUD",
                             "amount": "2999.00",
                             "deposit": "250.00"
                         },
                         {
-                            "promotions": [],
+                            "promotions": [
+                                {
+                                    "amount": "2199.20",
+                                    "href": "https://rest.gadventures.com/promotions/48500",
+                                    "id": "48500"
+                                },
+                            ],
                             "currency": "CAD",
                             "amount": "3299.00",
                             "deposit": "250.00"
                         },
                         {
-                            "promotions": [],
+                            "promotions": [
+                                {
+                                    "amount": "2199.20",
+                                    "href": "https://rest.gadventures.com/promotions/48500",
+                                    "id": "48500"
+                                },
+                            ],
                             "currency": "CHF",
                             "amount": "2949.00",
                             "deposit": "250.00"
                         },
                         {
-                            "promotions": [],
+                            "promotions": [
+                                {
+                                    "amount": "2199.20",
+                                    "href": "https://rest.gadventures.com/promotions/48500",
+                                    "id": "48500"
+                                },
+                            ],
                             "currency": "EUR",
                             "amount": "2149.00",
                             "deposit": "250.00"
                         },
                         {
-                            "promotions": [],
+                            "promotions": [
+                                {
+                                    "amount": "2199.20",
+                                    "href": "https://rest.gadventures.com/promotions/48500",
+                                    "id": "48500"
+                                },
+                            ],
                             "currency": "GBP",
                             "amount": "1749.00",
                             "deposit": "100.00"
                         },
                         {
-                            "promotions": [],
+                            "promotions": [
+                                {
+                                    "amount": "2199.20",
+                                    "href": "https://rest.gadventures.com/promotions/48500",
+                                    "id": "48500"
+                                },
+                            ],
                             "currency": "NZD",
                             "amount": "3999.00",
                             "deposit": "250.00"
                         },
                         {
-                            "promotions": [],
+                            "promotions": [
+                                {
+                                    "amount": "2199.20",
+                                    "href": "https://rest.gadventures.com/promotions/48500",
+                                    "id": "48500"
+                                },
+                            ],
                             "currency": "USD",
                             "amount": "3099.00",
                             "deposit": "250.00"

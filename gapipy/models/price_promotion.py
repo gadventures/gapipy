@@ -20,4 +20,5 @@ class PricePromotion(Resource):
         super(PricePromotion, self).__init__(data, **kwargs)
 
         # Add the "fake" amount field.
+        self._price_fields.append('amount')
         setattr(self, 'amount', data['amount'])
