@@ -3,6 +3,11 @@
 History
 -------
 
+0.4.2 (2015-10-28)
+------------------
+
+* Fixed a bug that would cause ``amount`` when looking at ``Promotion`` objects in the ``Departure`` to be removed from the data dict.
+
 0.4.1 (2015-10-16)
 ------------------
 
