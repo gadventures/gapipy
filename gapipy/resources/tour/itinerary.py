@@ -95,6 +95,7 @@ class Itinerary(Resource):
     _resource_fields = [
         ('start_location', 'Place'),
         ('end_location', 'Place'),
+        ('tour_dossier', 'TourDossier'),
     ]
     _model_collection_fields = [
         ('days', ItineraryDay),
