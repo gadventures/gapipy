@@ -3,7 +3,7 @@
 History
 -------
 
-0.4.3 (2015-11-XX)
+0.4.3 (2015-11-03)
 -------------------
 
 * Added the ``tour_dossier`` field to the ``Itinerary`` resource.
