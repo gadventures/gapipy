@@ -3,6 +3,7 @@ from unittest import TestCase
 
 from mock import patch
 
+from gapipy.client import Client
 from gapipy.query import Query
 from gapipy.models import DATE_FORMAT, AccommodationRoom
 from gapipy.resources import (
@@ -18,8 +19,11 @@ from .fixtures import DUMMY_DEPARTURE, PPP_TOUR_DATA, PPP_DOSSIER_DATA
 
 class ResourceTestCase(TestCase):
 
+    def setUp(self):
+        self.client = Client()
+
     def test_to_dict(self):
-        t = Tour(PPP_TOUR_DATA)
+        t = Tour(PPP_TOUR_DATA, self.client)
         self.assertEquals(t.to_dict(), PPP_TOUR_DATA)
 
     def test_to_dict_datetimes(self):
@@ -32,14 +36,14 @@ class ResourceTestCase(TestCase):
             'id': 1,
             'date_field': '2013-02-18',
             'date_field_utc': '2013-02-18T18:17:20Z',
-        })
+        }, self.client)
         data = resource.to_dict()
         self.assertEquals(data['date_field'], '2013-02-18')
         self.assertEquals(data['date_field_utc'], '2013-02-18T18:17:20Z')
 
     @patch('gapipy.request.APIRequestor._request', return_value=PPP_DOSSIER_DATA)
     def test_instantiate_from_raw_data(self, mock_request):
-        t = Tour(PPP_TOUR_DATA)
+        t = Tour(PPP_TOUR_DATA, self.client)
         self.assertIsInstance(t, Tour)
         self.assertEqual(t.product_line, 'PPP')
         self.assertIsInstance(t.departures_start_date, datetime.date)
@@ -64,7 +68,7 @@ class ResourceTestCase(TestCase):
         }
         data = {'id': 1, 'product_line': 'PPP'}
 
-        t = Tour(data, stub=True)
+        t = Tour(data, self.client, stub=True)
         self.assertTrue(t.is_stub)
         self.assertEquals(t.id, 1)
 
@@ -101,7 +105,7 @@ class ResourceTestCase(TestCase):
                 'date': '2013-01-01',
             }
         }
-        f = Foo(data)
+        f = Foo(data, self.client)
 
         self.assertEquals(f.to_dict(), {
             'bar': {'id': 1, 'date': '2013-01-01'}
@@ -123,11 +127,15 @@ class ResourceTestCase(TestCase):
         data = {
             'bar': None
         }
-        f = Foo(data)
+        f = Foo(data, self.client)
 
         self.assertEquals(f.bar, None)
 
+
 class AccommodationRoomTestCase(TestCase):
+
+    def setUp(self):
+        self.client = Client()
 
     def test_room_class_is_set_properly(self):
         data = {
@@ -137,7 +145,7 @@ class AccommodationRoomTestCase(TestCase):
             'price_bands': [],
             'class': 'Standard',
         }
-        room = AccommodationRoom(data)
+        room = AccommodationRoom(data, self.client)
         self.assertEqual(room.room_class, 'Standard')
 
     def test_room_class_is_set_properly_when_cached(self):
@@ -148,10 +156,15 @@ class AccommodationRoomTestCase(TestCase):
             'price_bands': [],
             'room_class': 'Standard',
         }
-        room = AccommodationRoom(data)
+        room = AccommodationRoom(data, self.client)
         self.assertEqual(room.room_class, 'Standard')
 
+
 class PromotionTestCase(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+
     @patch('gapipy.request.APIRequestor._request')
     def test_product_type_is_set_properly(self, mock_request):
         data = {
@@ -164,7 +177,7 @@ class PromotionTestCase(TestCase):
             ],
         }
 
-        promotion = Promotion(data)
+        promotion = Promotion(data, self.client)
         product = promotion.products[0]
         self.assertEqual(product.type, 'departures')
         self.assertEqual(product.to_dict(), {
