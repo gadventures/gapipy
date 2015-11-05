@@ -85,10 +85,10 @@ class ValidDuringRange(BaseModel):
 
 
 class DetailType(BaseModel):
-    _as_is_fields = ['id', 'name']
+    _as_is_fields = ['id', 'name', 'code']
 
     def __repr__(self):
-        return '<{} {}>'.format(self.__class__.__name__, self.name)
+        return '<{} {}>'.format(self.__class__.__name__, self.code)
 
 
 class Detail(BaseModel):
@@ -99,7 +99,7 @@ class Detail(BaseModel):
     ]
 
     def __repr__(self):
-        return '<{} {}: {}>'.format(self.__class__.__name__, self.type.name, self.body[:100])
+        return '<{} {}: {}>'.format(self.__class__.__name__, self.type.code, self.body[:100])
 
 
 class Itinerary(Resource):
