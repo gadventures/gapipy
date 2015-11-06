@@ -3,6 +3,11 @@
 History
 -------
 
+0.4.5 (2015-11-05)
+------------------
+
+* Added ``code`` field to the ``type`` of an ``Itinerary``'s listed ``details``.
+
 0.4.4 (2015-11-04)
 ------------------
 
