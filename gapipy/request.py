@@ -22,7 +22,6 @@ class APIRequestor(object):
         """Make an HTTP request to a target API method with proper headers."""
 
         assert method in ['GET', 'POST', 'PUT', 'PATCH'], "Only 'GET', 'POST', 'PUT', and 'PATCH' are allowed."
-
         url = self._get_url(uri)
         headers = self._get_headers(method, additional_headers)
         response = self._make_call(method, url, headers, data, params)
