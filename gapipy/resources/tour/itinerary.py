@@ -121,3 +121,16 @@ class Itinerary(Resource):
         ('variations', 'Itinerary'),
         ('valid_during_ranges', ValidDuringRange),
     ]
+
+
+class ItineraryMedia(Resource):
+
+    _resource_name = 'itinerary_media'
+
+    _as_is_fields = [
+        'type', 'video_thumb', 'videos'
+    ]
+    _resource_fields = [
+        'image',
+    ]
+
