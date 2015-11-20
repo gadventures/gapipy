@@ -46,7 +46,6 @@ class Query(object):
         good method to invalidate persistent cache backend after receiving a
         webhook that a resource has changed.
         """
-        #import pdb; pdb.set_trace()
         try:
             if uri:
                 req = APIRequestor(self._client, self.resource._resource_name)
@@ -55,7 +54,6 @@ class Query(object):
                 data = self.get_resource_data(resource_id,
                     variation_id=variation_id, cached=cached)
         except HTTPError as e:
-            print "Client error", e 
             if e.response.status_code == 404:
                 return None
             raise e
