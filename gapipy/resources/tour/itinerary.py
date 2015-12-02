@@ -134,3 +134,9 @@ class ItineraryMedia(Resource):
         'image',
     ]
 
+
+class ItineraryHighlights(Resource):
+    _resource_name = 'itinerary_highlights'
+
+    _as_is_fields = ['id', 'name', 'description', 'media']
+
