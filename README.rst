@@ -116,6 +116,8 @@ a cache backend outside of this project.
 Connection Pooling
 ------------------
 
+**Known Issue: if you have multiple gapipy clients in the same process using different languages, connection pooling will currently cause some responses to come back in the incorrect language. If you are only using one language, connection pooling will work fine. A fix for this is being investigated.**
+
 We use the ``requests`` library, and you can take advantage of the provided
 connection pooling options by passing in a ``'connection_pool_options'`` dict
 to your client.
