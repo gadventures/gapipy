@@ -3,6 +3,11 @@
 History
 -------
 
+0.4.6 (2015-12-09)
+------------------
+
+* Added connection pool caching to ``RedisCache``. Instances of ``gapipy`` with the same cache settings (in the same Python process) will share a connection pool.
+
 0.4.5 (2015-11-05)
 ------------------
 
