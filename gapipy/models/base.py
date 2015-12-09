@@ -1,5 +1,5 @@
 from decimal import Decimal
-from itertools import ifilter, ifilterfalse
+from itertools import ifilterfalse
 import datetime
 
 from gapipy import client as client_module
@@ -196,6 +196,7 @@ class RelatedResourceMixin(object):
         resource = resource_cls({'id': self.id, 'href': self.href}, stub=True)
         setattr(self, 'resource', resource)
 
+
 class DictToModel(object):
     """
     A simple container that is used by `utils.dict_to_model` to help create
@@ -238,4 +239,4 @@ class DictToModel(object):
         return {k: v for k, v in ifilterfalse(self._get_data, data.items())}
 
     def _deep(self, data):
-        return {k: v for k, v in ifilter(self._get_data, data.items())}
+        return {k: v for k, v in filter(self._get_data, data.items())}
