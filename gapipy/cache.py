@@ -143,19 +143,33 @@ class SimpleCache(BaseCache):
         key = make_key(resource_name, resource_id, variation_id)
         return key in self._cache
 
-
 class RedisCache(BaseCache):
     """Uses the Redis key-value store as a cache backend.
     """
+    _connection_pool_cache = {}
+
     def __init__(self, host='localhost', port=6379, password=None,
                  db=0, default_timeout=300, key_prefix=None, **kwargs):
         BaseCache.__init__(self, default_timeout)
         self.key_prefix = key_prefix or ''
+        self._client = self._get_client(host, port, password, db)
+
+    @classmethod
+    def _get_client(cls, host, port, password, db):
+        """
+        Retrieves a connection pool from a class-local cache (or creates it if
+        necessary), returns a Redis client instance that uses that pool.
+        """
         try:
             import redis
         except ImportError:
             raise RuntimeError('no redis module found')
-        self._client = redis.Redis(host=host, port=port, password=password, db=db)
+        credentials = (host, port, password, db)
+        pool = cls._connection_pool_cache.get(
+            credentials,
+            redis.ConnectionPool(host=host, port=port, password=password, db=db))
+        cls._connection_pool_cache[credentials] = pool
+        return redis.Redis(connection_pool=pool)
 
     def load_object(self, value):
         """The reversal of `dump_object`. This might be called with None.
