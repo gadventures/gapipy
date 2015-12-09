@@ -102,6 +102,18 @@ class Detail(BaseModel):
         return '<{} {}: {}>'.format(self.__class__.__name__, self.type.code, self.body[:100])
 
 
+class ItineraryMedia(Resource):
+
+    _resource_name = 'itinerary_media'
+
+    _as_is_fields = [
+        'type', 'video_thumb', 'videos'
+    ]
+    _resource_fields = [
+        'image',
+    ]
+
+
 class Itinerary(Resource):
 
     _resource_name = 'itineraries'
@@ -122,16 +134,8 @@ class Itinerary(Resource):
         ('valid_during_ranges', ValidDuringRange),
     ]
 
-
-class ItineraryMedia(Resource):
-
-    _resource_name = 'itinerary_media'
-
-    _as_is_fields = [
-        'type', 'video_thumb', 'videos'
-    ]
-    _resource_fields = [
-        'image',
+    _resource_collection_fields = [
+        ('media', ItineraryMedia),
     ]
 
 
@@ -139,4 +143,3 @@ class ItineraryHighlights(Resource):
     _resource_name = 'itinerary_highlights'
 
     _as_is_fields = ['id', 'name', 'description', 'media']
-
