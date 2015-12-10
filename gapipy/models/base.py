@@ -132,9 +132,17 @@ class BaseModel(object):
     def _set_resource_collection_field(self, field, value):
         is_parent_resource = getattr(self, '_is_parent_resource', None)
         if is_parent_resource:
-            parent = (self._resource_name, self.id)
+            # FIXME: variation_id is hardcoded all over the client. This should
+            # not be the case, but is a neccessity for now.
+            parent = (
+                self._resource_name,
+                self.id,
+                getattr(self, 'variation_id', None),
+            )
+
         else:
             parent = None
+
         raw_data = value
         query = Query(self._client, self._model_cls(field), parent=parent, raw_data=raw_data)
         setattr(self, field, query)
