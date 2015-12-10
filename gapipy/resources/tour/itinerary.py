@@ -107,16 +107,26 @@ class ItineraryMedia(Resource):
     _resource_name = 'itinerary_media'
 
     _as_is_fields = [
-        'type', 'video_thumb', 'videos'
+        'type', 'video_thumb', 'videos', 'image',
     ]
-    _resource_fields = [
-        'image',
-    ]
+
+    def __repr__(self):
+        return '<{}: {}>'.format(self.__class__.__name__, self.type)
+
+
+class ItineraryHighlights(Resource):
+    _resource_name = 'itinerary_highlights'
+
+    _as_is_fields = ['name', 'description', 'media']
+
+    def __repr__(self):
+        return '<{}: {}>'.format(self.__class__.__name__, self.name)
 
 
 class Itinerary(Resource):
 
     _resource_name = 'itineraries'
+    _is_parent_resource = True
 
     _as_is_fields = [
         'id', 'href', 'name', 'duration', 'meals_included', 'meals_budget',
@@ -136,10 +146,5 @@ class Itinerary(Resource):
 
     _resource_collection_fields = [
         ('media', ItineraryMedia),
+        ('highlights', ItineraryHighlights),
     ]
-
-
-class ItineraryHighlights(Resource):
-    _resource_name = 'itinerary_highlights'
-
-    _as_is_fields = ['id', 'name', 'description', 'media']
