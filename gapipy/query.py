@@ -34,7 +34,7 @@ class Query(object):
         # serializable types.
         return self._raw_data
 
-    def get(self, resource_id, variation_id=None, cached=True, uri=None):
+    def get(self, resource_id, variation_id=None, cached=True):
         """
         Returns an instance of the query resource with the given `resource_id`
         (and optional `variation_id`) or `None` if the resource with the given
@@ -47,12 +47,11 @@ class Query(object):
         webhook that a resource has changed.
         """
         try:
-            if uri:
-                req = APIRequestor(self._client, self.resource._resource_name)
-                return req.get(uri=uri)     
-            else:
-                data = self.get_resource_data(resource_id,
-                    variation_id=variation_id, cached=cached)
+            data = self.get_resource_data(
+                resource_id,
+                variation_id=variation_id,
+                cached=cached
+            )
         except HTTPError as e:
             if e.response.status_code == 404:
                 return None
