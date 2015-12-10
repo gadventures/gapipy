@@ -132,8 +132,17 @@ class APIRequestor(object):
         """
         if not uri:
             if self.parent:
-                parent_name, parent_id = self.parent
-                uri = '/{0}/{1}/{2}'.format(parent_name, parent_id, self.resource)
+                parent_name, parent_id, parent_variation_id = self.parent
+
+                # First slash ensures leading slash.
+                parts = [parent_name, parent_id]
+                if parent_variation_id:
+                    parts.append(parent_variation_id)
+
+                parts.append(self.resource)
+
+                # Ensure leading slash.
+                uri = '/' + '/'.join(parts)
             else:
                 uri = '/{0}'.format(self.resource)
 
