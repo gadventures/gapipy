@@ -36,7 +36,7 @@ class APIRequestorTestCase(unittest.TestCase):
         mock_request.assert_called_once_with('/resources', 'GET', params=None)
 
     def test_list_resource_with_parent(self, mock_request):
-        parent = ('parent', '1234')
+        parent = ('parent', '1234', None)
         requestor = APIRequestor(self.client, 'child', parent=parent)
         requestor.list_raw()
         mock_request.assert_called_once_with(

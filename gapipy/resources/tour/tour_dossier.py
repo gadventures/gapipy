@@ -44,7 +44,7 @@ class TourDossier(Resource):
             resource_cls = get_resource_class_from_class_name('Departure')
 
             # Tour dossiers always have the same id as the corresponding tour
-            parent = ('tours', self.id)
+            parent = ('tours', self.id, None)
 
             setattr(self, 'departures', Query(self._client, resource_cls, parent=parent, raw_data=value))
 
