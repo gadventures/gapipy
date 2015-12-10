@@ -3,6 +3,12 @@
 History
 -------
 
+0.5.0 (2015-12-10)
+------------------
+
+* Minor adjusted in Query internals to ensure the ``variation_id`` of an Itinerary is handled properly.
+* Added ``ItineraryHighlights`` and ``ItineraryMedia`` resources. These are sub resources of the ``Itinerary``
+
 0.4.6 (2015-12-09)
 ------------------
 
