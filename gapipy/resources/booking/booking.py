@@ -20,7 +20,10 @@ class Booking(Resource):
         'balance_due_date',
     ]
     _date_time_fields_utc = ['date_created', ]
-    _resource_fields = [('agent', 'Agent')]
+    _resource_fields = [
+        ('agent', 'Agent'),
+        ('associated_agency', 'Agency'),
+    ]
 
     @property
     def _resource_collection_fields(self):
