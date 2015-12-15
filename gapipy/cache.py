@@ -83,7 +83,7 @@ class BaseCache(object):
     def count(self):
         raise NotImplementedError
 
-    def is_cached(self, resource_name, resource_id):
+    def is_cached(self, resource_name, resource_id, variation_id=None):
         return False
 
 

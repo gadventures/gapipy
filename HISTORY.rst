@@ -3,6 +3,11 @@
 History
 -------
 
+0.5.2 (2015-12-15)
+------------------
+
+* Added ``variation_id`` to ``BaseCache`` to fix a ``TypeError`` when using the ``NullCache``
+
 0.5.1 (2015-12-14)
 ------------------
 
