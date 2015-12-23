@@ -14,7 +14,7 @@ class Departure(Product):
     _is_parent_resource = True
 
     _as_is_fields = [
-        'id', 'href', 'availability', 'flags', 'nearest_start_airport',
+        'id', 'href', 'name', 'availability', 'flags', 'nearest_start_airport',
         'nearest_finish_airport', 'product_line', 'sku', 'requirements',
     ]
     _date_fields = ['start_date', 'finish_date']
