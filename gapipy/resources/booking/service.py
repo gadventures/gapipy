@@ -191,6 +191,12 @@ class ActivityService(ServiceProduct):
 class SingleSupplementService(ServiceProduct):
     _resource_name = 'single_supplement_services'
 
+    @property
+    def _model_collection_fields(self):
+        return super(SingleSupplementService, self)._model_collection_fields + [
+            ('associated_services', AssociatedService),
+        ]
+
 
 class InsuranceService(Service):
     _resource_name = 'insurance_services'
