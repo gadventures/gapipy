@@ -3,6 +3,11 @@
 History
 -------
 
+0.5.4 (2016-01-04)
+------------------
+
+* Added ``associated_services`` to ``SingleSupplementService``
+
 0.5.3 (2015-12-31)
 ------------------
 
