@@ -3,6 +3,11 @@
 History
 -------
 
+0.5.5 (2016-01-08)
+------------------
+
+* Added a component of type ``ACCOMMODATION`` to ``Itineraries``. 
+
 0.5.4 (2016-01-04)
 ------------------
 
