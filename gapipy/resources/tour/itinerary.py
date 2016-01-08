@@ -37,6 +37,7 @@ class ItineraryComponent(BaseModel, DurationLabelMixin, LocationLabelMixin):
     _resource_fields = [
         ('start_location', 'Place'),
         ('end_location', 'Place'),
+        ('accommodation_dossier', 'AccommodationDossier'),
         ('activity_dossier', 'ActivityDossier'),
         ('transport_dossier', 'TransportDossier'),
     ]
@@ -50,6 +51,10 @@ class ItineraryComponent(BaseModel, DurationLabelMixin, LocationLabelMixin):
     @property
     def is_free_time(self):
         return self.type == 'FREE_TIME'
+
+    @property
+    def is_accommodation(self):
+        return self.type == 'ACCOMMODATION'
 
     @property
     def is_activity(self):
