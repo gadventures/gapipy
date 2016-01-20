@@ -81,12 +81,12 @@ class Service(Resource):
         return [
             ('booking', 'Booking'),
             ('declined_reason', DeclinedReason),
-            ('customers', Customer),
         ]
 
     @property
     def _model_collection_fields(self):
         return [
+            ('customers', Customer),
             ('documents', DocumentInfo),
         ]
 
