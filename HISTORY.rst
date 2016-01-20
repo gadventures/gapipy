@@ -3,6 +3,11 @@
 History
 -------
 
+0.6.1 (2016-01-20)
+------------------
+
+* Fixed a regression bug when initializing services.
+
 0.6.0 (2016-01-20)
 ------------------
 
