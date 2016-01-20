@@ -114,20 +114,22 @@ class BaseModel(object):
             setattr(self, field, self._model_cls(field)(value))
 
     def _set_model_collection_field(self, field, value):
+        from gapipy.resources.base import Resource
+
         model_cls = self._model_cls(field)
-        items = [model_cls(m) for m in value]
+
+        if issubclass(model_cls, Resource):
+            items = [model_cls(m, stub=True) for m in value]
+        else:
+            items = [model_cls(m) for m in value]
+
         setattr(self, field, items)
 
     def _set_resource_field(self, field, value):
-        stub = None
-
-        if isinstance(value, list):
-            stub = []
-            for v in value:
-                stub.append(self._model_cls(field)(v, stub=True))
-        elif value:
-            stub = self._model_cls(field)(value, stub=True)
-        setattr(self, field, stub)
+        if value is None:
+            setattr(self, field, None)
+        else:
+            setattr(self, field, self._model_cls(field)(value, stub=True))
 
     def _set_resource_collection_field(self, field, value):
         is_parent_resource = getattr(self, '_is_parent_resource', None)
