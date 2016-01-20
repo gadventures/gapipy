@@ -114,11 +114,22 @@ class BaseModel(object):
             setattr(self, field, self._model_cls(field)(value))
 
     def _set_model_collection_field(self, field, value):
+        from functools import partial
         from gapipy.resources.base import Resource
 
         model_cls = self._model_cls(field)
 
-        if issubclass(model_cls, Resource):
+        # If `model_cls` can be of three type: a Resource, a BaseModel that
+        # isn't a Resource, or a wrapped DictToModel instance. If it is a
+        # Resource, then we pass in the `stub` kwarg.
+        #
+        # We first check whether `model_cls` is a DictToModel or not (as
+        # opposed to the simpler, two branch "if Resource do this else do
+        # that"), since `issubclass` only accepts classes as argument.
+        if isinstance(model_cls, partial):
+            # dict-to-model instance
+            items = [model_cls(m) for m in value]
+        elif issubclass(model_cls, Resource):
             items = [model_cls(m, stub=True) for m in value]
         else:
             items = [model_cls(m) for m in value]
