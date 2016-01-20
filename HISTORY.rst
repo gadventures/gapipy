@@ -3,6 +3,11 @@
 History
 -------
 
+0.6.2 (2016-01-20)
+------------------
+
+* Fixed a regression bug when initializing DepartureServiceRoom model.
+
 0.6.1 (2016-01-20)
 ------------------
 
