@@ -25,20 +25,16 @@ class TourDossier(Resource):
     _resource_fields = [('tour', 'Tour')]
     _resource_collection_fields = [
         ('departures', 'Departure'),
-        ('structured_itineraries', 'Itinerary'),
     ]
     _model_collection_fields = [
         ('advertised_departures', AdvertisedDeparture),
+        ('structured_itineraries', 'Itinerary'),
     ]
 
     def _set_resource_collection_field(self, field, value):
         """Overridden to ensure that the `departures` query has the right
-        parent resource (i.e. the tour and not the tour dossier), and to handle
-        the special case of structured itineraries being an associated resource
-        that is not a child resource.
+        parent resource (i.e. the tour and not the tour dossier).
         """
-
-        from .itinerary import Itinerary
 
         if field == 'departures':
             resource_cls = get_resource_class_from_class_name('Departure')
@@ -47,11 +43,6 @@ class TourDossier(Resource):
             parent = ('tours', self.id, None)
 
             setattr(self, 'departures', Query(self._client, resource_cls, parent=parent, raw_data=value))
-
-        elif field == 'structured_itineraries':
-            itineraries = [Itinerary(i, stub=True) for i in value]
-            setattr(self, 'structured_itineraries', itineraries)
-
         else:
             return super(TourDossier, self)._set_resource_collection_field(field, value)
 
