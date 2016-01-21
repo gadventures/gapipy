@@ -3,6 +3,13 @@
 History
 -------
 
+
+0.6.3 (2016-01-21)
+------------------
+
+* Added better error handling to `Client.build`. An AttributeError raised when instantiating a resource won't be shadowed by the except block anymore.
+
+
 0.6.2 (2016-01-20)
 ------------------
 
