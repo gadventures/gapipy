@@ -27,6 +27,7 @@ default_config = {
     },
 }
 
+
 def _get_protocol_prefix(api_root):
     """
     Returns the protocol plus "://" of api_root.
@@ -35,6 +36,7 @@ def _get_protocol_prefix(api_root):
     """
     match = re.search(r'^[^:/]*://', api_root)
     return match.group(0) if match else ''
+
 
 def get_config(config, name):
     return config.get(name, default_config[name])
@@ -57,7 +59,6 @@ class Client(object):
         # client has specified
         self.connection_pool_options = default_config['connection_pool_options']
         self.connection_pool_options.update(get_config(config, 'connection_pool_options'))
-
 
         log_level = 'DEBUG' if get_config(config, 'debug') else 'ERROR'
         self.logger = logger
@@ -140,9 +141,10 @@ class Client(object):
     def build(self, resource_name, data_dict, **kwargs):
         try:
             resource_cls = getattr(self, resource_name).resource
-            return resource_cls(data_dict, **kwargs)
         except AttributeError:
             raise AttributeError("No resource named %s is defined." % resource_name)
+
+        return resource_cls(data_dict, **kwargs)
 
     def create(self, resource_name, data_dict):
         """
