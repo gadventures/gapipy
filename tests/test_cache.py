@@ -2,21 +2,6 @@ import time
 from unittest import TestCase, skipUnless
 
 from gapipy import cache
-from gapipy.cache import make_key
-from gapipy.client import Client
-
-class CacheTestCase(TestCase):
-    def test_make_key(self):
-        Client()
-        self.assertEquals(make_key('foo', 1), 'foo:1')
-
-    def test_make_key_language(self):
-        Client(api_language='de')
-        self.assertEquals(make_key('foo', 1), 'foo:1:de')
-
-    def test_make_key_variation_id(self):
-        Client()
-        self.assertEqual(make_key('foo', 1, 9000), 'foo:1:9000')
 
 
 class SimpleCacheTestCase(TestCase):
@@ -29,36 +14,9 @@ class SimpleCacheTestCase(TestCase):
 
     def test_get_set_resource_id(self):
         c = cache.SimpleCache()
-        c.set('foo', {'id': 100, 'xyz': 'bar'})
-        data = c.get('foo', 100)
+        c.set('foo:100', {'id': 100, 'xyz': 'bar'})
+        data = c.get('foo:100')
         self.assertEquals(data, {'id': 100, 'xyz': 'bar'})
-
-    def test_get_set_resource_and_variation_id(self):
-        c = cache.SimpleCache()
-        c.set('foo', {'id': 100, 'xyz': 'bar', 'variation_id': 9000})
-        data = c.get('foo', 100, 9000)
-        self.assertEquals(data, {'id': 100, 'xyz': 'bar', 'variation_id': 9000})
-
-    def test_get_many_resource_id(self):
-        c = cache.SimpleCache()
-        c.set('a', {'id': 1, 0: 0})
-        c.set('a', {'id': 2, 1: 1})
-
-        self.assertEquals(c.get_many('a', (1, 2)), [
-            {'id': 1, 0: 0},
-            {'id': 2, 1: 1},
-        ])
-
-    def test_set_many(self):
-        c = cache.SimpleCache()
-        c.set_many('foo', [
-            {'id': 1, 0: 0},
-            {'id': 2, 1: 1},
-            {'id': 3, 2: 4},
-        ])
-        self.assertEquals(c.get('foo', 2), {'id': 2, 1: 1})
-        c.set_many('foo', [{'id': 2, 1: 100}])
-        self.assertEquals(c.get('foo', 2), {'id': 2, 1: 100})
 
     def test_delete(self):
         c = cache.SimpleCache()
@@ -88,34 +46,10 @@ class RedisCacheTestCase(TestCase):
     def test_get_set(self):
         c = self.make_cache()
         c.set('a', {'id': 1})
-        self.assertEquals(c.get('a', 1), {'id': 1})
+        self.assertEquals(c.get('a'), {'id': 1})
 
         c.set('a', {'results': (1, 2, 3)})
         self.assertEquals(c.get('a'), {'results': (1, 2, 3)})
-
-    def test_get_set_resource_and_variation_id(self):
-        c = self.make_cache()
-        c.set('foo', {'id': 100, 'xyz': 'bar', 'variation_id': 9000})
-        data = c.get('foo', 100, 9000)
-        self.assertEquals(data, {'id': 100, 'xyz': 'bar', 'variation_id': 9000})
-
-    def test_get_many(self):
-        c = self.make_cache()
-        c.set('a', {'id': 1})
-        c.set('a', {'id': 2})
-        self.assertEquals(c.get_many('a', (1, 2)), [
-            {'id': 1},
-            {'id': 2},
-        ])
-
-    def test_set_many(self):
-        c = self.make_cache()
-        c.set_many('a', [
-            {'id': 1, 0: 0},
-            {'id': 2, 1: 1},
-            {'id': 3, 2: 4},
-        ])
-        self.assertEquals(c.get('a', 3), {'id': 3, 2: 4})
 
     def test_expire(self):
         c = self.make_cache()

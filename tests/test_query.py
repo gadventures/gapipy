@@ -8,10 +8,44 @@ from gapipy.client import Client
 from gapipy.query import Query
 from gapipy.resources import Accommodation, Departure, Tour, TourDossier
 from gapipy.resources.base import Resource
+from gapipy.utils import get_available_resource_classes
 
 from .fixtures import (
     PPP_TOUR_DATA, TOUR_DOSSIER_LIST_DATA, DUMMY_DEPARTURE, DUMMY_PROMOTION,
 )
+
+
+class QueryKeyTestCase(unittest.TestCase):
+
+    def setUp(self):
+        # Any ol' resource will do.
+        self.client = Client()
+        self.resource = get_available_resource_classes()[0]
+        self.resource_name = self.resource._resource_name
+
+    def test_query_key_with_language(self):
+        self.client.api_language = 'de'
+        query = Query(self.client, self.resource)
+        key = query.query_key(1)
+        expected = '{}:1:de'.format(self.resource_name)
+        self.assertEqual(key, expected)
+
+        # Unsetting the language should also remove it from the key
+        self.client.api_language = None
+        key = query.query_key(1)
+        expected = '{}:1'.format(self.resource_name)
+        self.assertEqual(key, expected)
+
+    def test_query_key_with_variation_id(self):
+        query = Query(self.client, self.resource)
+        key = query.query_key(1, 2)
+        expected = '{}:1:2'.format(self.resource_name)
+        self.assertEqual(key, expected)
+
+    def test_query_key_no_resource_id(self):
+        query = Query(self.client, self.resource)
+        key = query.query_key()
+        self.assertEqual(key, self.resource_name)
 
 
 class QueryTestCase(unittest.TestCase):
