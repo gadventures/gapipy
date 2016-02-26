@@ -18,21 +18,25 @@ A client for the G Adventures REST API (https://developers.gadventures.com)
 Quick Start
 -----------
 
-    >>> from gapipy import Client
-    >>> api = Client(application_key='MY_SECRET_KEY')
-    >>> tour = api.tours.get(21346)
-    >>> tour.product_line
-    u'PPP'
-    >>> tour.departures.count()
-    105
-    >>> dossier = tour.tour_dossier
-    >>> dossier.name
-    u'Peru Panorama'
-    >>> tour.get_brief_itinerary()[:2]
-    [{'body': u'Arrive at any time.', 'label': u'Day 1 Lima'},
-     {'body': u'Fly to Juliaca and transfer to Puno.  Visit the floating Islands of Uros and take a guided tour of Lake Titicaca with a homestay in a small village.   Optional visit to Sillustani burial site.',
-      'label': u'Days 2-4 Puno/Lake Titicaca (1B,1L,1D)'}]
+```python
 
+>>> from gapipy import Client
+>>> api = Client(application_key='MY_SECRET_KEY')
+>>> tour = api.tours.get(24309)
+>>> tour.product_line
+u'AHEH'
+>>> tour.departures.count()
+134
+>>> dossier = tour.tour_dossier
+>>> dossier.name
+u'Essential India'
+>>> itinerary = dossier.structured_itineraries[0]
+>>> {day.day: day.summary for day in itinerary.days[:3]}
+{1: u'Arrive at any time. Arrival transfer included through the G Adventures-supported Women on Wheels project.',
+ 2: u'Take a morning walk through the city with a young adult from the G Adventures-supported New Delhi Streetkids Project. Later, visit Old Delhi, explore the spice markets, and visit Jama Masjid and Connaught Place.',
+ 3: u"Arrive in Jaipur and explore this gorgeous 'pink city'."}
+
+```
 
 Resources
 ---------
@@ -152,17 +156,18 @@ The only dependency needed to use the client is requests_.
 Testing
 -------
 
-Running tests is pretty simple. Just install the requirements and use nose.
+Running tests is pretty simple. We use `nose` as the test runner. You can
+install all requirements for testing with the following:
 
-    pip install -r requirements-testing.txt
+`$ pip install -r requirements-testing.txt`
 
-Once installed, test unit tests:
+Once installed, run unit tests with:
 
-    nosetests -A integration!=1
+`$ nosetests -A integration!=1`
 
 Otherwise, you'll want to include a GAPI Application Key so the integration
 tests can successfully hit the API.
 
-    export GAPI_APPLICATION_KEY=MY_SECRET_KEY; nosetests
+`$ export GAPI_APPLICATION_KEY=MY_SECRET_KEY; nosetests`
 
 Thanks for helping!
