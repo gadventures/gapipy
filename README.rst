@@ -18,25 +18,24 @@ A client for the G Adventures REST API (https://developers.gadventures.com)
 Quick Start
 -----------
 
-```python
+.. code-block:: python
 
->>> from gapipy import Client
->>> api = Client(application_key='MY_SECRET_KEY')
->>> tour = api.tours.get(24309)
->>> tour.product_line
-u'AHEH'
->>> tour.departures.count()
-134
->>> dossier = tour.tour_dossier
->>> dossier.name
-u'Essential India'
->>> itinerary = dossier.structured_itineraries[0]
->>> {day.day: day.summary for day in itinerary.days[:3]}
-{1: u'Arrive at any time. Arrival transfer included through the G Adventures-supported Women on Wheels project.',
- 2: u'Take a morning walk through the city with a young adult from the G Adventures-supported New Delhi Streetkids Project. Later, visit Old Delhi, explore the spice markets, and visit Jama Masjid and Connaught Place.',
- 3: u"Arrive in Jaipur and explore this gorgeous 'pink city'."}
+    >>> from gapipy import Client
+    >>> api = Client(application_key='MY_SECRET_KEY')
+    >>> tour = api.tours.get(24309)
+    >>> tour.product_line
+    u'AHEH'
+    >>> tour.departures.count()
+    134
+    >>> dossier = tour.tour_dossier
+    >>> dossier.name
+    u'Essential India'
+    >>> itinerary = dossier.structured_itineraries[0]
+    >>> {day.day: day.summary for day in itinerary.days[:3]}
+    {1: u'Arrive at any time. Arrival transfer included through the G Adventures-supported Women on Wheels project.',
+    2: u'Take a morning walk through the city with a young adult from the G Adventures-supported New Delhi Streetkids Project. Later, visit Old Delhi, explore the spice markets, and visit Jama Masjid and Connaught Place.',
+    3: u"Arrive in Jaipur and explore this gorgeous 'pink city'."}
 
-```
 
 Resources
 ---------
@@ -157,17 +156,17 @@ Testing
 -------
 
 Running tests is pretty simple. We use `nose` as the test runner. You can
-install all requirements for testing with the following:
+install all requirements for testing with the following::
 
-`$ pip install -r requirements-testing.txt`
+    $ pip install -r requirements-testing.txt
 
-Once installed, run unit tests with:
+Once installed, run unit tests with::
 
-`$ nosetests -A integration!=1`
+    $ nosetests -A integration!=1
 
 Otherwise, you'll want to include a GAPI Application Key so the integration
-tests can successfully hit the API.
+tests can successfully hit the API::
 
-`$ export GAPI_APPLICATION_KEY=MY_SECRET_KEY; nosetests`
+    $ export GAPI_APPLICATION_KEY=MY_SECRET_KEY; nosetests
 
 Thanks for helping!
