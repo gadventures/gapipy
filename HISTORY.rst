@@ -3,6 +3,11 @@
 History
 -------
 
+1.0.0 (2016-02-29)
+------------------
+
+* Adopted `Semantic Versioning <http://semver.org/>`_ for this project.
+* Refactored how the cache key is set. This is a breaking change for any modules that implemented their own cache interface. The cache modules are no longer responsible for defining the cache value, but simply storing whatever it is given into cache. The ``Query`` object now introduces a ``query_key`` function which generates the cache key sent to the cache modules.
 
 0.6.3 (2016-01-21)
 ------------------
