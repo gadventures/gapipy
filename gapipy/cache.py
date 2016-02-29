@@ -1,28 +1,11 @@
 import collections
-from functools import partial
 from time import time
 
-from gapipy import client as client_module
 
 try:
     import cPickle as pickle
 except ImportError:
     import pickle
-
-
-def make_key(resource_name, resource_id=None, variation_id=None):
-    if not resource_id:
-        return resource_name
-
-    current_client = client_module.current_client
-
-    parts = [resource_name, str(resource_id)]
-    if variation_id:
-        parts.append(str(variation_id))
-
-    if current_client.api_language:
-        parts.append(current_client.api_language)
-    return ':'.join(parts)
 
 
 def update(d, u):
@@ -56,25 +39,16 @@ class BaseCache(object):
     :param default_timeout: the default timeout that is used if no timeout is
                             specified on :meth:`set`.
     """
-
     def __init__(self, default_timeout=300, **kwargs):
         self.default_timeout = default_timeout
 
-    def get(self, resource_name, resource_id=None, variation_id=None):
+    def get(self, key):
         return None
 
-    def set(self, resource_name, data_dict):
+    def set(self, key, value):
         pass
 
-    def set_many(self, resource_name, sequence, timeout=None):
-        for data_dict in sequence:
-            self.set(resource_name, data_dict, timeout)
-
-    def get_many(self, resource_name, ids):
-        func = partial(self.get, resource_name)
-        return map(func, ids)
-
-    def delete(self, resource_name, resource_id=None):
+    def delete(self, key):
         pass
 
     def clear(self):
@@ -83,7 +57,7 @@ class BaseCache(object):
     def count(self):
         raise NotImplementedError
 
-    def is_cached(self, resource_name, resource_id, variation_id=None):
+    def is_cached(self, key):
         return False
 
 
@@ -113,24 +87,19 @@ class SimpleCache(BaseCache):
                 if expires <= now or idx % 3 == 0:
                     self._cache.pop(key, None)
 
-    def get(self, resource_name, resource_id=None, variation_id=None):
-        key = make_key(resource_name, resource_id, variation_id)
+    def get(self, key):
         expires, value = self._cache.get(key, (0, None))
         if expires > time():
             return pickle.loads(value)
 
-    def set(self, resource_name, data_dict, timeout=None):
-        key = make_key(resource_name,
-            data_dict.get('id'), data_dict.get('variation_id'))
+    def set(self, key, data_dict, timeout=None):
         if timeout is None:
             timeout = self.default_timeout
         self._prune()
-
         self._cache[key] = (time() + timeout, pickle.dumps(data_dict,
                             pickle.HIGHEST_PROTOCOL))
 
-    def delete(self, resource_name, resource_id=None, variation_id=None):
-        key = make_key(resource_name, resource_id, variation_id)
+    def delete(self, key):
         return self._cache.pop(key, None)
 
     def clear(self):
@@ -139,9 +108,9 @@ class SimpleCache(BaseCache):
     def count(self):
         return len(self._cache)
 
-    def is_cached(self, resource_name, resource_id, variation_id=None):
-        key = make_key(resource_name, resource_id, variation_id)
+    def is_cached(self, key):
         return key in self._cache
+
 
 class RedisCache(BaseCache):
     """Uses the Redis key-value store as a cache backend.
@@ -181,20 +150,16 @@ class RedisCache(BaseCache):
     def dump_object(self, value):
         return pickle.dumps(value)
 
-    def get(self, resource_name, resource_id=None, variation_id=None):
-        key = make_key(resource_name, resource_id, variation_id)
+    def get(self, key):
         return self.load_object(self._client.get(self.key_prefix + key))
 
-    def set(self, resource_name, data_dict, timeout=None):
-        key = make_key(resource_name,
-            data_dict.get('id', None), data_dict.get('variation_id'))
+    def set(self, key, data_dict, timeout=None):
         if timeout is None:
             timeout = self.default_timeout
         data = self.dump_object(data_dict)
         return self._client.setex(self.key_prefix + key, data, timeout)
 
-    def delete(self, resource_name, resource_id=None, variation_id=None):
-        key = make_key(resource_name, resource_id, variation_id)
+    def delete(self, key):
         return self._client.delete(self.key_prefix + key)
 
     def clear(self):
@@ -204,6 +169,5 @@ class RedisCache(BaseCache):
     def info(self):
         return self._client.info()
 
-    def is_cached(self, resource_name, resource_id, variation_id=None):
-        key = make_key(resource_name, resource_id, variation_id)
+    def is_cached(self, key):
         return self._client.exists(self.key_prefix + key)

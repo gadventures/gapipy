@@ -46,6 +46,8 @@ class Query(object):
         good method to invalidate persistent cache backend after receiving a
         webhook that a resource has changed.
         """
+        key = self.query_key(resource_id, variation_id)
+
         try:
             data = self.get_resource_data(
                 resource_id,
@@ -57,7 +59,7 @@ class Query(object):
                 return None
             raise e
         resource_object = self.resource(data)
-        self._client._cache.set(self.resource._resource_name, resource_object.to_dict())
+        self._client._cache.set(key, resource_object.to_dict())
         return resource_object
 
     def get_resource_data(self, resource_id, variation_id=None, cached=True):
@@ -65,13 +67,10 @@ class Query(object):
         Returns a dictionary of resource data, which is used to initialize
         a Resource object in the `get` method.
         '''
+        key = self.query_key(resource_id, variation_id)
         resource_data = None
         if cached:
-            resource_data = self._client._cache.get(
-                self.resource._resource_name,
-                resource_id,
-                variation_id,
-            )
+            resource_data = self._client._cache.get(key)
             if resource_data is not None:
                 return resource_data
 
@@ -80,18 +79,27 @@ class Query(object):
         return requestor.get(resource_id, variation_id=variation_id)
 
     def purge_cached(self, resource_id, variation_id=None):
-        return self._client._cache.delete(
-            self.resource._resource_name,
-            resource_id,
-            variation_id,
-        )
+        key = self.query_key(resource_id, variation_id)
+        return self._client._cache.delete(key)
 
     def is_cached(self, resource_id, variation_id=None):
-        return self._client._cache.is_cached(
-            self.resource._resource_name,
-            resource_id,
-            variation_id,
-        )
+        key = self.query_key(resource_id, variation_id)
+        return self._client._cache.is_cached(key)
+
+    def query_key(self, resource_id=None, variation_id=None):
+        """Returns a unique key for the information used to fetch the resource(s)
+        in this query. Currently used for creating cache keys.
+        """
+        if not resource_id:
+            return self.resource._resource_name
+
+        parts = [self.resource._resource_name, str(resource_id)]
+        if variation_id:
+            parts.append(str(variation_id))
+        if self._client.api_language:
+            parts.append(self._client.api_language)
+
+        return ':'.join(parts)
 
     @_check_listable
     def all(self, limit=None):
