@@ -1,4 +1,3 @@
-import collections
 from time import time
 
 
@@ -8,32 +7,8 @@ except ImportError:
     import pickle
 
 
-def update(d, u):
-    for k, v in u.iteritems():
-        if isinstance(v, collections.Mapping):
-            r = update(d.get(k, {}), v)
-            d[k] = r
-        else:
-            d[k] = u[k]
-    return d
-
-
-def _items(mappingorseq):
-    """Wrapper for efficient iteraiton over mappings represeted by dicts or
-    sequeunces::
-
-        >>> for k, v in _items([i, i*i] for i in xrange(5)):
-        ...     assert k*k == v
-
-        >>> for k, v in _items({i: i*i} for i in xrange(5)):
-        ...     assert k*k == v
-    """
-    return mappingorseq.iteritems() if hasattr(mappingorseq, 'iteritems') \
-        else mappingorseq
-
-
 class BaseCache(object):
-    """Base class for the cache system. All the cache systems will implemtent
+    """Base class for the cache system. All the cache systems will implement
     this API or a superset of it.
 
     :param default_timeout: the default timeout that is used if no timeout is
@@ -75,12 +50,12 @@ class SimpleCache(BaseCache):
                       it starts evicting keys.
     """
     def __init__(self, threshold=500, default_timeout=300, **kwargs):
-        BaseCache.__init__(self, default_timeout)
+        super(SimpleCache, self).__init__(default_timeout, **kwargs)
         self._cache = {}
-        self._threshold = threshold
+        self.threshold = threshold
 
     def _prune(self):
-        if len(self._cache) > self._threshold:
+        if len(self._cache) > self.threshold:
             now = time()
             # Prune expired keys, or every few keys.
             for idx, (key, (expires, _)) in enumerate(self._cache.items()):
@@ -113,14 +88,14 @@ class SimpleCache(BaseCache):
 
 
 class RedisCache(BaseCache):
-    """Uses the Redis key-value store as a cache backend.
-    """
+    """Uses the Redis key-value store as a cache backend."""
+
     _connection_pool_cache = {}
 
     def __init__(self, host='localhost', port=6379, password=None,
-                 db=0, default_timeout=300, key_prefix=None, **kwargs):
-        BaseCache.__init__(self, default_timeout)
-        self.key_prefix = key_prefix or ''
+                 db=0, default_timeout=300, key_prefix='', **kwargs):
+        super(RedisCache, self).__init__(default_timeout, **kwargs)
+        self.key_prefix = key_prefix
         self._client = self._get_client(host, port, password, db)
 
     @classmethod
@@ -141,8 +116,7 @@ class RedisCache(BaseCache):
         return redis.Redis(connection_pool=pool)
 
     def load_object(self, value):
-        """The reversal of `dump_object`. This might be called with None.
-        """
+        """The reversal of `dump_object`. This might be called with `None`."""
         if value is None:
             return None
         return pickle.loads(value)
