@@ -22,6 +22,8 @@ Quick Start
 
     >>> from gapipy import Client
     >>> api = Client(application_key='MY_SECRET_KEY')
+
+    >>> # Get a resource by id
     >>> tour = api.tours.get(24309)
     >>> tour.product_line
     u'AHEH'
@@ -35,6 +37,13 @@ Quick Start
     {1: u'Arrive at any time. Arrival transfer included through the G Adventures-supported Women on Wheels project.',
     2: u'Take a morning walk through the city with a young adult from the G Adventures-supported New Delhi Streetkids Project. Later, visit Old Delhi, explore the spice markets, and visit Jama Masjid and Connaught Place.',
     3: u"Arrive in Jaipur and explore this gorgeous 'pink city'."}
+
+    >>> # Create a new resource
+    >>> booking = api.bookings.create({'currency': 'CAD', 'external_id': 'abc'})
+
+    >>> # Modify an existing resource
+    >>> booking.external_id = 'def'
+    >>> booking.save()
 
 
 Resources
@@ -67,11 +76,14 @@ An API client instance has a query object for each available resource
 Methods on Query objects
 ========================
 
-All queries support the ``get`` method. The other methods are only supported
-for queries whose resources are listable.
+All queries support the ``get`` and ``create`` methods. The other methods are
+only supported for queries whose resources are listable.
 
 ``get(resource_id)``
     Get a single resource.
+
+``create(data)``
+    Create an instance of the query resource using the given data.
 
 ``all([limit=n])``
     Generator over all resources in the current query. If ``limit`` is a
@@ -86,40 +98,42 @@ for queries whose resources are listable.
     ``count`` field on the response returned by requesting the list of
     resources in the current query).
 
-
 Caching
 -------
 
-A handful of cache backends are available for your use. The cache backend is
-configurable by adjusting the ``GAPI_CACHE_BACKEND`` environment variable.
+``gapipy`` can be configured to use a cache to avoid having to send HTTP
+requests for resources it has already seen. Cache invalidation is not
+automatically handled: it is recommended to listen to G API webhooks_ to purge
+resources that are outdated.
 
-* Use ``cache_options`` when instantiating the Client to override default
-  cache client settings.
-* Use ``cached=False`` when retrieving a resource to get a fresh copy and
-  add it to the cache.
-* Use ``Query.is_cached`` to check if a resource is cached
-  e.g. ``api.query(resource_name).is_cached(resource_id)``
-* Use ``Query.purge_cached`` to purge a resource from the cache.
-    e.g. ``api.query(resource_name).purge_cached(resource_id)``
+.. _webhooks: https://developers.gadventures.com/docs/webhooks.html
 
-``gapipy.cache.SimpleCache``
+By default, ``gapipy`` will use the cached data to instantiate a resource, but
+a fresh copy can be fetched from the API by passing ``cached=False`` to
+``Query.get``. This has the side-effect of recaching the resource with the
+latest data, which makes this a convenient way to refresh cached data.
+
+Caching can be configured through the ``cache_backend`` and ``cache_options``
+settings. ``cached_backend`` should be a string of the fully qualified path to
+a cache backend, i.e. a subclass of ``gapipy.cache.BaseCache``. A handful of
+cache backends are available out of the box:
+
+* ``gapipy.cache.SimpleCache``
     A simple in-memory cache for single process environments and is not
     thread safe.
 
-``gapipy.cache.RedisCache``
+* ``gapipy.cache.RedisCache``
     A key-value cache store using Redis as a backend.
 
-``gapipy.cache.NullCache`` (Default)
+* ``gapipy.cache.NullCache`` (Default)
     A cache that doesn't cache.
 
 Since the cache backend is defined by a python module path, you are free to use
-a cache backend outside of this project.
+a cache backend that is defined outside of this project.
 
 
 Connection Pooling
 ------------------
-
-**Known Issue: if you have multiple gapipy clients in the same process using different languages, connection pooling will currently cause some responses to come back in the incorrect language. If you are only using one language, connection pooling will work fine. A fix for this is being investigated.**
 
 We use the ``requests`` library, and you can take advantage of the provided
 connection pooling options by passing in a ``'connection_pool_options'`` dict
