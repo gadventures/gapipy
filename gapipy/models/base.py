@@ -2,7 +2,6 @@ from decimal import Decimal
 from itertools import ifilterfalse
 import datetime
 
-from gapipy import client as client_module
 from gapipy.query import Query
 from gapipy.utils import (
     get_resource_class_from_class_name,
@@ -32,8 +31,8 @@ class BaseModel(object):
     _resource_collection_fields = []
     _deprecated_fields = []
 
-    def __init__(self, data, client=None):
-        self._client = client or client_module.current_client
+    def __init__(self, data, client):
+        self._client = client
         self._raw_data = data
         self._fill_fields(data)
 
@@ -111,7 +110,7 @@ class BaseModel(object):
         if value is None:
             setattr(self, field, None)
         else:
-            setattr(self, field, self._model_cls(field)(value))
+            setattr(self, field, self._model_cls(field)(value, client=self._client))
 
     def _set_model_collection_field(self, field, value):
         from functools import partial
@@ -130,9 +129,9 @@ class BaseModel(object):
             # dict-to-model instance
             items = [model_cls(m) for m in value]
         elif issubclass(model_cls, Resource):
-            items = [model_cls(m, stub=True) for m in value]
+            items = [model_cls(m, client=self._client, stub=True) for m in value]
         else:
-            items = [model_cls(m) for m in value]
+            items = [model_cls(m, client=self._client) for m in value]
 
         setattr(self, field, items)
 
@@ -140,7 +139,7 @@ class BaseModel(object):
         if value is None:
             setattr(self, field, None)
         else:
-            setattr(self, field, self._model_cls(field)(value, stub=True))
+            setattr(self, field, self._model_cls(field)(value, client=self._client, stub=True))
 
     def _set_resource_collection_field(self, field, value):
         is_parent_resource = getattr(self, '_is_parent_resource', None)

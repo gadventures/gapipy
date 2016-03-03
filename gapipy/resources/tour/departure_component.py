@@ -4,6 +4,7 @@ from ...models.base import BaseModel
 from ...utils import get_resource_class_from_resource_name
 from ..base import Resource
 
+
 class AssociatedDossier(BaseModel):
     _as_is_fields = ["type"]
     _model_fields = [
@@ -12,8 +13,9 @@ class AssociatedDossier(BaseModel):
 
     def _set_model_field(self, field, value):
         resource_cls = get_resource_class_from_resource_name(self.type)
-        stub = resource_cls(value, stub=True)
+        stub = resource_cls(value, client=self._client, stub=True)
         setattr(self, field, stub)
+
 
 class DepartureComponent(Resource):
     _resource_name = 'departure_components'

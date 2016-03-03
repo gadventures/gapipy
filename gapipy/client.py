@@ -6,8 +6,6 @@ from importlib import import_module
 from .utils import get_available_resource_classes
 
 
-current_client = None
-
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.StreamHandler())
 
@@ -45,10 +43,6 @@ def get_config(config, name):
 class Client(object):
 
     def __init__(self, **config):
-
-        global current_client
-        current_client = self
-
         self.application_key = get_config(config, 'application_key')
         self.api_root = get_config(config, 'api_root')
         self.api_proxy = get_config(config, 'api_proxy')
@@ -144,7 +138,7 @@ class Client(object):
         except AttributeError:
             raise AttributeError("No resource named %s is defined." % resource_name)
 
-        return resource_cls(data_dict, **kwargs)
+        return resource_cls(data_dict, client=self, **kwargs)
 
     def create(self, resource_name, data_dict):
         """

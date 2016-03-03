@@ -189,14 +189,18 @@ class MockResource(Resource):
 
 @patch('gapipy.request.APIRequestor._request')
 class UpdateCreateResourceTestCase(unittest.TestCase):
+
+    def setUp(self):
+        self.client = Client()
+
     def test_object_accessor(self, mock_request):
         data = {'first_name': 'Jon', 'last_name': 'Ive', 'id': None}
-        r = MockResource(data)
+        r = MockResource(data, client=self.client)
         self.assertEquals(r.first_name, data['first_name'])
 
     def test_object_attr_modify(self, mock_request):
         data = {'first_name': 'Jon', 'last_name': 'Ive', 'id': None}
-        r = MockResource(data)
+        r = MockResource(data, client=self.client)
         r.first_name = 'Jonathan'
         self.assertEquals(r.first_name, 'Jonathan')
 
@@ -206,7 +210,7 @@ class UpdateCreateResourceTestCase(unittest.TestCase):
             'last_name': 'Ive',
             'id': None,
         }
-        r = MockResource(data)
+        r = MockResource(data, client=self.client)
         r.save()
         mock_request.assert_called_once_with(
             '/mocks', 'POST', data=json.dumps(data))
@@ -217,7 +221,7 @@ class UpdateCreateResourceTestCase(unittest.TestCase):
             'last_name': 'Ive',
             'id': 1,
         }
-        r = MockResource(data)
+        r = MockResource(data, client=self.client)
 
         r.first_name = 'Jonathan'
         r.save()
@@ -233,7 +237,7 @@ class UpdateCreateResourceTestCase(unittest.TestCase):
             'id': 1,
         }
         mock_request.return_value = data
-        r = MockResource(data)
+        r = MockResource(data, client=self.client)
 
         r.first_name = 'Jonathan'
         r_data = {
