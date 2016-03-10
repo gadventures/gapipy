@@ -112,7 +112,7 @@ class ItineraryMedia(Resource):
     _resource_name = 'itinerary_media'
 
     _as_is_fields = [
-        'type', 'video_thumb', 'videos', 'image',
+        'id', 'type', 'video_thumb', 'videos', 'image',
     ]
 
     def __repr__(self):
@@ -122,7 +122,7 @@ class ItineraryMedia(Resource):
 class ItineraryHighlights(Resource):
     _resource_name = 'itinerary_highlights'
 
-    _as_is_fields = ['name', 'description', 'media']
+    _as_is_fields = ['id', 'name', 'description', 'media']
 
     def __repr__(self):
         return '<{}: {}>'.format(self.__class__.__name__, self.name)
