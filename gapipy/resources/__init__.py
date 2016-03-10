@@ -23,6 +23,7 @@ from .dossier import (  # NOQA
     TransportDossier,
     DossierDetail,
     DossierDetailType,
+    DossierFeature,
 )
 
 from .booking import (  # NOQA
@@ -87,6 +88,7 @@ available_public_resources = [
     # Dossier
     'AccommodationDossier',
     'ActivityDossier',
+    'DossierFeature',
     'PlaceDossier',
     'TransportDossier',
     'Language',
