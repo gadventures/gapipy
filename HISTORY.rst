@@ -3,6 +3,23 @@
 History
 =======
 
+2.0.0 (2016-03-11)
+------------------
+
+The global reference to the last instantiated Client has been removed. It is
+now mandatory to pass in a Client instance when instantiating a Model or
+Resource.
+
+In practice, this should not introduce too much changes in codebases that are
+using ``gapipy``, since resources are mostly interacted with through a Client
+instance (for example, ``api.tours.get(123)``, or
+``api.customers.create({...})``), instead of being instantiated independently.
+The one possible exception is unit testing: in that case, ``Client.build`` can
+be useful.
+
+The global variable was causing issues with connection pooling when multiple
+client with different configurations were used at the same time.
+
 1.1.0 (2016-03-11)
 ------------------
 
