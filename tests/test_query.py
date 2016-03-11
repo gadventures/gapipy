@@ -19,7 +19,7 @@ class QueryKeyTestCase(unittest.TestCase):
 
     def setUp(self):
         # Any ol' resource will do.
-        self.client = Client()
+        self.client = Client(application_key='test_abcd')
         self.resource = get_available_resource_classes()[0]
         self.resource_name = self.resource._resource_name
 
@@ -149,6 +149,12 @@ class QueryTestCase(unittest.TestCase):
                 'tour_dossier_code': 'PPP',
                 'departures_start_date': '2014-01-01'
             })
+
+    @patch('gapipy.request.APIRequestor._request')
+    def test_query_reset_filter(self, mock_request):
+        query = Query(self.client, Tour)
+        a = query.filter(tour_dossier_code='PPP').count()
+        self.assertEqual(query._filters, {})
 
     def test_listing_non_listable_resource_fails(self):
         message = 'The Accommodation resource is not listable and/or is only available as a subresource'
