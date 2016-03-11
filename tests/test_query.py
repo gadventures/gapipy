@@ -19,7 +19,7 @@ class QueryKeyTestCase(unittest.TestCase):
 
     def setUp(self):
         # Any ol' resource will do.
-        self.client = Client()
+        self.client = Client(application_key='test_abcd')
         self.resource = get_available_resource_classes()[0]
         self.resource_name = self.resource._resource_name
 
