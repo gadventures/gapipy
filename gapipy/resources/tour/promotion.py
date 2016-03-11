@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from ...utils import get_resource_class_from_resource_name
 from ..base import Resource, Product
 
+
 class PromotionProduct(Resource):
     """
     The `products` referenced in a Promotion object are not valid resources (due
@@ -23,6 +24,7 @@ class PromotionProduct(Resource):
         self._as_is_fields = self._as_is_fields + ['type', 'sub_type']
 
         super(PromotionProduct, self).__init__(data, **kwargs)
+
 
 class Promotion(Resource):
 
@@ -50,6 +52,6 @@ class Promotion(Resource):
         # Each product can be a different resource, so derive the resource from
         # the "type" within the stubbed object.
         for product in data:
-            stub = PromotionProduct(product, stub=True)
+            stub = PromotionProduct(product, client=self._client, stub=True)
             product_stubs.append(stub)
         setattr(self, field, product_stubs)

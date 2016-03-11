@@ -8,6 +8,7 @@ from .timezone import Timezone
 
 from ..dossier import PlaceDossier
 
+
 class Place(Resource):
 
     _resource_name = 'places'
@@ -39,5 +40,8 @@ class Place(Resource):
         """
         if 'admin_divisions' in self._raw_data:
             raw_admin_divisions = self._raw_data['admin_divisions'] or []
-            admin_divisions = [self.__class__(d, stub=True) for d in raw_admin_divisions]
+            admin_divisions = [
+                self.__class__(d, client=self._client, stub=True)
+                for d in raw_admin_divisions
+            ]
             self.admin_divisions = admin_divisions

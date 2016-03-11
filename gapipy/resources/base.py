@@ -34,7 +34,7 @@ class Resource(BaseModel):
     def create(cls, client, data_dict):
         request = APIRequestor(client, cls._resource_name)
         response = request.create(json.dumps(data_dict))
-        return cls(response)
+        return cls(response, client=client)
 
     def __getattr__(self, name):
         # If we try to access a field that's allowed, and this resource is a

@@ -53,3 +53,17 @@ class ClientTestCase(unittest.TestCase):
         # final resource.
         resource = self.gapi.create('foo', {'id': 1, 'foo': 'bar', 'context': 'abc'})
         self.assertEquals(resource.id, 1)
+
+    @patch('gapipy.query.Query.get_resource_data')
+    def test_correct_client_is_associated_with_resources(self, mock_get_data):
+        mock_get_data.return_value = {
+            'id': 123
+        }
+        en_client = Client(api_language='en')
+        de_client = Client(api_language='de')
+
+        en_itin = en_client.itineraries.get(123)
+        de_itin = de_client.itineraries.get(123)
+
+        self.assertEqual(en_itin._client, en_client)
+        self.assertEqual(de_itin._client, de_client)

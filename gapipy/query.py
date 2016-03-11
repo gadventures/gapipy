@@ -58,7 +58,7 @@ class Query(object):
             if e.response.status_code == 404:
                 return None
             raise e
-        resource_object = self.resource(data)
+        resource_object = self.resource(data, client=self._client)
         self._client._cache.set(key, resource_object.to_dict())
         return resource_object
 
@@ -122,7 +122,7 @@ class Query(object):
                 raise ValueError('`limit` must be a positive integer')
 
         for result in generator:
-            yield self.resource(result, stub=True)
+            yield self.resource(result, client=self._client, stub=True)
 
     def filter(self, **kwargs):
         """Add filter arguments to the query.
