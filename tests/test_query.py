@@ -23,7 +23,57 @@ class QueryKeyTestCase(unittest.TestCase):
         self.resource = get_available_resource_classes()[0]
         self.resource_name = self.resource._resource_name
 
+    def test_query_key_with_env_test(self):
+        client = Client(application_key='test_abcd')
+        output = client.tour_dossiers.query_key(123)
+        expected = 'tour_dossiers:123:test'
+        self.assertEqual(output, expected)
+
+    def test_query_key_test(self):
+        client = Client(application_key='test')
+        output = client.tour_dossiers.query_key(123)
+        expected = 'tour_dossiers:123'
+        self.assertEqual(output, expected)
+
+    def test_query_key_test_with_no_underscore_with_test(self):
+        client = Client(application_key='testringnounderscore')
+        output = client.tour_dossiers.query_key(123)
+        expected = 'tour_dossiers:123'
+        self.assertEqual(output, expected)
+
+    def test_query_key_with_no_underscore(self):
+        client = Client(application_key='somestringnounderscore')
+        output = client.tour_dossiers.query_key(123)
+        expected = 'tour_dossiers:123'
+        self.assertEqual(output, expected)
+
+    def test_query_key_with_underscore_live(self):
+        client = Client(application_key='live_abs')
+        output = client.tour_dossiers.query_key(123)
+        expected = 'tour_dossiers:123'
+        self.assertEqual(output, expected)
+
+    def test_query_key_with_env_with_language(self):
+        self.client = Client(application_key='test_abcd')
+        self.client.api_language = 'de'
+        output = self.client.tour_dossiers.query_key(123)
+        expected = 'tour_dossiers:123:de:test'
+        self.assertEqual(output, expected)
+
+    def test_query_key_with_env_with_both_ids(self):
+        client = Client(application_key='test_abcd')
+        output = client.tour_dossiers.query_key(1,2)
+        expected = 'tour_dossiers:1:2:test'
+        self.assertEqual(output, expected)
+
+    def test_query_key_with_env_with_one_id(self):
+        client = Client(application_key='test_abcd')
+        output = client.tour_dossiers.query_key(1)
+        expected = 'tour_dossiers:1:test'
+        self.assertEqual(output, expected)
+
     def test_query_key_with_language(self):
+        self.client = Client(application_key='')
         self.client.api_language = 'de'
         query = Query(self.client, self.resource)
         key = query.query_key(1)
@@ -39,7 +89,7 @@ class QueryKeyTestCase(unittest.TestCase):
     def test_query_key_with_variation_id(self):
         query = Query(self.client, self.resource)
         key = query.query_key(1, 2)
-        expected = '{}:1:2'.format(self.resource_name)
+        expected = '{}:1:2:test'.format(self.resource_name)
         self.assertEqual(key, expected)
 
     def test_query_key_no_resource_id(self):

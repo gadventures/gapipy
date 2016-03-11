@@ -99,6 +99,11 @@ class Query(object):
         if self._client.api_language:
             parts.append(self._client.api_language)
 
+        if self._client.application_key:
+            part = self._client.application_key.split('_')[0]
+            if part == self._client.application_key or part.strip(' ') != 'test':
+                return ':'.join(parts)
+            parts.append(part)
         return ':'.join(parts)
 
     @_check_listable
