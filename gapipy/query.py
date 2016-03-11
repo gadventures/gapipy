@@ -26,7 +26,7 @@ class Query(object):
         self._client = client
         self._raw_data = raw_data or {}
         self.resource = resource
-        self.filters = filters or {}
+        self._filters = filters or {}
         self.parent = parent
 
     def _to_dict(self):
@@ -76,7 +76,9 @@ class Query(object):
 
         # Cache miss; get fresh data from the backend.
         requestor = APIRequestor(self._client, self.resource._resource_name)
-        return requestor.get(resource_id, variation_id=variation_id)
+        out = requestor.get(resource_id, variation_id=variation_id)
+        self._filters = {}
+        return out
 
     def purge_cached(self, resource_id, variation_id=None):
         key = self.query_key(resource_id, variation_id)
@@ -115,7 +117,7 @@ class Query(object):
         requestor = APIRequestor(
             self._client,
             self.resource._resource_name,
-            params=self.filters,
+            params=self._filters,
             parent=self.parent
         )
         generator = requestor.list()
@@ -128,6 +130,7 @@ class Query(object):
 
         for result in generator:
             yield self.resource(result, stub=True)
+            
 
     def filter(self, **kwargs):
         """Add filter arguments to the query.
@@ -136,8 +139,7 @@ class Query(object):
         `query.filter(name='Amazing Adventure')` will return a query containing
         only dossiers whose names contain 'Amazing Adventure'.
         """
-
-        self.filters.update(kwargs)
+        self._filters.update(kwargs)
         return self
 
     @_check_listable
@@ -147,11 +149,13 @@ class Query(object):
         requestor = APIRequestor(
             self._client,
             self.resource._resource_name,
-            params=self.filters,
+            params=self._filters,
             parent=self.parent
         )
         response = requestor.list_raw()
-        return response.get('count')
+        out = response.get('count')
+        self._filters = {}
+        return out
 
     def create(self, data_dict):
         """Create an instance of the query resource using the given data"""
