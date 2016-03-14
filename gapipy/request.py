@@ -77,7 +77,6 @@ class APIRequestor(object):
         self.client.logger.debug('Making a {0} request to {1}'.format(method, url))
 
         response = requests_call(url, headers=headers, data=data, params=params)
-
         if response.status_code in ACCEPTABLE_RESPONSE_STATUS_CODES:
             return response.json()
         else:
