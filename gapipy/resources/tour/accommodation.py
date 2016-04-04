@@ -4,6 +4,7 @@ from ...models import Address
 
 from ..base import Product
 from ..dossier import AccommodationDossier
+from ...utils import enforce_string_type
 
 
 class Accommodation(Product):
@@ -20,15 +21,15 @@ class Accommodation(Product):
     def _model_collection_fields(self):
         from ...models import AccommodationRoom
         return [
-           ('rooms', AccommodationRoom), 
+            ('rooms', AccommodationRoom),
         ]
 
     @property
     def _resource_fields(self):
         return [
-           ('accommodation_dossier', AccommodationDossier),
+            ('accommodation_dossier', AccommodationDossier),
         ]
 
+    @enforce_string_type
     def __repr__(self):
         return '<{}: {}>'.format(self.__class__.__name__, self.name)
-

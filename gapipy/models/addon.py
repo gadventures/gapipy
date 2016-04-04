@@ -1,4 +1,5 @@
 from .base import BaseModel, RelatedResourceMixin
+from ..utils import enforce_string_type
 
 
 class AddOn(BaseModel, RelatedResourceMixin):
@@ -6,6 +7,7 @@ class AddOn(BaseModel, RelatedResourceMixin):
     _date_fields = ['start_date', 'finish_date', 'halt_booking_date', 'request_space_date']
     _resource_fields = []
 
+    @enforce_string_type
     def __repr__(self):
         return '<{0} ({1})>'.format(self.__class__.__name__, self.product.name)
 

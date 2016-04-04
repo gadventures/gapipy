@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from functools import partial
+
+import sys
+from functools import partial, wraps
 from importlib import import_module
 
 
@@ -160,3 +162,28 @@ class DurationLabelMixin(object):
         if not self.duration:
             return ''
         return self.duration.label
+
+
+def enforce_string_type(func):
+    """Force the output of __repr__ to be of the proper string type, depending
+    of the Python version.
+
+    In Python 2, the output of `__repr__` must be a byte string, while in
+    Python 3, it must be unicode. Since the string representation of many G API
+    resources contain words in non-English languages, they can contain
+    characters outside of the ASCII range, which raises a UnicodeEncodeError
+    when it is implictly coerced to the default encoding by Python.
+
+    The way we ensure the return of a proper string type in Python 2 is by
+    encoding the output to UTF-8. This might not be adequate in all use cases
+    of gapipy, but this is what Django does in its codebase, and this seems
+    like a good default.
+    """
+    if sys.version_info.major > 2:
+        return func
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs).encode('utf-8')
+
+    return wrapper

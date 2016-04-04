@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from unittest import TestCase
 
+import sys
+from unittest import TestCase, skipIf
+
+from gapipy.client import Client
+from gapipy.resources.base import Resource
 from gapipy.utils import (
     dict_to_model,
     duration_label,
@@ -9,6 +13,7 @@ from gapipy.utils import (
     humanize_price,
     humanize_time,
     location_label,
+    enforce_string_type,
 )
 
 
@@ -96,3 +101,32 @@ class UtilsTestCase(TestCase):
 
         self.assertEqual(str(model.phone_numbers[0]), 'Phone Numbers')
         self.assertEqual(model.phone_numbers[0].number, '555-555-5555')
+
+    @skipIf(sys.version_info.major > 2, 'Only test for Python 2')
+    def test_enforce_string_type(self):
+
+        class MockResource(Resource):
+            _as_is_fields = ['id', 'name']
+
+            def __repr__(self):
+                return '<{} {}>'.format(self.__class__.__name__, self.name)
+
+        data = {
+            'id': 123,
+            'name': 'Alc\xe1zar Palace Visit',
+        }
+        client = Client()
+
+        res = MockResource(data, client)
+
+        with self.assertRaises(UnicodeEncodeError):
+            s = repr(res)
+
+        # Decorate `MockResource.__repr__` with `enforce_string_type`
+        orig_repr = MockResource.__repr__
+        MockResource.__repr__ = enforce_string_type(orig_repr)
+
+        s = repr(res)  # doesn't raise UnicodeEncodeError
+        self.assertIsInstance(s, str)
+        self.assertNotIsInstance(s, unicode)
+        self.assertEqual(s, b'<MockResource Alcázar Palace Visit>')
