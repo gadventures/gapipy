@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 from ..base import Resource
 from .details import DossierDetail, DossierDetailsMixin
-from ...utils import humanize_price, LocationLabelMixin, DurationLabelMixin
+from ...utils import humanize_price, LocationLabelMixin, DurationLabelMixin, enforce_string_type
 
 
 class ActivityDossier(Resource, DossierDetailsMixin, DurationLabelMixin, LocationLabelMixin):
@@ -30,6 +30,7 @@ class ActivityDossier(Resource, DossierDetailsMixin, DurationLabelMixin, Locatio
         ('details', DossierDetail),
     ]
 
+    @enforce_string_type
     def __repr__(self):
         return '<{} {}>'.format(self.__class__.__name__, self.name)
 

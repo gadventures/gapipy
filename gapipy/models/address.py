@@ -1,4 +1,5 @@
 from .base import BaseModel
+from ..utils import enforce_string_type
 
 
 class Address(BaseModel):
@@ -8,6 +9,7 @@ class Address(BaseModel):
         ('country', 'Country')
     ]
 
+    @enforce_string_type
     def __repr__(self):
         return '<{0}: {1}, {2}>'.format(
             self.__class__.__name__, self.city, self.country.name)

@@ -1,11 +1,13 @@
 from __future__ import unicode_literals
 
 from ...models.base import BaseModel
+from ...utils import enforce_string_type
 
 
 class DossierDetailType(BaseModel):
     _as_is_fields = ['code', 'label', 'description']
 
+    @enforce_string_type
     def __repr__(self):
         return '<{} {}>'.format(self.__class__.__name__, self.label)
 
@@ -17,6 +19,7 @@ class DossierDetail(BaseModel):
         ('detail_type', DossierDetailType),
     ]
 
+    @enforce_string_type
     def __repr__(self):
         return '<{} {}>'.format(self.__class__.__name__, self.detail_type)
 

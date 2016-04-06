@@ -1,7 +1,10 @@
+from __future__ import unicode_literals
+
 import json
 import logging
 from gapipy.request import APIRequestor
 from gapipy.models.base import BaseModel
+from gapipy.utils import enforce_string_type
 
 
 logger = logging.getLogger(__name__)
@@ -45,6 +48,7 @@ class Resource(BaseModel):
 
         raise AttributeError("%r has no field %r available" % (type(self).__name__, name))
 
+    @enforce_string_type
     def __repr__(self):
         if self.is_stub:
             return '<{}: {} (stub)>'.format(self.__class__.__name__, self.id)

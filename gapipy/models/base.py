@@ -4,6 +4,7 @@ import datetime
 
 from gapipy.query import Query
 from gapipy.utils import (
+    enforce_string_type,
     get_resource_class_from_class_name,
     get_resource_class_from_resource_name,
 )
@@ -245,6 +246,7 @@ class DictToModel(object):
     def __str__(self):
         return self._class_name
 
+    @enforce_string_type
     def __repr__(self):
         return '<{}>'.format(self.__str__())
 

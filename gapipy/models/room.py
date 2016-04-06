@@ -1,6 +1,7 @@
 from .addon import AddOn
 from .price_band import PriceBand, SeasonalPriceBand
 from .base import BaseModel
+from ..utils import enforce_string_type
 
 
 class Room(BaseModel):
@@ -10,6 +11,7 @@ class Room(BaseModel):
     def _model_collection_fields(self):
         return [('price_bands', PriceBand)]
 
+    @enforce_string_type
     def __repr__(self):
         return '<{0} ({1})>'.format(self.__class__.__name__, self.name)
 

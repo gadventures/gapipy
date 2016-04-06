@@ -1,5 +1,9 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import datetime
-from unittest import TestCase
+import sys
+from unittest import TestCase, skipIf
 
 from mock import patch
 
@@ -11,6 +15,7 @@ from gapipy.resources import (
     Promotion,
     Tour,
     TourDossier,
+    ActivityDossier,
 )
 from gapipy.resources.base import Resource
 
@@ -130,6 +135,18 @@ class ResourceTestCase(TestCase):
         f = Foo(data, client=self.client)
 
         self.assertEquals(f.bar, None)
+
+    @skipIf(sys.version_info.major > 2, 'Only test for Python 2')
+    def test_repr_returns_bytes_in_python2(self):
+        data = {
+            'id': 123,
+            'name': 'Alc\xe1zar Palace Visit',
+        }
+        ad = ActivityDossier(data, self.client)
+        s = repr(ad)
+        self.assertIsInstance(s, str)
+        self.assertNotIsInstance(s, unicode)
+        self.assertEqual(s, b'<ActivityDossier Alcázar Palace Visit>')
 
 
 class AccommodationRoomTestCase(TestCase):

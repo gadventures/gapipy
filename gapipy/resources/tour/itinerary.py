@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from ..base import Resource
 from ...models.base import BaseModel
-from ...utils import DurationLabelMixin, LocationLabelMixin, duration_label
+from ...utils import DurationLabelMixin, LocationLabelMixin, duration_label, enforce_string_type
 
 
 class OptionalActivity(BaseModel):
@@ -11,6 +11,7 @@ class OptionalActivity(BaseModel):
         ('activity_dossier', 'ActivityDossier'),
     ]
 
+    @enforce_string_type
     def __repr__(self):
         return '<{}: {}>'.format(self.__class__.__name__, self.activity_dossier)
 
@@ -20,6 +21,7 @@ class Duration(BaseModel):
         'min_hr', 'max_hr',
     ]
 
+    @enforce_string_type
     def __repr__(self):
         return '<{}: {},{}>'.format(self.__class__.__name__, self.min_hr, self.max_hr)
 
@@ -45,6 +47,7 @@ class ItineraryComponent(BaseModel, DurationLabelMixin, LocationLabelMixin):
         ('duration', 'Duration'),
     ]
 
+    @enforce_string_type
     def __repr__(self):
         return '<{}: {}>'.format(self.__class__.__name__, self.type)
 
@@ -78,6 +81,7 @@ class ItineraryDay(BaseModel):
         ('optional_activities', OptionalActivity),
     ]
 
+    @enforce_string_type
     def __repr__(self):
         return '<{} {}>'.format(self.__class__.__name__, self.day)
 
@@ -85,6 +89,7 @@ class ItineraryDay(BaseModel):
 class ValidDuringRange(BaseModel):
     _date_fields = ['start_date', 'end_date']
 
+    @enforce_string_type
     def __repr__(self):
         return '<{} ({} - {})>'.format(self.__class__.__name__, self.start_date, self.end_date)
 
@@ -92,6 +97,7 @@ class ValidDuringRange(BaseModel):
 class DetailType(BaseModel):
     _as_is_fields = ['id', 'name', 'code']
 
+    @enforce_string_type
     def __repr__(self):
         return '<{} {}>'.format(self.__class__.__name__, self.code)
 
@@ -103,6 +109,7 @@ class Detail(BaseModel):
         ('type', DetailType),
     ]
 
+    @enforce_string_type
     def __repr__(self):
         return '<{} {}: {}>'.format(self.__class__.__name__, self.type.code, self.body[:100])
 
@@ -115,6 +122,7 @@ class ItineraryMedia(Resource):
         'id', 'type', 'video_thumb', 'videos', 'image',
     ]
 
+    @enforce_string_type
     def __repr__(self):
         return '<{}: {}>'.format(self.__class__.__name__, self.type)
 
@@ -124,6 +132,7 @@ class ItineraryHighlights(Resource):
 
     _as_is_fields = ['id', 'name', 'description', 'media']
 
+    @enforce_string_type
     def __repr__(self):
         return '<{}: {}>'.format(self.__class__.__name__, self.name)
 
