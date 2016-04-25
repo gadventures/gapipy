@@ -1,5 +1,6 @@
 # flake8: NOQA
 from .agency import Agency
+from .agency_chain import AgencyChain
 from .agent import Agent
 from .booking import Booking
 from .customer import Customer
