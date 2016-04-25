@@ -28,6 +28,7 @@ from .dossier import (  # NOQA
 
 from .booking import (  # NOQA
     Agency,
+    AgencyChain,
     Agent,
     Booking,
     Customer,
@@ -98,6 +99,7 @@ available_private_resources = [
     'AccommodationService',
     'ActivityService',
     'Agency',
+    'AgencyChain',
     'Agent',
     'Booking',
     'Customer',
