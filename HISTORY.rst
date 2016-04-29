@@ -3,6 +3,11 @@
 History
 =======
 
+2.1.1 (2016-04-29)
+------------------
+
+* Removed invalid field, ``email`` from ``AgencyChain``
+
 2.1.0 (2016-04-25)
 ------------------
 
