@@ -3,6 +3,11 @@
 History
 =======
 
+2.2.0 (2016-05-17)
+------------------
+
+* Added ``transactional_email``, and ``emails`` to ``Agency`` resource.
+
 2.1.2 (2016-05-17)
 ------------------
 
