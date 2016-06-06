@@ -3,6 +3,11 @@
 History
 =======
 
+2.2.1 (2016-06-06)
+------------------
+
+* Added ``audience`` field to the ``Document`` resource.
+
 2.2.0 (2016-05-17)
 ------------------
 
