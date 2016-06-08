@@ -70,7 +70,7 @@ class ItineraryComponent(BaseModel, DurationLabelMixin, LocationLabelMixin):
 
 class ItineraryDay(BaseModel):
     _as_is_fields = [
-        'id', 'day', 'summary', 'description', 'instructions', 'meals',
+        'id', 'day', 'label', 'summary', 'description', 'instructions', 'meals',
     ]
     _resource_fields = [
         ('start_location', 'Place'),
