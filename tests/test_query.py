@@ -62,7 +62,7 @@ class QueryKeyTestCase(unittest.TestCase):
 
     def test_query_key_with_env_with_both_ids(self):
         client = Client(application_key='test_abcd')
-        output = client.tour_dossiers.query_key(1,2)
+        output = client.tour_dossiers.query_key(1, 2)
         expected = 'tour_dossiers:1:2:test'
         self.assertEqual(output, expected)
 
@@ -123,6 +123,17 @@ class QueryTestCase(unittest.TestCase):
         self.assertIsNone(t)
 
     @patch('gapipy.request.APIRequestor._request')
+    def test_get_instance_with_gone_id(self, mock_request):
+        response = Response()
+        response.status_code = 410
+        http_error = HTTPError(response=response)
+        mock_request.side_effect = http_error
+
+        query = Query(self.client, Tour)
+        t = query.get(1234)
+        self.assertIsNone(t)
+
+    @patch('gapipy.request.APIRequestor._request')
     def test_get_instance_by_id_with_non_404_error(self, mock_request):
         response = Response()
         response.status_code = 401
@@ -153,7 +164,7 @@ class QueryTestCase(unittest.TestCase):
     @patch('gapipy.request.APIRequestor._request')
     def test_query_reset_filter(self, mock_request):
         query = Query(self.client, Tour)
-        a = query.filter(tour_dossier_code='PPP').count()
+        query.filter(tour_dossier_code='PPP').count()
         self.assertEqual(query._filters, {})
 
     def test_listing_non_listable_resource_fails(self):

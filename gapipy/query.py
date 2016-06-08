@@ -55,7 +55,7 @@ class Query(object):
                 cached=cached
             )
         except HTTPError as e:
-            if e.response.status_code == 404:
+            if e.response.status_code in (404, 410):
                 return None
             raise e
         resource_object = self.resource(data, client=self._client)
