@@ -3,6 +3,11 @@
 History
 =======
 
+2.2.2 (2016-06-08)
+------------------
+
+* Added day ``label`` field to the ``Itinerary`` resource.
+
 2.2.1 (2016-06-06)
 ------------------
 
