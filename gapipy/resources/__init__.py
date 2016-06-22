@@ -24,6 +24,7 @@ from .dossier import (  # NOQA
     DossierDetail,
     DossierDetailType,
     DossierFeature,
+    ServiceLevel,
 )
 
 from .booking import (  # NOQA
@@ -93,6 +94,7 @@ available_public_resources = [
     'PlaceDossier',
     'TransportDossier',
     'Language',
+    'ServiceLevel'
 ]
 
 available_private_resources = [
