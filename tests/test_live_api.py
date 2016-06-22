@@ -26,6 +26,7 @@ from gapipy.resources import (
     Place,
     PlaceDossier,
     Promotion,
+    ServiceLevel,
     SingleSupplement,
     State,
     Timezone,
@@ -109,6 +110,7 @@ class LiveAPITestCase(TestCase):
         (AccommodationDossier, 5856),
         (ActivityDossier, 9695),
         (TransportDossier, 51),
+        (ServiceLevel, 3),
     ]
 
     def test_all_public_resources_are_tested(self):
