@@ -25,6 +25,7 @@ from .dossier import (  # NOQA
     DossierDetailType,
     DossierFeature,
     ServiceLevel,
+    DossierSegment,
 )
 
 from .booking import (  # NOQA
