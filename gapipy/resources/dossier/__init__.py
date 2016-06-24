@@ -7,3 +7,4 @@ from .transport_dossier import TransportDossier
 from .dossier_features import DossierFeature
 from .service_level import ServiceLevel
 from .dossier_segments import DossierSegment
+from .country_dossier import CountryDossier
