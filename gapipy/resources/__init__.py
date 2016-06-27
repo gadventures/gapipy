@@ -95,7 +95,8 @@ available_public_resources = [
     'PlaceDossier',
     'TransportDossier',
     'Language',
-    'ServiceLevel'
+    'ServiceLevel',
+    'DossierSegment',
 ]
 
 available_private_resources = [

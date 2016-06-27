@@ -6,4 +6,4 @@ from .place_dossier import PlaceDossier
 from .transport_dossier import TransportDossier
 from .dossier_features import DossierFeature
 from .service_level import ServiceLevel
-from .dossier_segments import DossierSegment
+from .dossier_segment import DossierSegment
