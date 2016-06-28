@@ -19,6 +19,7 @@ from gapipy.resources import (
     Departure,
     DepartureComponent,
     DossierFeature,
+    DossierSegment,
     Itinerary,
     Feature,
     FeatureCategory,
@@ -111,6 +112,7 @@ class LiveAPITestCase(TestCase):
         (ActivityDossier, 9695),
         (TransportDossier, 51),
         (ServiceLevel, 3),
+        (DossierSegment, 19),
     ]
 
     def test_all_public_resources_are_tested(self):
