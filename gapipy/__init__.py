@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = '2.2.2'
+__version__ = '2.3.0'
 __title__ = 'gapipy'
 
 

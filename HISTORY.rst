@@ -3,6 +3,12 @@
 History
 =======
 
+2.3.0 (2016-06-28)
+------------------
+
+* Added ``DossierSegment`` resource.
+* Added ``ServiceLevel`` resource.
+
 2.2.2 (2016-06-08)
 ------------------
 
