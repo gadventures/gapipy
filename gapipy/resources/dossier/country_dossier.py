@@ -3,10 +3,11 @@ from __future__ import unicode_literals
 from ...models.base import BaseModel
 from ..base import Resource
 from .details import DossierDetail
+from .dossier_features import DossierFeature
 
 
 class CountryDossier(Resource):
-    _resource_name = 'place_dossiers'
+    _resource_name = 'country_dossiers'
 
     _as_is_fields = [
         'id', 'href', 'name'
@@ -16,8 +17,10 @@ class CountryDossier(Resource):
 
     _resource_fields = [
         ('country', 'Country'),
+        ('dossier_segment', 'DossierSegment'),
     ]
 
     _model_collection_fields = [
         ('details', DossierDetail),
+        ('features', DossierFeature),
     ]

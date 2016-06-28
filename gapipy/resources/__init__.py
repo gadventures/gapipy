@@ -98,6 +98,7 @@ available_public_resources = [
     'Language',
     'ServiceLevel',
     'DossierSegment',
+    'CountryDossier',
 ]
 
 available_private_resources = [
