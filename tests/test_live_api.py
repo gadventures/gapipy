@@ -16,6 +16,7 @@ from gapipy.resources import (
     Airport,
     Continent,
     Country,
+    CountryDossier,
     Departure,
     DepartureComponent,
     DossierFeature,
@@ -113,6 +114,7 @@ class LiveAPITestCase(TestCase):
         (TransportDossier, 51),
         (ServiceLevel, 3),
         (DossierSegment, 19),
+        (CountryDossier, 10382)
     ]
 
     def test_all_public_resources_are_tested(self):
