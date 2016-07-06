@@ -1,6 +1,5 @@
 from __future__ import unicode_literals
 
-from ...models.base import BaseModel
 from ..base import Resource
 from .details import DossierDetail
 from .dossier_features import DossierFeature

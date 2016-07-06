@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from ..base import Resource
 from .details import DossierDetail, DossierDetailsMixin
+from .dossier_features import DossierFeature
 
 
 class TransportDossier(Resource, DossierDetailsMixin):
@@ -14,6 +15,7 @@ class TransportDossier(Resource, DossierDetailsMixin):
 
     _model_collection_fields = [
         ('details', DossierDetail),
+        ('features', DossierFeature),
     ]
 
     _date_time_fields_local = ['date_created', 'date_last_modified']

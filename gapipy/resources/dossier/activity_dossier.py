@@ -1,8 +1,9 @@
 from __future__ import unicode_literals
 
+from ...utils import humanize_price, LocationLabelMixin, DurationLabelMixin, enforce_string_type
 from ..base import Resource
 from .details import DossierDetail, DossierDetailsMixin
-from ...utils import humanize_price, LocationLabelMixin, DurationLabelMixin, enforce_string_type
+from .dossier_features import DossierFeature
 
 
 class ActivityDossier(Resource, DossierDetailsMixin, DurationLabelMixin, LocationLabelMixin):
@@ -28,6 +29,7 @@ class ActivityDossier(Resource, DossierDetailsMixin, DurationLabelMixin, Locatio
 
     _model_collection_fields = [
         ('details', DossierDetail),
+        ('features', DossierFeature),
     ]
 
     @enforce_string_type
