@@ -9,7 +9,7 @@ class TransportDossier(Resource, DossierDetailsMixin):
     _resource_name = 'transport_dossiers'
 
     _as_is_fields = [
-        'id', 'href', 'features', 'capacity', 'private', 'name',
+        'id', 'href', 'capacity', 'private', 'name',
         'dossier_segment',
     ]
 
