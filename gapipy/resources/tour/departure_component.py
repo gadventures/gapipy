@@ -32,3 +32,7 @@ class DepartureComponent(Resource):
     _model_fields = [
         ("associated_dossier", AssociatedDossier),
     ]
+
+    _resource_fields = [
+        ('departure', 'Departure'),
+    ]
