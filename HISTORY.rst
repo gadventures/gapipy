@@ -3,11 +3,17 @@
 History
 =======
 
+2.4.2 (2016-07-08)
+------------------
+
+* Added ``departure`` reference to ``DepartureComponent``
+
 2.4.1 (2016-07-06)
 ------------------
 
 * Removed use of ``.iteritems`` wherever present in favour of ``.items``
 * Added ``features`` representation to ``ActivityDossier`` and ``TransportDossier`` 
+
 2.4.0 (2016-06-29)
 ------------------
 
