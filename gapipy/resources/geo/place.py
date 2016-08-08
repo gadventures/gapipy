@@ -16,7 +16,7 @@ class Place(Resource):
     _as_is_fields = [
         'id', 'href', 'name', 'ascii_name', 'population', 'elevation',
         'latitude', 'longitude', 'bounding_box', 'alternate_names',
-        'admin_divisions',
+        'admin_divisions', 'places_of_interest',
     ]
     _date_time_fields_utc = ['date_created', 'date_last_modified']
     _resource_fields = [
