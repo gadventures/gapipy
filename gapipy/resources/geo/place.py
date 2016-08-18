@@ -16,7 +16,7 @@ class Place(Resource):
     _as_is_fields = [
         'id', 'href', 'name', 'ascii_name', 'population', 'elevation',
         'latitude', 'longitude', 'bounding_box', 'alternate_names',
-        'admin_divisions', 'places_of_interest',
+        'admin_divisions',
     ]
     _date_time_fields_utc = ['date_created', 'date_last_modified']
     _resource_fields = [
@@ -31,11 +31,17 @@ class Place(Resource):
     ]
 
     def __init__(self, *args, **kwargs):
+        self._update_resource_collection_fields()
         super(Place, self).__init__(*args, **kwargs)
         self._set_admin_divisions()
 
+    def _update_resource_collection_fields(self):
+        self._resource_collection_fields = [
+            ('places_of_interest', self.__class__)
+        ]
+
     def _set_admin_divisions(self):
-        """Transform the raw json list of `admin_divisions` into a list of the
+        """Transform the raw json list of `admin_divisions` into a list of thecd ~?
         corresponding Place (stub) instances.
         """
         if 'admin_divisions' in self._raw_data:
