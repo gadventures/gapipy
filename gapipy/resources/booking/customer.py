@@ -12,6 +12,7 @@ class Customer(Resource):
         'id', 'href', 'place_of_birth', 'meal_preference', 'meal_notes',
         'emergency_contacts', 'medical_notes', 'phone_numbers',
         'account_email', 'name', 'passport', 'address', 'nationality',
+        'gender',
     ]
 
     _date_fields = ['date_of_birth', ]
