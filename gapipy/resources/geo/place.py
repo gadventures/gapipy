@@ -30,15 +30,13 @@ class Place(Resource):
         ('place_dossier', PlaceDossier),
     ]
 
+    _model_collection_fields = [
+        ('places_of_interest', 'Place')
+    ]
+
     def __init__(self, *args, **kwargs):
-        self._update_resource_collection_fields()
         super(Place, self).__init__(*args, **kwargs)
         self._set_admin_divisions()
-
-    def _update_resource_collection_fields(self):
-        self._resource_collection_fields = [
-            ('places_of_interest', self.__class__)
-        ]
 
     def _set_admin_divisions(self):
         """Transform the raw json list of `admin_divisions` into a list of thecd ~?
