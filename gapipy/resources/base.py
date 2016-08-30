@@ -55,6 +55,9 @@ class Resource(BaseModel):
         else:
             return '<{}: {}>'.format(self.__class__.__name__, self.id)
 
+    def __hash__(self):
+        return hash(self.__repr__())
+
     def __eq__(self, other):
         # Same resource name and ID determine equality
         return (
