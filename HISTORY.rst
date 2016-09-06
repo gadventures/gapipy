@@ -3,6 +3,12 @@
 History
 =======
 
+2.4.3 (2016-09-06)
+------------------
+
+* Added ``gender`` to  ``Customer``.
+* Added ``places_of_interest`` to ``Place``.
+
 2.4.2 (2016-07-08)
 ------------------
 
