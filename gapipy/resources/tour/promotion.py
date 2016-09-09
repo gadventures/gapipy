@@ -36,6 +36,8 @@ class Promotion(Resource):
         'terms_and_conditions',
     ]
 
+    _date_time_fields_utc = ['date_created', 'date_last_modified']
+
     _date_fields = [
         'product_start_date', 'product_finish_date',
         'sale_start_date', 'sale_finish_date'
