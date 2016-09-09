@@ -3,6 +3,10 @@
 History
 =======
 
+2.4.4 (2016-09-0)
+
+* Added ``date_last_modified`` and ``date_created`` to ``Promotion``.
+
 2.4.3 (2016-09-06)
 ------------------
 
