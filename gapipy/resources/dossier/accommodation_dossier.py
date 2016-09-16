@@ -9,6 +9,7 @@ class AccommodationDossier(Resource, DossierDetailsMixin):
 
     _as_is_fields = [
         'id', 'href', 'name',
+        'type',
         'website',
         'property_type',
         'address',

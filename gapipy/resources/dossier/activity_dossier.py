@@ -10,7 +10,9 @@ class ActivityDossier(Resource, DossierDetailsMixin, DurationLabelMixin, Locatio
     _resource_name = 'activity_dossiers'
 
     _as_is_fields = [
-        'id', 'href',
+        'id',
+        'href',
+        'type',
         'name',
         'duration_min', 'duration_max',
         'price_per_person_min', 'price_per_person_max',
