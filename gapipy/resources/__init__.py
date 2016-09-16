@@ -49,6 +49,7 @@ from .booking import (  # NOQA
     TransportService,
     Payment,
     Refund,
+    OverrideReason,
 )
 
 from .geo import (  # NOQA
@@ -78,6 +79,7 @@ available_public_resources = [
     'TourCategory',
     'TourDossier',
     'Transport',
+    'OverrideReason',
 
     # Geographical
     'Airport',
