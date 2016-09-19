@@ -63,6 +63,10 @@ from .geo import (  # NOQA
     Timezone,
 )
 
+from .checkin import (
+    Checkin,
+)
+
 from .language import Language  # NOQA
 
 
@@ -75,6 +79,7 @@ available_public_resources = [
     'Itinerary',
     'Promotion',
     'SingleSupplement',
+    'Checkin',
     'Tour',
     'TourCategory',
     'TourDossier',
