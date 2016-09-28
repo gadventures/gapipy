@@ -50,10 +50,12 @@ class Resource(BaseModel):
 
     @enforce_string_type
     def __repr__(self):
+
+        id_value = getattr(self, self.id_lookup)
         if self.is_stub:
-            return '<{}: {} (stub)>'.format(self.__class__.__name__, self.id)
+            return '<{}: {} (stub)>'.format(self.__class__.__name__, id_value)
         else:
-            return '<{}: {}>'.format(self.__class__.__name__, self.id)
+            return '<{}: {}>'.format(self.__class__.__name__, id_value)
 
     def __hash__(self):
         return hash('{}{}'.format(self.__class__.__name__, self.id))
@@ -81,6 +83,7 @@ class Resource(BaseModel):
         return request.update(self.id, json.dumps(data), partial=partial)
 
     def _create(self):
+        from nose.tools import set_trace; set_trace()
         request = APIRequestor(self._client, self._resource_name)
         return request.create(self.to_json())
 

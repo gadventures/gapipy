@@ -31,6 +31,7 @@ class BaseModel(object):
     _resource_fields = []
     _resource_collection_fields = []
     _deprecated_fields = []
+    _id_lookup_field = []
 
     def __init__(self, data, client):
         self._client = client
@@ -41,10 +42,13 @@ class BaseModel(object):
         self._raw_data = data
         first = lambda l: [pair[0] for pair in l]
 
+        setattr(self, 'id_lookup', 'id')
         # Initially we populate base fields, as model/resource fields may rely
         # on these to be present.
         remaining_data = {}
         for field, value in data.items():
+            if field in self._id_lookup_field:
+                self._set_as_id_field(field, value)
             if field in self._as_is_fields:
                 self._set_as_is_field(field, value)
             elif field in self._date_fields:
@@ -68,6 +72,9 @@ class BaseModel(object):
                 self._set_resource_field(field, value)
             elif field in first(self._resource_collection_fields):
                 self._set_resource_collection_field(field, value)
+
+    def _set_as_id_field(self, field, value):
+        setattr(self, 'id_lookup', field)
 
     def _set_as_is_field(self, field, value):
         setattr(self, field, value)
