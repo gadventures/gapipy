@@ -14,7 +14,6 @@ from gapipy.resources import (
     Activity,
     ActivityDossier,
     Airport,
-    Checkin,
     Continent,
     Country,
     CountryDossier,
@@ -91,7 +90,6 @@ class LiveAPITestCase(TestCase):
     resources = [
         (Accommodation, 54),
         (Activity, 4486),
-        (Checkin, 'f17a0.11d22a09fd89750ca4157f4f866b8413c61c0c7b1ac88f'),
         (Country, 'CA'),
         (Departure, 419504),
         (DepartureComponent, '55_3983802'),
