@@ -95,7 +95,11 @@ class APIRequestor(object):
             raise ValueError(
                 'Need to provide at least one of `resource_id` or `uri` as argument')
         if not uri:
-            components = ['', self.resource, str(resource_id)]
+            uri_override = self._get_uri_override()
+            if uri_override:
+                components = ['', uri_override, str(resource_id)]
+            else:
+                components = ['', self.resource, str(resource_id)]
             if variation_id:
                 components.append(str(variation_id))
             uri = '/'.join(components)
@@ -110,16 +114,33 @@ class APIRequestor(object):
         """
         method = 'PATCH' if partial else 'PUT'
         if not uri:
-            uri = '/{0}/{1}'.format(self.resource, resource_id)
+            uri_override = self._get_uri_override()
+            if uri_override:
+                uri = '/{0}/{1}'.format(uri_override, resource_id)
+            else:
+                uri = '/{0}/{1}'.format(self.resource, resource_id)
         return self._request(uri, method, data=data)
 
     def create(self, data, uri=None):
         """
         Create a single new resource with the given data.
         """
+
         if not uri:
-            uri = '/{0}'.format(self.resource)
+            uri_override = self._get_uri_override()
+            if uri_override:
+                uri = '/{0}'.format(uri_override)
+            else:
+                uri = '/{0}'.format(self.resource)
         return self._request(uri, 'POST', data=data)
+
+    def _get_uri_override(self):
+        try:
+            resource_cls = getattr(self.client, self.resource).resource
+        except AttributeError:
+            raise AttributeError("No resource named %s is defined." % self.resource)
+        if hasattr(resource_cls, 'uri_override'):
+            return resource_cls.uri_override
 
     def list_raw(self, uri=None):
         """Return the raw response for listing resources.

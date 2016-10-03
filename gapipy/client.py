@@ -144,6 +144,7 @@ class Client(object):
         """
         Create an instance of the specified resource with `data_dict`
         """
+
         try:
             resource_cls = getattr(self, resource_name).resource
         except AttributeError:

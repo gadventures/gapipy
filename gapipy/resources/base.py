@@ -30,7 +30,6 @@ class Resource(BaseModel):
             variation_id=getattr(self, 'variation_id', None))
         if resource_obj:
             self._fill_fields(resource_obj._raw_data)
-
         return self
 
     @classmethod
@@ -50,12 +49,10 @@ class Resource(BaseModel):
 
     @enforce_string_type
     def __repr__(self):
-
-        id_value = getattr(self, self.id_lookup)
         if self.is_stub:
-            return '<{}: {} (stub)>'.format(self.__class__.__name__, id_value)
+            return '<{}: {} (stub)>'.format(self.__class__.__name__, self.id)
         else:
-            return '<{}: {}>'.format(self.__class__.__name__, id_value)
+            return '<{}: {}>'.format(self.__class__.__name__, self.id)
 
     def __hash__(self):
         return hash('{}{}'.format(self.__class__.__name__, self.id))
@@ -83,7 +80,6 @@ class Resource(BaseModel):
         return request.update(self.id, json.dumps(data), partial=partial)
 
     def _create(self):
-        from nose.tools import set_trace; set_trace()
         request = APIRequestor(self._client, self._resource_name)
         return request.create(self.to_json())
 

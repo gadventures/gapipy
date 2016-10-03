@@ -31,7 +31,6 @@ class BaseModel(object):
     _resource_fields = []
     _resource_collection_fields = []
     _deprecated_fields = []
-    _id_lookup_field = []
 
     def __init__(self, data, client):
         self._client = client
@@ -42,13 +41,10 @@ class BaseModel(object):
         self._raw_data = data
         first = lambda l: [pair[0] for pair in l]
 
-        setattr(self, 'id_lookup', 'id')
         # Initially we populate base fields, as model/resource fields may rely
         # on these to be present.
         remaining_data = {}
         for field, value in data.items():
-            if field in self._id_lookup_field:
-                self._set_as_id_field(field, value)
             if field in self._as_is_fields:
                 self._set_as_is_field(field, value)
             elif field in self._date_fields:
@@ -62,6 +58,9 @@ class BaseModel(object):
             else:
                 remaining_data[field] = value
 
+        # some resources (ie Token) do not have an id, this will set selected field as the id
+        self._override_id_field()
+
         # Populate resource/model fields.
         for field, value in remaining_data.items():
             if field in first(self._model_fields):
@@ -73,8 +72,16 @@ class BaseModel(object):
             elif field in first(self._resource_collection_fields):
                 self._set_resource_collection_field(field, value)
 
-    def _set_as_id_field(self, field, value):
-        setattr(self, 'id_lookup', field)
+        # overide uri for unconventional resources (ie oauth/token)
+        self._set_uri_override_field()
+
+    def _override_id_field(self):
+        if hasattr(self, '_id_lookup_field'):
+            self.id = getattr(self, self._id_lookup_field)
+
+    def _set_uri_override_field(self):
+        if hasattr(self, '_uri_override_field'):
+            self.uri_override = self._uri_override_field
 
     def _set_as_is_field(self, field, value):
         setattr(self, field, value)
@@ -108,7 +115,6 @@ class BaseModel(object):
                   + self._resource_collection_fields)
 
         model_cls = [cls for f, cls in fields if f == field][0]
-
         # FIXME: This will not work for the model_*_fields.
         if isinstance(model_cls, basestring):
             model_cls = get_resource_class_from_class_name(model_cls)
