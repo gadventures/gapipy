@@ -211,7 +211,7 @@ Note: ``_model_fields = [('address', Address)]`` and ``Address`` subclasses ``Ba
 
 * ``_model_collection_fields`` represent a list of dictionary fields like so:
 
-Note: ``_model_collection_fields = [('emails', AgencyEmail),]`` and ``Address`` subclasses ``BaseModel``
+Note: ``_model_collection_fields = [('emails', AgencyEmail),]`` and ``AgencyEmail`` subclasses ``BaseModel``
 
 .. code-block:: python
 
