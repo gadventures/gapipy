@@ -183,4 +183,49 @@ tests can successfully hit the API::
 
     $ export GAPI_APPLICATION_KEY=MY_SECRET_KEY; nosetests
 
+Fields
+------
+
+* ``_model_fields`` represent dictionary fields like so:
+
+Note: ``_model_fields = [('address', Address)]`` and ``Address`` subclasses ``BaseModel``
+
+.. code-block:: python
+
+    "address": {
+        "street": "19 Charlotte St",
+        "city": "Toronto",
+        "state": {
+          "id": "CA-ON",
+          "href": "https://rest.gadventures.com/states/CA-ON",
+          "name": "Ontario"
+        },
+        "country": {
+          "id": "CA",
+          "href": "https://rest.gadventures.com/countries/CA",
+          "name": "Canada"
+        },
+        "postal_zip": "M5V 2H5"
+      }
+
+
+* ``_model_collection_fields`` represent a list of dictionary fields like so:
+
+Note: ``_model_collection_fields = [('emails', AgencyEmail),]`` and ``Address`` subclasses ``BaseModel``
+
+.. code-block:: python
+
+    "emails": [
+        {
+          "type": "ALLOCATIONS_RELEASE",
+          "address": "g@gadventures.com"
+        },
+        {
+          "type": "ALLOCATIONS_RELEASE",
+          "address": "g2@gadventures.com"
+        }
+      ]
+
+* ``_resource_fields`` refer to another ``Resource``
+
 Thanks for helping!
