@@ -3,7 +3,13 @@
 History
 =======
 
-2.4.4 (2016-09-0)
+2.4.5 (2016-10-??)
+------------------
+
+* Added ``Image`` resource definition and put it to use in ``Itinerary`` and ``PlaceDossier``
+
+2.4.4 (2016-09-09)
+------------------
 
 * Added ``date_last_modified`` and ``date_created`` to ``Promotion``.
 
@@ -22,7 +28,7 @@ History
 ------------------
 
 * Removed use of ``.iteritems`` wherever present in favour of ``.items``
-* Added ``features`` representation to ``ActivityDossier`` and ``TransportDossier`` 
+* Added ``features`` representation to ``ActivityDossier`` and ``TransportDossier``
 
 2.4.0 (2016-06-29)
 ------------------

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from .image import Image, MAP_TYPE
 from ..base import Resource
 from ...models.base import BaseModel
 from ...utils import DurationLabelMixin, LocationLabelMixin, duration_label, enforce_string_type
@@ -144,7 +145,7 @@ class Itinerary(Resource):
 
     _as_is_fields = [
         'id', 'href', 'name', 'duration', 'meals_included', 'meals_budget',
-        'packing_lists', 'images', 'variation_id',
+        'packing_lists', 'variation_id',
     ]
     _resource_fields = [
         ('start_location', 'Place'),
@@ -156,9 +157,30 @@ class Itinerary(Resource):
         ('details', Detail),
         ('variations', 'Itinerary'),
         ('valid_during_ranges', ValidDuringRange),
+        ('images', Image),
     ]
 
     _resource_collection_fields = [
         ('media', ItineraryMedia),
         ('highlights', ItineraryHighlights),
     ]
+
+    def get_map_image(self):
+        """
+        Returns the first Image in our list that claims to be a map. Returns
+        None if no Images are listed, or if none are marked as a map image.
+        """
+        for image in self.images:
+            if getattr(image, 'type', None) == MAP_TYPE:
+                return image
+        return None
+
+    def get_map_url(self):
+        """
+        Returns the URL of this itinerary's map image (or None of no map image
+        is found, see get_map_image())
+        """
+        image = self.get_map_image()
+        if not image or not getattr(image, 'file', None):
+            return None
+        return image.file.url
