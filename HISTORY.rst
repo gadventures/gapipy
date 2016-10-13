@@ -3,7 +3,7 @@
 History
 =======
 
-2.4.5 (2016-10-??)
+2.4.5 (2016-10-13)
 ------------------
 
 * Added ``Image`` resource definition and put it to use in ``Itinerary`` and ``PlaceDossier``
