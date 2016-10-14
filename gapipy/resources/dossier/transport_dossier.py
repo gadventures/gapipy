@@ -16,6 +16,7 @@ class TransportDossier(Resource, DossierDetailsMixin):
         'name',
         'dossier_segment',
         'type',
+        'publish_state',
     ]
 
     _model_collection_fields = [

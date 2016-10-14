@@ -9,7 +9,7 @@ class CountryDossier(Resource):
     _resource_name = 'country_dossiers'
 
     _as_is_fields = [
-        'id', 'href', 'name', 'type',
+        'id', 'href', 'name', 'type', 'publish_state',
     ]
 
     _date_time_fields_local = ['date_created', 'date_last_modified']

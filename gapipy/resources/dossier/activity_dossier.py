@@ -20,6 +20,7 @@ class ActivityDossier(Resource, DossierDetailsMixin, DurationLabelMixin, Locatio
         'currency',
         'dossier_segment',
         'distance_min', 'distance_max',
+        'publish_state',
     ]
 
     _date_time_fields_local = ['date_created', 'date_last_modified']
