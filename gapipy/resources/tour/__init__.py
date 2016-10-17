@@ -3,12 +3,13 @@ from .accommodation import Accommodation
 from .activity import Activity
 from .departure import Departure
 from .departure_component import DepartureComponent
+from .image import Image
 from .itinerary import (
-    Itinerary, 
-    OptionalActivity, 
-    Duration, 
-    ItineraryMedia, 
-    ItineraryHighlights
+    Duration,
+    Itinerary,
+    ItineraryHighlights,
+    ItineraryMedia,
+    OptionalActivity,
 )
 from .promotion import Promotion
 from .single_supplement import SingleSupplement

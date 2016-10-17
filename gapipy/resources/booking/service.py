@@ -238,3 +238,9 @@ class FlightService(Service):
             'itinerary_url',
             'segments',
         ]
+
+    @property
+    def _model_collection_fields(self):
+        return super(FlightService, self)._model_collection_fields + [
+            ('associated_services', AssociatedService),
+        ]

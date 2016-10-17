@@ -17,6 +17,7 @@ class AccommodationDossier(Resource, DossierDetailsMixin):
         'emails',
         'phone_numbers',
         'rooms',
+        'publish_state',
     ]
 
     _date_time_fields_local = ['date_created', 'date_last_modified']
