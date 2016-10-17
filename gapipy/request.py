@@ -125,7 +125,6 @@ class APIRequestor(object):
         """
         Create a single new resource with the given data.
         """
-
         if not uri:
             uri_override = self._get_uri_override()
             if uri_override:

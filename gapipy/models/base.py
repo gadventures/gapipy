@@ -115,6 +115,7 @@ class BaseModel(object):
                   + self._resource_collection_fields)
 
         model_cls = [cls for f, cls in fields if f == field][0]
+
         # FIXME: This will not work for the model_*_fields.
         if isinstance(model_cls, basestring):
             model_cls = get_resource_class_from_class_name(model_cls)
