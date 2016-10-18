@@ -3,6 +3,12 @@
 History
 =======
 
+2.4.6 (2016-10-????)
+------------------
+
+* Fix broken ``Duration`` init in ``ActivityDossier`` (likely broke due to
+  changes that happened in 2.0.0)
+
 2.4.5 (2016-10-13)
 ------------------
 

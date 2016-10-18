@@ -51,9 +51,11 @@ class ActivityDossier(Resource, DossierDetailsMixin, DurationLabelMixin, Locatio
             return None
 
         from gapipy.resources import Duration
-        duration = Duration(data=dict(
-            min_hr=self.duration_min,
-            max_hr=self.duration_max)
+        duration = Duration(
+            data=dict(
+                min_hr=self.duration_min,
+                max_hr=self.duration_max),
+            client=self._client,
         )
         return duration
 
