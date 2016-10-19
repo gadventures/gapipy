@@ -148,7 +148,7 @@ class BaseModel(object):
             # FIXME: variation_id is hardcoded all over the client. This should
             # not be the case, but is a neccessity for now.
             parent = (
-                self._resource_name,
+                self._uri,
                 self.id,
                 getattr(self, 'variation_id', None),
             )
