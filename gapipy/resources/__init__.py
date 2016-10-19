@@ -79,6 +79,7 @@ available_public_resources = [
     'DepartureComponent',
     'Image',
     'Itinerary',
+    'Checkin',
     'Promotion',
     'SingleSupplement',
     'Tour',
