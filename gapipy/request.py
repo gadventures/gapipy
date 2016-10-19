@@ -83,6 +83,11 @@ class APIRequestor(object):
             response.reason = response.text
             return response.raise_for_status()
 
+    def _get_uri(self):
+        if self.resource._uri:
+            return self.resource._uri
+        return self.resource._resource_name
+
     def get(self, resource_id=None, uri=None, variation_id=None):
         """
         Get a single resource with the given resource_id or uri
@@ -95,14 +100,10 @@ class APIRequestor(object):
             raise ValueError(
                 'Need to provide at least one of `resource_id` or `uri` as argument')
         if not uri:
-            uri_override = self._get_uri_override()
-            if uri_override:
-                components = ['', uri_override, str(resource_id)]
-            else:
-                components = ['', self.resource, str(resource_id)]
-            if variation_id:
-                components.append(str(variation_id))
-            uri = '/'.join(components)
+            components = ['', self._get_uri(), str(resource_id)]
+        if variation_id:
+            components.append(str(variation_id))
+        uri = '/'.join(components)
         return self._request(uri, 'GET')
 
     def update(self, resource_id, data, partial=True, uri=None):
@@ -114,11 +115,7 @@ class APIRequestor(object):
         """
         method = 'PATCH' if partial else 'PUT'
         if not uri:
-            uri_override = self._get_uri_override()
-            if uri_override:
-                uri = '/{0}/{1}'.format(uri_override, resource_id)
-            else:
-                uri = '/{0}/{1}'.format(self.resource, resource_id)
+            uri = '/{0}/{1}'.format(self._get_uri(), resource_id)
         return self._request(uri, method, data=data)
 
     def create(self, data, uri=None):
@@ -126,44 +123,33 @@ class APIRequestor(object):
         Create a single new resource with the given data.
         """
         if not uri:
-            uri_override = self._get_uri_override()
-            if uri_override:
-                uri = '/{0}'.format(uri_override)
-            else:
-                uri = '/{0}'.format(self.resource)
+            uri = '/{0}'.format(self._get_uri())
         return self._request(uri, 'POST', data=data)
-
-    def _get_uri_override(self):
-        try:
-            resource_cls = getattr(self.client, self.resource).resource
-        except AttributeError:
-            raise AttributeError("No resource named %s is defined." % self.resource)
-        if hasattr(resource_cls, 'uri_override'):
-            return resource_cls.uri_override
 
     def list_raw(self, uri=None):
         """Return the raw response for listing resources.
 
-        If `uri` is given, make a GET request to it, otherwise build the uri
-        from `self.resource` and `self.parent`. Note that only the first page
-        of results will be returned. To get an iterator over all resources,
-        use `list`.
+        If `uri` is given, make a GET request to it; otherwise build the uri
+        from `self.resource._uri`(if present) and `self.parent`; else
+        `self.resource._resource_name` and `self.parent`. Note that only the
+        first page of results will be returned. To get an iterator over all
+        resources, use `list`.
         """
         if not uri:
             if self.parent:
-                parent_name, parent_id, parent_variation_id = self.parent
+                parent_uri, parent_id, parent_variation_id = self.parent
 
                 # First slash ensures leading slash.
-                parts = [parent_name, parent_id]
+                parts = [parent_uri, parent_id]
                 if parent_variation_id:
                     parts.append(parent_variation_id)
 
-                parts.append(self.resource)
+                parts.append(self._get_uri())
 
                 # Ensure leading slash.
                 uri = '/' + '/'.join(parts)
             else:
-                uri = '/{0}'.format(self.resource)
+                uri = '/{0}'.format(self._get_uri())
 
         return self._request(uri, 'GET', params=self.params)
 

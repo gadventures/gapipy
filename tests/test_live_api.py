@@ -92,7 +92,6 @@ class LiveAPITestCase(TestCase):
         (Accommodation, 54),
         (AccommodationDossier, 5856),
         (Activity, 4486),
-        (Checkin, 'XjW89u3ryy'),
         (ActivityDossier, 9695),
         (Airport, 25553),
         (Continent, 'NA'),

@@ -75,7 +75,7 @@ class Query(object):
                 return resource_data
 
         # Cache miss; get fresh data from the backend.
-        requestor = APIRequestor(self._client, self.resource._resource_name)
+        requestor = APIRequestor(self._client, self.resource)
         out = requestor.get(resource_id, variation_id=variation_id)
         self._filters = {}
         return out
@@ -116,7 +116,7 @@ class Query(object):
 
         requestor = APIRequestor(
             self._client,
-            self.resource._resource_name,
+            self.resource,
             params=self._filters,
             parent=self.parent
         )
@@ -147,7 +147,7 @@ class Query(object):
 
         requestor = APIRequestor(
             self._client,
-            self.resource._resource_name,
+            self.resource,
             params=self._filters,
             parent=self.parent
         )

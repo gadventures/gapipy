@@ -58,9 +58,6 @@ class BaseModel(object):
             else:
                 remaining_data[field] = value
 
-        # some resources (ie Token) do not have an id, this will set selected field as the id
-        self._override_id_field()
-
         # Populate resource/model fields.
         for field, value in remaining_data.items():
             if field in first(self._model_fields):
@@ -71,17 +68,6 @@ class BaseModel(object):
                 self._set_resource_field(field, value)
             elif field in first(self._resource_collection_fields):
                 self._set_resource_collection_field(field, value)
-
-        # overide uri for unconventional resources (ie oauth/token)
-        self._set_uri_override_field()
-
-    def _override_id_field(self):
-        if hasattr(self, '_id_lookup_field'):
-            self.id = getattr(self, self._id_lookup_field)
-
-    def _set_uri_override_field(self):
-        if hasattr(self, '_uri_override_field'):
-            self.uri_override = self._uri_override_field
 
     def _set_as_is_field(self, field, value):
         setattr(self, field, value)
@@ -162,7 +148,7 @@ class BaseModel(object):
             # FIXME: variation_id is hardcoded all over the client. This should
             # not be the case, but is a neccessity for now.
             parent = (
-                self._resource_name,
+                self._uri,
                 self.id,
                 getattr(self, 'variation_id', None),
             )

@@ -15,9 +15,12 @@ class Resource(BaseModel):
     _resource_name = None
     _is_parent_resource = False
     _is_listable = True  # True if resource can be listed/queried (i.e /{resource_name} is an endpoint)
+    _uri = None
 
     def __init__(self, data, stub=False, client=None):
         self.is_stub = stub
+        if not self._uri:
+            self._uri = self._resource_name
         super(Resource, self).__init__(data, client)
 
     def fetch(self):
@@ -34,7 +37,7 @@ class Resource(BaseModel):
 
     @classmethod
     def create(cls, client, data_dict):
-        request = APIRequestor(client, cls._resource_name)
+        request = APIRequestor(client, cls)
         response = request.create(json.dumps(data_dict))
         return cls(response, client=client)
 
@@ -71,7 +74,7 @@ class Resource(BaseModel):
         return json.dumps(self.to_dict())
 
     def _update(self, partial=False):
-        request = APIRequestor(self._client, self._resource_name)
+        request = APIRequestor(self._client, self)
 
         data = self.to_dict()
         if partial:
@@ -80,7 +83,7 @@ class Resource(BaseModel):
         return request.update(self.id, json.dumps(data), partial=partial)
 
     def _create(self):
-        request = APIRequestor(self._client, self._resource_name)
+        request = APIRequestor(self._client, self)
         return request.create(self.to_json())
 
     def save(self, partial=False):
