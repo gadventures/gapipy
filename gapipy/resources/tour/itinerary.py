@@ -177,7 +177,7 @@ class Itinerary(Resource):
 
     def get_map_url(self):
         """
-        Returns the URL of this itinerary's map image (or None of no map image
+        Returns the URL of this itinerary's map image (or None if no map image
         is found, see get_map_image())
         """
         image = self.get_map_image()
