@@ -10,7 +10,7 @@ class Customer(Resource):
 
     _as_is_fields = [
         'id', 'href', 'place_of_birth', 'meal_preference', 'meal_notes',
-        'emergency_contacts', 'medical_notes', 'phone_numbers',
+        'emergency_contacts', 'medical_details', 'phone_numbers',
         'account_email', 'name', 'passport', 'address', 'nationality',
         'gender',
     ]
