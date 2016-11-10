@@ -1,15 +1,35 @@
 from __future__ import unicode_literals
 
-from ..base import Resource
+from ..base import Resource, BaseModel
+
+
+class Requirement(BaseModel):
+    _as_is_fields = ['code']
+
+
+class RequirementSet(BaseModel):
+    _as_is_fields = ['name', 'code']
+    _model_collection_fields = [
+        ('COMPLETE', Requirement),
+        ('INCOMPLETE', Requirement),
+    ]
+
 
 class Checkin(Resource):
     _resource_name = 'checkins'
     _is_listable = True
 
-    _as_is_fields = ['id', 'status', 'requirements_complete',
-                     'requirements_incomplete']
+    _as_is_fields = [
+        'id',
+        'status',
+    ]
+
     _date_fields = ['expires']
     _resource_fields = [
         ('booking', 'Booking'),
         ('customer', 'Customer'),
+    ]
+
+    _model_collection_fields = [
+        ('requirements', RequirementSet),
     ]

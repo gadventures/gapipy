@@ -3,6 +3,11 @@
 History
 =======
 
+2.4.8 (2016-11-11)
+------------------
+
+* Adjusted ``Checkin`` resource to meet updated spec.
+
 2.4.7 (2016-10-25)
 ------------------
 
