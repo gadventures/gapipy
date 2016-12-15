@@ -156,7 +156,7 @@ follows:
 See also:
 
 * http://www.python-requests.org/en/latest/api/#requests.adapters.HTTPAdapter
-* http://urllib3.readthedocs.org/en/latest/pools.html#urllib3.connectionpool.HTTPConnectionPool
+* http://urllib3.readthedocs.io/en/latest/reference/index.html#module-urllib3.connectionpool
 
 
 Dependencies
