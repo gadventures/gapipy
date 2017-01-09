@@ -25,6 +25,7 @@ class AccommodationDossier(Resource, DossierDetailsMixin):
     _resource_fields = [
         ('location', 'Place'),
         ('primary_country', 'Country'),
+        ('dossier_segment', 'DossierSegment'),
     ]
 
     _model_collection_fields = [
