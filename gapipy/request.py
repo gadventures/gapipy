@@ -84,7 +84,7 @@ class APIRequestor(object):
             return response.raise_for_status()
 
     def _get_uri(self):
-        if isinstance(self.resource, basestring):
+        if isinstance(self.resource, str):
             return self.resource
         if self.resource._uri:
             return self.resource._uri

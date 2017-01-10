@@ -169,9 +169,9 @@ class QueryTestCase(unittest.TestCase):
 
     def test_listing_non_listable_resource_fails(self):
         message = 'The Accommodation resource is not listable and/or is only available as a subresource'
-        with self.assertRaisesRegexp(ValueError, message):
+        with self.assertRaisesRegex(ValueError, message):
             Query(self.client, Accommodation).all()
-        with self.assertRaisesRegexp(ValueError, message):
+        with self.assertRaisesRegex(ValueError, message):
             Query(self.client, Accommodation).count()
 
     @patch('gapipy.request.APIRequestor._request', return_value=DUMMY_PROMOTION)
@@ -224,7 +224,7 @@ class QueryTestCase(unittest.TestCase):
 
     def test_fetch_all_with_wrong_argument_for_limit(self):
         message = '`limit` must be a positive integer'
-        with self.assertRaisesRegexp(ValueError, message):
+        with self.assertRaisesRegex(ValueError, message):
             query = Query(self.client, Tour).all(limit=-1)
             list(query)  # force the query to evaluate
 
@@ -263,13 +263,13 @@ class UpdateCreateResourceTestCase(unittest.TestCase):
     def test_object_accessor(self, mock_request):
         data = {'first_name': 'Jon', 'last_name': 'Ive', 'id': None}
         r = MockResource(data, client=self.client)
-        self.assertEquals(r.first_name, data['first_name'])
+        self.assertEqual(r.first_name, data['first_name'])
 
     def test_object_attr_modify(self, mock_request):
         data = {'first_name': 'Jon', 'last_name': 'Ive', 'id': None}
         r = MockResource(data, client=self.client)
         r.first_name = 'Jonathan'
-        self.assertEquals(r.first_name, 'Jonathan')
+        self.assertEqual(r.first_name, 'Jonathan')
 
     def test_create_object(self, mock_request):
         data = {
@@ -317,7 +317,7 @@ class UpdateCreateResourceTestCase(unittest.TestCase):
         changed = {'first_name': 'Jonathan'}
         mock_request.assert_called_once_with(
             '/mocks/1', 'PATCH', data=json.dumps(changed))
-        self.assertEquals(r.to_dict(), r_data)
+        self.assertEqual(r.to_dict(), r_data)
 
         r.last_name = 'Ivey'
         r_data = {
@@ -330,4 +330,4 @@ class UpdateCreateResourceTestCase(unittest.TestCase):
         changed = {'last_name': 'Ivey'}
         mock_request.assert_called_with(
             '/mocks/1', 'PATCH', data=json.dumps(changed))
-        self.assertEquals(r.to_dict(), r_data)
+        self.assertEqual(r.to_dict(), r_data)

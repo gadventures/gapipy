@@ -75,7 +75,7 @@ class TourDossierTestCase(TestCase):
 
     def test_get_image_url(self):
         url = self.dossier.get_map_url()
-        self.assertIsInstance(url, basestring)
+        self.assertIsInstance(url, str)
 
     def test_get_countries(self):
         countries = self.dossier.get_visited_countries()
@@ -83,7 +83,7 @@ class TourDossierTestCase(TestCase):
 
     def test_get_trip_detail(self):
         detail = self.dossier.get_trip_detail('Max Pax')
-        self.assertIsInstance(detail, basestring)
+        self.assertIsInstance(detail, str)
 
 
 @attr('integration')
@@ -142,7 +142,7 @@ class LiveAPITestCase(TestCase):
         # Test that we take into account all of the fields of the json data
         # returned by the API (this only checks for the top-level fields, not
         # those of nested objects)
-        self.assertEquals(
+        self.assertEqual(
             sorted(instance._allowed_fields()),
             sorted(instance._raw_data.keys())
         )

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 
 import sys
 from unittest import TestCase, skipIf
@@ -128,5 +128,5 @@ class UtilsTestCase(TestCase):
 
         s = repr(res)  # doesn't raise UnicodeEncodeError
         self.assertIsInstance(s, str)
-        self.assertNotIsInstance(s, unicode)
+        self.assertNotIsInstance(s, str)
         self.assertEqual(s, b'<MockResource Alcázar Palace Visit>')

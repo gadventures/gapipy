@@ -13,7 +13,7 @@ class PricePromotion(Resource):
         self._resource_name = 'promotions'
 
         klass = get_resource_class_from_resource_name('promotions')
-        for k, v in klass.__dict__.items():
+        for k, v in list(klass.__dict__.items()):
             if 'fields' in k and isinstance(v, list):
                 setattr(self, k, getattr(klass, k))
 

@@ -2,7 +2,7 @@ from time import time
 
 
 try:
-    import cPickle as pickle
+    import pickle as pickle
 except ImportError:
     import pickle
 
@@ -138,7 +138,7 @@ class RedisCache(BaseCache):
 
     def clear(self):
         cache_keys = self._client.keys('{}*'.format(self.key_prefix))
-        map(self._client.delete, cache_keys)
+        list(map(self._client.delete, cache_keys))
 
     def info(self):
         return self._client.info()

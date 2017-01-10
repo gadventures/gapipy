@@ -1,5 +1,5 @@
 from decimal import Decimal
-from itertools import ifilterfalse
+from itertools import filterfalse
 import datetime
 
 from gapipy.query import Query
@@ -44,7 +44,7 @@ class BaseModel(object):
         # Initially we populate base fields, as model/resource fields may rely
         # on these to be present.
         remaining_data = {}
-        for field, value in data.items():
+        for field, value in list(data.items()):
             if field in self._as_is_fields:
                 self._set_as_is_field(field, value)
             elif field in self._date_fields:
@@ -59,7 +59,7 @@ class BaseModel(object):
                 remaining_data[field] = value
 
         # Populate resource/model fields.
-        for field, value in remaining_data.items():
+        for field, value in list(remaining_data.items()):
             if field in first(self._model_fields):
                 self._set_model_field(field, value)
             elif field in first(self._model_collection_fields):
@@ -103,7 +103,7 @@ class BaseModel(object):
         model_cls = [cls for f, cls in fields if f == field][0]
 
         # FIXME: This will not work for the model_*_fields.
-        if isinstance(model_cls, basestring):
+        if isinstance(model_cls, str):
             model_cls = get_resource_class_from_class_name(model_cls)
         return model_cls
 
@@ -167,11 +167,11 @@ class BaseModel(object):
             + self._date_fields
             + self._date_time_fields_utc
             + self._date_time_fields_local
-            + map(first, self._model_fields)
-            + map(first, self._model_collection_fields)
+            + list(map(first, self._model_fields))
+            + list(map(first, self._model_collection_fields))
             + self._price_fields
-            + map(first, self._resource_fields)
-            + map(first, self._resource_collection_fields)
+            + list(map(first, self._resource_fields))
+            + list(map(first, self._resource_collection_fields))
             + self._deprecated_fields
         )
 
@@ -194,9 +194,9 @@ class BaseModel(object):
             return value
 
     def to_dict(self):
-        properties = {k: v for k, v in self.__dict__.items() if k in self._allowed_fields()}
+        properties = {k: v for k, v in list(self.__dict__.items()) if k in self._allowed_fields()}
         data = {}
-        for key, value in properties.items():
+        for key, value in list(properties.items()):
             if isinstance(value, (list, tuple)):
                 data[key] = [self._convert_from_resource_type(key, a) for a in value]
             else:
@@ -236,7 +236,7 @@ class DictToModel(object):
 
         # Anything that will contain nested values that need to be dot
         # accessible receive treatment of having its own class representation.
-        for k, v in self._deep(data).items():
+        for k, v in list(self._deep(data).items()):
             if isinstance(v, (list, tuple)):
                 value = [DictToModel(i, class_name=k) for i in v]
             else:
@@ -258,7 +258,7 @@ class DictToModel(object):
         return isinstance(data[1], (dict, list))
 
     def _shallow(self, data):
-        return {k: v for k, v in ifilterfalse(self._get_data, data.items())}
+        return {k: v for k, v in filterfalse(self._get_data, list(data.items()))}
 
     def _deep(self, data):
-        return {k: v for k, v in filter(self._get_data, data.items())}
+        return {k: v for k, v in filter(self._get_data, list(data.items()))}
