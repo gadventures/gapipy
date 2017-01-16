@@ -57,8 +57,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'G API Python Client'
-copyright = '{}, G Adventures'.format(datetime.date.today().year)
+project = u'G API Python Client'
+copyright = u'{}, G Adventures'.format(datetime.date.today().year)
 
 # The version info for the project you're documenting, acts as replacement
 # for |version| and |release|, also used in various other places throughout
@@ -222,8 +222,8 @@ latex_elements = {
 # [howto/manual]).
 latex_documents = [
     ('index', 'gapipy.tex',
-     'G API Python Client Documentation',
-     'G Adventures', 'manual'),
+     u'G API Python Client Documentation',
+     u'G Adventures', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at
@@ -253,8 +253,8 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'gapipy',
-     'G API Python Client Documentation',
-     ['G Adventures'], 1)
+     u'G API Python Client Documentation',
+     [u'G Adventures'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -268,8 +268,8 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     ('index', 'gapipy',
-     'G API Python Client Documentation',
-     'G Adventures',
+     u'G API Python Client Documentation',
+     u'G Adventures',
      'gapipy',
      'One line description of project.',
      'Miscellaneous'),

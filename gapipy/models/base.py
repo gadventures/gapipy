@@ -1,5 +1,10 @@
 from decimal import Decimal
-from itertools import filterfalse
+try:
+    # Python 2
+    from itertools import ifilterfalse
+except:
+    # Python 3
+    from itertools import filterfalse
 import datetime
 
 from gapipy.query import Query
@@ -44,6 +49,7 @@ class BaseModel(object):
         # Initially we populate base fields, as model/resource fields may rely
         # on these to be present.
         remaining_data = {}
+        # list(dict.items()) inefficient on Python 2
         for field, value in list(data.items()):
             if field in self._as_is_fields:
                 self._set_as_is_field(field, value)
@@ -59,6 +65,7 @@ class BaseModel(object):
                 remaining_data[field] = value
 
         # Populate resource/model fields.
+        # list(dict.items()) inefficient on Python 2
         for field, value in list(remaining_data.items()):
             if field in first(self._model_fields):
                 self._set_model_field(field, value)
@@ -103,7 +110,19 @@ class BaseModel(object):
         model_cls = [cls for f, cls in fields if f == field][0]
 
         # FIXME: This will not work for the model_*_fields.
-        if isinstance(model_cls, str):
+
+        # Python 2 has str, Python 3 basestring
+        str_or_base = False
+        try:
+            # Python 2 here
+            import basestring
+            if isinstance(model_cls, basestring):
+                str_or_base = True
+        except ImportError:
+            # Python 3 here
+            if isinstance(model_cls, str):
+                str_or_base = True
+        if str_or_base:
             model_cls = get_resource_class_from_class_name(model_cls)
         return model_cls
 
@@ -162,6 +181,8 @@ class BaseModel(object):
 
     def _allowed_fields(self):
         first = lambda pair: pair[0]
+        # Python 2 and 3
+        # inefficient on Python 2 to list a map
         return (
             self._as_is_fields
             + self._date_fields
@@ -194,6 +215,8 @@ class BaseModel(object):
             return value
 
     def to_dict(self):
+        # Python 2 and 3
+        # inefficient on Python 2 to list .items
         properties = {k: v for k, v in list(self.__dict__.items()) if k in self._allowed_fields()}
         data = {}
         for key, value in list(properties.items()):
@@ -236,6 +259,9 @@ class DictToModel(object):
 
         # Anything that will contain nested values that need to be dot
         # accessible receive treatment of having its own class representation.
+
+        # Python 2 and 3
+        # inefficient on Python 2 to list a map
         for k, v in list(self._deep(data).items()):
             if isinstance(v, (list, tuple)):
                 value = [DictToModel(i, class_name=k) for i in v]
@@ -258,7 +284,11 @@ class DictToModel(object):
         return isinstance(data[1], (dict, list))
 
     def _shallow(self, data):
+        # Python 2 and 3
+        # inefficient on Python 2 to list a map
         return {k: v for k, v in filterfalse(self._get_data, list(data.items()))}
 
     def _deep(self, data):
+        # Python 2 and 3
+        # inefficient on Python 2 to list a map
         return {k: v for k, v in filter(self._get_data, list(data.items()))}

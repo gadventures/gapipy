@@ -128,5 +128,8 @@ class UtilsTestCase(TestCase):
 
         s = repr(res)  # doesn't raise UnicodeEncodeError
         self.assertIsInstance(s, str)
+        # Python 2
+        self.assertNotIsInstance(s, unicode)
+        # Python 3
         self.assertNotIsInstance(s, str)
         self.assertEqual(s, b'<MockResource Alcázar Palace Visit>')

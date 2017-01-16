@@ -13,6 +13,8 @@ class PricePromotion(Resource):
         self._resource_name = 'promotions'
 
         klass = get_resource_class_from_resource_name('promotions')
+        # Python 2 and 3
+        # inefficient on Python 2 to list items()
         for k, v in list(klass.__dict__.items()):
             if 'fields' in k and isinstance(v, list):
                 setattr(self, k, getattr(klass, k))
