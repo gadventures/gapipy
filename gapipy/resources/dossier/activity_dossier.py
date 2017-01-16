@@ -1,4 +1,5 @@
-
+# Python 2 and 3
+from __future__ import unicode_literals
 
 from ...utils import humanize_price, LocationLabelMixin, DurationLabelMixin, enforce_string_type
 from ..base import Resource

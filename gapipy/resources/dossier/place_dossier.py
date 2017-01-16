@@ -1,4 +1,5 @@
-
+# Python 2 and 3
+from __future__ import unicode_literals
 
 from ...models.base import BaseModel
 from ..base import Resource

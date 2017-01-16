@@ -1,4 +1,5 @@
-
+# Python 2 and 3
+from __future__ import unicode_literals
 
 from ...query import Query
 from ...utils import get_resource_class_from_class_name

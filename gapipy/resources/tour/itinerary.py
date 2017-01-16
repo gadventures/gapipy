@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-
+# Python 2 and 3
+from __future__ import unicode_literals
 
 from .image import Image, MAP_TYPE
 from ..base import Resource

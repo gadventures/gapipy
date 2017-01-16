@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-
+# Python 2 and 3
+from __future__ import unicode_literals
 
 import sys
 from unittest import TestCase, skipIf
@@ -128,10 +129,5 @@ class UtilsTestCase(TestCase):
 
         s = repr(res)  # doesn't raise UnicodeEncodeError
         self.assertIsInstance(s, str)
-        if sys.version_info.major < 3:
-            # Python 2
-            self.assertNotIsInstance(s, unicode)
-        else:
-            # Python 3
-            self.assertNotIsInstance(s, str)
+        self.assertNotIsInstance(s, unicode)
         self.assertEqual(s, b'<MockResource Alcázar Palace Visit>')

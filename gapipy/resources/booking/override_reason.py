@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-
+# Python 2 and 3
+from __future__ import unicode_literals
 
 from ..base import Resource
 from ...utils import enforce_string_type
