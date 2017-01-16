@@ -1,7 +1,7 @@
 """These tests mostly ensure that any change in the shape of the data
 returned by the API is detected.
 """
-
+import sys
 from unittest import TestCase
 
 from nose.plugins.attrib import attr
@@ -76,11 +76,10 @@ class TourDossierTestCase(TestCase):
     def test_get_image_url(self):
         url = self.dossier.get_map_url()
 
-        try:
+        if sys.version_info.major < 3:
             # Python 2
-            import basestring
             self.assertIsInstance(url, basestring)
-        except ImportError:
+        else:
             # Python 3
             self.assertIsInstance(url, str)
 
@@ -90,12 +89,11 @@ class TourDossierTestCase(TestCase):
 
     def test_get_trip_detail(self):
         detail = self.dossier.get_trip_detail('Max Pax')
-        try:
-            # Python 2 here
-            import basestring
+        if sys.version_info.major < 3:
+            # Python 2
             self.assertIsInstance(detail, basestring)
-        except ImportError:
-            # Python 3 here
+        else:
+            # Python 3
             self.assertIsInstance(detail, str)
 
 

@@ -1,8 +1,8 @@
 from decimal import Decimal
 try:
     # Python 2
-    from itertools import ifilterfalse
-except:
+    from itertools import ifilterfalse as filterfalse
+except ImportError:
     # Python 3
     from itertools import filterfalse
 import datetime
@@ -13,6 +13,7 @@ from gapipy.utils import (
     get_resource_class_from_class_name,
     get_resource_class_from_resource_name,
 )
+import sys
 
 DATE_FORMAT = '%Y-%m-%d'
 DATE_TIME_UTC_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
@@ -113,13 +114,12 @@ class BaseModel(object):
 
         # Python 2 has str, Python 3 basestring
         str_or_base = False
-        try:
-            # Python 2 here
-            import basestring
+        if sys.version_info.major < 3:
+            # Python 2
             if isinstance(model_cls, basestring):
                 str_or_base = True
-        except ImportError:
-            # Python 3 here
+        else:
+            # Python 3
             if isinstance(model_cls, str):
                 str_or_base = True
         if str_or_base:
