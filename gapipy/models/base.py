@@ -120,16 +120,11 @@ class BaseModel(object):
         model_cls = self._model_cls(field)
 
         # If `model_cls` can be of three type: a Resource, a BaseModel that
-        # isn't a Resource, or a wrapped DictToModel instance. If it is a
-        # Resource, then we pass in the `stub` kwarg.
+        # isn't a Resource. If it is a Resource, then we pass in the `stub` kwarg.
         #
-        # We first check whether `model_cls` is a DictToModel or not (as
-        # opposed to the simpler, two branch "if Resource do this else do
-        # that"), since `issubclass` only accepts classes as argument.
-        if isinstance(model_cls, partial):
-            # dict-to-model instance
-            items = [model_cls(m) for m in value]
-        elif issubclass(model_cls, Resource):
+        # "if Resource do this else do that",
+        # since `issubclass` only accepts classes as argument.
+        if issubclass(model_cls, Resource):
             items = [model_cls(m, client=self._client, stub=True) for m in value]
         else:
             items = [model_cls(m, client=self._client) for m in value]
@@ -216,49 +211,3 @@ class RelatedResourceMixin(object):
             getattr(self, self._related_resource_lookup))
         resource = resource_cls({'id': self.id, 'href': self.href}, stub=True)
         setattr(self, 'resource', resource)
-
-
-class DictToModel(object):
-    """
-    A simple container that is used by `utils.dict_to_model` to help create
-    dot-accessible models without being explicit about field definitions.
-
-    This class simply iterates over any complex values and recursively creates
-    new objects for those their respective keys, allowing the entire path to be
-    dot-accessible.
-    """
-    def __init__(self, data, class_name=None):
-        self._class_name = self._humanize(class_name) if class_name else ''
-
-        # Add any shallow data to this object as primitive types.
-        shallow = self._shallow(data)
-        self.__dict__.update(shallow)
-
-        # Anything that will contain nested values that need to be dot
-        # accessible receive treatment of having its own class representation.
-        for k, v in self._deep(data).items():
-            if isinstance(v, (list, tuple)):
-                value = [DictToModel(i, class_name=k) for i in v]
-            else:
-                value = DictToModel(v, class_name=k)
-            setattr(self, k, value)
-
-    def __str__(self):
-        return self._class_name
-
-    @enforce_string_type
-    def __repr__(self):
-        return '<{}>'.format(self.__str__())
-
-    def _humanize(self, class_name):
-        return class_name.replace("_", " ").title()
-
-    def _get_data(self, data):
-        """ Use as predicate for _shallow, _deep """
-        return isinstance(data[1], (dict, list))
-
-    def _shallow(self, data):
-        return {k: v for k, v in ifilterfalse(self._get_data, data.items())}
-
-    def _deep(self, data):
-        return {k: v for k, v in filter(self._get_data, data.items())}

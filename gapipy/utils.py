@@ -23,25 +23,6 @@ def get_available_resource_classes():
     return [getattr(resource_module, r) for r in available_resources]
 
 
-def dict_to_model(class_name=None):
-    """
-    Wrapper to be used within resource definitions for objects you'd like to be
-    dot-accessible without explicitly defining model fields for any nested data.
-
-    You should use this with ``_model_fields`` or ``_model_collection_fields``,
-    like so::
-
-        _model_collection_fields = [
-            ('phone_numbers', dict_to_model('Phone Numbers')),
-        ]
-
-    The optional ``class_name`` simply improves readability of the object
-    within a debug environment.
-    """
-    from .models.base import DictToModel
-    return partial(DictToModel, class_name=class_name)
-
-
 def is_free(amount):
     """
     Explit zero amounts are interpreted as Free!
