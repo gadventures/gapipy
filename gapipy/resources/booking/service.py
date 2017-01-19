@@ -12,7 +12,7 @@ from ...models import (
     TravellerHeight,
 )
 
-from ..base import Resource
+from ..base import Resource, BaseModel
 
 from ..flights import FlightStatus
 from ..tour import (
@@ -111,6 +111,49 @@ class ServiceProduct(Service):
         ]
 
 
+class Airport(BaseModel):
+    _as_is_fields = ['code', 'name']
+
+
+class Airline(BaseModel):
+    _as_is_fields = ['code', 'name']
+
+
+class FlightServiceSegment(Resource):
+    _as_is_fields = [
+        'id',
+        'href',
+        'flight_number',
+        'booking_class',
+        'technical_stops',
+    ]
+
+    _model_fields = [
+        ('airline', Airline),
+        ('origin_airport', Airport),
+        ('destination_airport', Airport),
+    ]
+
+    _date_time_fields_local = [
+        'departure_date',
+        'arrival_date',
+    ]
+
+    _resource_fields = [
+        ('flight_service', 'FlightService'),
+    ]
+
+
+class DepartureServiceFlight(BaseModel):
+    _model_collection_fields = [
+        ('flights', FlightServiceSegment)
+    ]
+
+    _resource_fields = [
+        ('customer', Customer),
+    ]
+
+
 class DepartureService(ServiceProduct):
     _resource_name = 'departure_services'
 
@@ -141,6 +184,8 @@ class DepartureService(ServiceProduct):
             ('incomplete_requirements', IncompleteRequirement),
             ('international_ticket_numbers', InternationalTicketNumber),
             ('rooms', DepartureServiceRoom),
+            ('arriving_flights', DepartureServiceFlight),
+            ('departing_flights', DepartureServiceFlight),
             ('traveller_heights', TravellerHeight),
         ]
 
