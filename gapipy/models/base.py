@@ -112,7 +112,7 @@ class BaseModel(object):
 
         # FIXME: This will not work for the model_*_fields.
 
-        # Python 2 has str, Python 3 basestring
+        # Python 2 has basestring, Python 3 str
         str_or_base = False
         if sys.version_info.major < 3:
             # Python 2
