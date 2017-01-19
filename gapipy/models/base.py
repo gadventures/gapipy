@@ -1,3 +1,4 @@
+import sys
 from decimal import Decimal
 try:
     # Python 2
@@ -13,7 +14,7 @@ from gapipy.utils import (
     get_resource_class_from_class_name,
     get_resource_class_from_resource_name,
 )
-import sys
+
 
 DATE_FORMAT = '%Y-%m-%d'
 DATE_TIME_UTC_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
