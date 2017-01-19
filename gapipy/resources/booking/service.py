@@ -204,9 +204,10 @@ class InsuranceService(Service):
     @property
     def _as_is_fields(self):
         return super(InsuranceService, self)._as_is_fields + [
-            'policy_type',
-            'policy_number',
             'policy_details_url',
+            'policy_number',
+            'policy_provider',
+            'policy_type',
         ]
 
     @property
