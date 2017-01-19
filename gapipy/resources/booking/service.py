@@ -14,6 +14,7 @@ from ...models import (
 
 from ..base import Resource
 
+from ..flights import FlightStatus
 from ..tour import (
     Departure,
     DepartureComponent,
@@ -241,7 +242,31 @@ class FlightService(Service):
         ]
 
     @property
+    def _price_fields(self):
+        price_fields = super(FlightService, self)._price_fields
+
+        return [
+            field for field in price_fields
+            if field not in ('commission', )
+        ]
+
+    @property
+    def _date_time_fields_utc(self):
+        date_fields = super(FlightService, self)._date_time_fields_utc
+
+        return [
+            field for field in date_fields
+            if field not in ('date_confirmed', )
+        ]
+
+    @property
     def _model_collection_fields(self):
         return super(FlightService, self)._model_collection_fields + [
             ('associated_services', AssociatedService),
+        ]
+
+    @property
+    def _resource_fields(self):
+        return super(FlightService, self)._resource_fields + [
+            ('flight_status', FlightStatus),
         ]
