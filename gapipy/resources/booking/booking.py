@@ -5,6 +5,7 @@ from ..base import Resource
 
 from .transaction import Payment, Refund
 from .document import Invoice, Document
+from .override import Override
 from .service import Service
 from gapipy.resources.checkin import Checkin
 
@@ -35,5 +36,6 @@ class Booking(Resource):
             ('payments', Payment),
             ('refunds', Refund),
             ('documents', Document),
+            ('overrides', Override),
             ('checkins', Checkin),
         ]

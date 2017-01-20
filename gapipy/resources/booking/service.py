@@ -15,8 +15,9 @@ from ...models import (
     TravellerHeight,
 )
 
-from ..base import Resource
+from ..base import Resource, BaseModel
 
+from ..flights import FlightStatus
 from ..tour import (
     Departure,
     DepartureComponent,
@@ -112,6 +113,49 @@ class ServiceProduct(Service):
         ]
 
 
+class Airport(BaseModel):
+    _as_is_fields = ['code', 'name']
+
+
+class Airline(BaseModel):
+    _as_is_fields = ['code', 'name']
+
+
+class FlightServiceSegment(Resource):
+    _as_is_fields = [
+        'id',
+        'href',
+        'flight_number',
+        'booking_class',
+        'technical_stops',
+    ]
+
+    _model_fields = [
+        ('airline', Airline),
+        ('origin_airport', Airport),
+        ('destination_airport', Airport),
+    ]
+
+    _date_time_fields_local = [
+        'departure_date',
+        'arrival_date',
+    ]
+
+    _resource_fields = [
+        ('flight_service', 'FlightService'),
+    ]
+
+
+class DepartureServiceFlight(BaseModel):
+    _model_collection_fields = [
+        ('flights', FlightServiceSegment)
+    ]
+
+    _resource_fields = [
+        ('customer', Customer),
+    ]
+
+
 class DepartureService(ServiceProduct):
     _resource_name = 'departure_services'
 
@@ -142,6 +186,8 @@ class DepartureService(ServiceProduct):
             ('incomplete_requirements', IncompleteRequirement),
             ('international_ticket_numbers', InternationalTicketNumber),
             ('rooms', DepartureServiceRoom),
+            ('arriving_flights', DepartureServiceFlight),
+            ('departing_flights', DepartureServiceFlight),
             ('traveller_heights', TravellerHeight),
         ]
 
@@ -206,9 +252,10 @@ class InsuranceService(Service):
     @property
     def _as_is_fields(self):
         return super(InsuranceService, self)._as_is_fields + [
-            'policy_type',
-            'policy_number',
             'policy_details_url',
+            'policy_number',
+            'policy_provider',
+            'policy_type',
         ]
 
     @property
@@ -242,7 +289,31 @@ class FlightService(Service):
         ]
 
     @property
+    def _price_fields(self):
+        price_fields = super(FlightService, self)._price_fields
+
+        return [
+            field for field in price_fields
+            if field not in ('commission', )
+        ]
+
+    @property
+    def _date_time_fields_utc(self):
+        date_fields = super(FlightService, self)._date_time_fields_utc
+
+        return [
+            field for field in date_fields
+            if field not in ('date_confirmed', )
+        ]
+
+    @property
     def _model_collection_fields(self):
         return super(FlightService, self)._model_collection_fields + [
             ('associated_services', AssociatedService),
+        ]
+
+    @property
+    def _resource_fields(self):
+        return super(FlightService, self)._resource_fields + [
+            ('flight_status', FlightStatus),
         ]
