@@ -1,3 +1,4 @@
+# Python 2 and 3
 from __future__ import unicode_literals
 
 import json
@@ -78,7 +79,8 @@ class Resource(BaseModel):
 
         data = self.to_dict()
         if partial:
-            data = {k: v for k, v in data.iteritems() if self._raw_data.get(k) != v}
+            # .items isn't effecient in Python 2
+            data = {k: v for k, v in data.items() if self._raw_data.get(k) != v}
 
         return request.update(self.id, json.dumps(data), partial=partial)
 

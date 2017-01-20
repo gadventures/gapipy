@@ -1,3 +1,4 @@
+# Python 2 and 3
 from __future__ import unicode_literals
 
 from ...utils import get_resource_class_from_resource_name
@@ -16,7 +17,9 @@ class PromotionProduct(Resource):
         # Fetch the resource class using the `type`, and then derive field
         # attributes from that class.
         klass = get_resource_class_from_resource_name(data['type'])
-        for k, v in klass.__dict__.items():
+        # Python 2 and 3
+        # inefficient on Python 2 to list items()
+        for k, v in list(klass.__dict__.items()):
             if 'fields' in k and isinstance(v, list):
                 setattr(self, k, getattr(klass, k))
 

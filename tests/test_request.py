@@ -1,3 +1,4 @@
+import sys
 import unittest
 
 from mock import call, patch
@@ -28,8 +29,12 @@ class APIRequestorTestCase(unittest.TestCase):
     def test_get_with_null_resource_id_and_uri_raises_error(self, mock_request):
         requestor = APIRequestor(self.client, self.resources)
         error_msg = 'Need to provide at least one of `resource_id` or `uri` as argument'
-        with self.assertRaisesRegexp(ValueError, error_msg):
-            requestor.get()
+        if sys.version_info.major < 3:
+            with self.assertRaisesRegexp(ValueError, error_msg):
+                requestor.get()
+        else:
+            with self.assertRaisesRegex(ValueError, error_msg):
+                requestor.get()
 
     def test_get_with_falsy_resource_id_does_not_raise_error(self, mock_request):
         requestor = APIRequestor(self.client, self.resources)

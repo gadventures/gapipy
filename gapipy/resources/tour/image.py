@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# Python 2 and 3
 from __future__ import unicode_literals
 
 from ..base import Resource

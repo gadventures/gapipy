@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
+# Python 2 and 3
 from __future__ import unicode_literals
 
 import datetime
 import sys
-from unittest import TestCase, skipIf
+from unittest import TestCase
 
 from mock import patch
 
@@ -29,7 +30,7 @@ class ResourceTestCase(TestCase):
 
     def test_to_dict(self):
         t = Tour(PPP_TOUR_DATA, client=self.client)
-        self.assertEquals(t.to_dict(), PPP_TOUR_DATA)
+        self.assertEqual(t.to_dict(), PPP_TOUR_DATA)
 
     def test_to_dict_datetimes(self):
         class DatetimeResource(Resource):
@@ -43,8 +44,8 @@ class ResourceTestCase(TestCase):
             'date_field_utc': '2013-02-18T18:17:20Z',
         }, client=self.client)
         data = resource.to_dict()
-        self.assertEquals(data['date_field'], '2013-02-18')
-        self.assertEquals(data['date_field_utc'], '2013-02-18T18:17:20Z')
+        self.assertEqual(data['date_field'], '2013-02-18')
+        self.assertEqual(data['date_field_utc'], '2013-02-18T18:17:20Z')
 
     @patch('gapipy.request.APIRequestor._request', return_value=PPP_DOSSIER_DATA)
     def test_instantiate_from_raw_data(self, mock_request):
@@ -75,7 +76,7 @@ class ResourceTestCase(TestCase):
 
         t = Tour(data, client=self.client, stub=True)
         self.assertTrue(t.is_stub)
-        self.assertEquals(t.id, 1)
+        self.assertEqual(t.id, 1)
 
         self.assertTrue(isinstance(t.tour_dossier, TourDossier))
         self.assertTrue(isinstance(t.departures, Query))
@@ -85,11 +86,11 @@ class ResourceTestCase(TestCase):
 
         mock_fetch.assert_called_once()
         self.assertFalse(t.is_stub)
-        self.assertEquals(
+        self.assertEqual(
             t.departures_start_date,
             datetime.datetime.strptime('2013-01-01', DATE_FORMAT).date()
         )
-        self.assertEquals(
+        self.assertEqual(
             t.departures_end_date,
             datetime.datetime.strptime('2014-01-01', DATE_FORMAT).date()
         )
@@ -112,12 +113,12 @@ class ResourceTestCase(TestCase):
         }
         f = Foo(data, client=self.client)
 
-        self.assertEquals(f.to_dict(), {
+        self.assertEqual(f.to_dict(), {
             'bar': {'id': 1, 'date': '2013-01-01'}
         })
         self.assertIsInstance(f.bar, Bar)
-        self.assertEquals(f.bar.id, 1)
-        self.assertEquals(f.bar.date, datetime.date(2013, 01, 01))
+        self.assertEqual(f.bar.id, 1)
+        self.assertEqual(f.bar.date, datetime.date(2013, 0o1, 0o1))
 
     def test_null_model_fields(self):
         from gapipy.models.base import BaseModel
@@ -134,19 +135,7 @@ class ResourceTestCase(TestCase):
         }
         f = Foo(data, client=self.client)
 
-        self.assertEquals(f.bar, None)
-
-    @skipIf(sys.version_info.major > 2, 'Only test for Python 2')
-    def test_repr_returns_bytes_in_python2(self):
-        data = {
-            'id': 123,
-            'name': 'Alc\xe1zar Palace Visit',
-        }
-        ad = ActivityDossier(data, self.client)
-        s = repr(ad)
-        self.assertIsInstance(s, str)
-        self.assertNotIsInstance(s, unicode)
-        self.assertEqual(s, b'<ActivityDossier Alcázar Palace Visit>')
+        self.assertEqual(f.bar, None)
 
 
 class AccommodationRoomTestCase(TestCase):

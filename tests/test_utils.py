@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+# Python 2 and 3
 from __future__ import unicode_literals
 
 import sys
-from unittest import TestCase, skipIf
+from unittest import TestCase
 
 from gapipy.client import Client
 from gapipy.resources.base import Resource
@@ -65,32 +66,3 @@ class UtilsTestCase(TestCase):
         place_2 = Place(name='Montreal')
         self.assertEqual(location_label(place_1, place_2), 'Toronto – Montreal')
         self.assertEqual(location_label(place_1, place_1), 'Toronto')
-
-    @skipIf(sys.version_info.major > 2, 'Only test for Python 2')
-    def test_enforce_string_type(self):
-
-        class MockResource(Resource):
-            _as_is_fields = ['id', 'name']
-
-            def __repr__(self):
-                return '<{} {}>'.format(self.__class__.__name__, self.name)
-
-        data = {
-            'id': 123,
-            'name': 'Alc\xe1zar Palace Visit',
-        }
-        client = Client()
-
-        res = MockResource(data, client)
-
-        with self.assertRaises(UnicodeEncodeError):
-            s = repr(res)
-
-        # Decorate `MockResource.__repr__` with `enforce_string_type`
-        orig_repr = MockResource.__repr__
-        MockResource.__repr__ = enforce_string_type(orig_repr)
-
-        s = repr(res)  # doesn't raise UnicodeEncodeError
-        self.assertIsInstance(s, str)
-        self.assertNotIsInstance(s, unicode)
-        self.assertEqual(s, b'<MockResource Alcázar Palace Visit>')

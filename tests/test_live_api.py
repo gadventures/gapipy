@@ -1,7 +1,7 @@
 """These tests mostly ensure that any change in the shape of the data
 returned by the API is detected.
 """
-
+import sys
 from unittest import TestCase
 
 from nose.plugins.attrib import attr
@@ -75,7 +75,13 @@ class TourDossierTestCase(TestCase):
 
     def test_get_image_url(self):
         url = self.dossier.get_map_url()
-        self.assertIsInstance(url, basestring)
+
+        if sys.version_info.major < 3:
+            # Python 2
+            self.assertIsInstance(url, basestring)
+        else:
+            # Python 3
+            self.assertIsInstance(url, str)
 
     def test_get_countries(self):
         countries = self.dossier.get_visited_countries()
@@ -83,7 +89,12 @@ class TourDossierTestCase(TestCase):
 
     def test_get_trip_detail(self):
         detail = self.dossier.get_trip_detail('Max Pax')
-        self.assertIsInstance(detail, basestring)
+        if sys.version_info.major < 3:
+            # Python 2
+            self.assertIsInstance(detail, basestring)
+        else:
+            # Python 3
+            self.assertIsInstance(detail, str)
 
 
 @attr('integration')
@@ -105,7 +116,7 @@ class LiveAPITestCase(TestCase):
         (DossierSegment, 19),
         (Feature, 214),
         (FeatureCategory, 4),
-        (Image, 4528),
+        (Image, 4321),
         (Itinerary, 978),
         (Language, '250'),
         (OverrideReason, 4),
@@ -142,7 +153,7 @@ class LiveAPITestCase(TestCase):
         # Test that we take into account all of the fields of the json data
         # returned by the API (this only checks for the top-level fields, not
         # those of nested objects)
-        self.assertEquals(
+        self.assertEqual(
             sorted(instance._allowed_fields()),
             sorted(instance._raw_data.keys())
         )

@@ -1,4 +1,5 @@
 import requests
+import sys
 
 from . import __title__, __version__
 
@@ -84,8 +85,16 @@ class APIRequestor(object):
             return response.raise_for_status()
 
     def _get_uri(self):
-        if isinstance(self.resource, basestring):
-            return self.resource
+        # Python 2 has str, Python 3 basestring
+            # Python 2
+        if sys.version_info.major < 3:
+            if isinstance(self.resource, basestring):
+                return self.resource
+        else:
+            # Python 3
+            if isinstance(self.resource, str):
+                return self.resource
+
         if self.resource._uri:
             return self.resource._uri
         return self.resource._resource_name

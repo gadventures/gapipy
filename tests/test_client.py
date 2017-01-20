@@ -33,8 +33,8 @@ class ClientTestCase(unittest.TestCase):
 
         resource = self.gapi.build('foo', {'id': 1, 'foo': 'bar'})
 
-        self.assertEquals(resource.id, 1)
-        self.assertEquals(resource.foo, 'bar')
+        self.assertEqual(resource.id, 1)
+        self.assertEqual(resource.foo, 'bar')
 
     @patch('gapipy.request.APIRequestor._request')
     def test_create_interface(self, mock_request):
@@ -52,7 +52,7 @@ class ClientTestCase(unittest.TestCase):
         # Create allows arbitrary data to be sent, even if it's not part of the
         # final resource.
         resource = self.gapi.create('foo', {'id': 1, 'foo': 'bar', 'context': 'abc'})
-        self.assertEquals(resource.id, 1)
+        self.assertEqual(resource.id, 1)
 
     @patch('gapipy.query.Query.get_resource_data')
     def test_correct_client_is_associated_with_resources(self, mock_get_data):
