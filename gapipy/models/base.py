@@ -1,3 +1,4 @@
+import sys
 from decimal import Decimal
 try:
     # Python 2
@@ -13,7 +14,7 @@ from gapipy.utils import (
     get_resource_class_from_class_name,
     get_resource_class_from_resource_name,
 )
-import sys
+
 
 DATE_FORMAT = '%Y-%m-%d'
 DATE_TIME_UTC_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
@@ -112,7 +113,7 @@ class BaseModel(object):
 
         # FIXME: This will not work for the model_*_fields.
 
-        # Python 2 has str, Python 3 basestring
+        # Python 2 has basestring, Python 3 str
         str_or_base = False
         if sys.version_info.major < 3:
             # Python 2
