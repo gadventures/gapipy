@@ -50,6 +50,7 @@ from .booking import (  # NOQA
     TransportService,
     Payment,
     Refund,
+    Override,
     OverrideReason,
 )
 
@@ -64,7 +65,7 @@ from .geo import (  # NOQA
     Timezone,
 )
 
-from .checkin import (
+from .checkin import (  # NOQA
     Checkin,
 )
 
@@ -127,6 +128,7 @@ available_private_resources = [
     'InsuranceService',
     'Invoice',
     'Nationality',
+    'Override',
     'Payment',
     'Refund',
     'SingleSupplementService',
