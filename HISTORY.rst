@@ -3,6 +3,15 @@
 History
 =======
 
+2.5.0 (2017-01-20)
+------------------
+* Provided Python 3 functionality (still Python 2 compatible)
+* Removed Python 2 only tests
+* Installed ``future`` module for smooth Python 2 to Python 3 migration
+* Remove ``DictToModel`` class and the associated tests
+* ``Dossier`` Resource(s)
+* Minor field updates to: ``Customer``, ``InsuranceService``, ``DepartureService``, ``Booking``, ``FlightStatus``, ``State``
+
 2.4.9 (2016-11-22)
 ------------------
 
