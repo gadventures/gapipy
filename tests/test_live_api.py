@@ -116,7 +116,7 @@ class LiveAPITestCase(TestCase):
         (DossierSegment, 19),
         (Feature, 214),
         (FeatureCategory, 4),
-        (Image, 4528),
+        (Image, 4321),
         (Itinerary, 978),
         (Language, '250'),
         (OverrideReason, 4),
