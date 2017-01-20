@@ -4,6 +4,8 @@ from .flight_segment import FlightSegment
 
 
 class FlightStatus(Resource):
+    _resource_name = 'flight_statuses'
+
     _as_is_fields = [
         'current_segment',
         'departure_service_action',
