@@ -113,6 +113,17 @@ class QueryTestCase(unittest.TestCase):
         self.assertIsInstance(t, Tour)
 
     @patch('gapipy.request.APIRequestor._request')
+    def test_get_instance_with_forbidden_id(self, mock_request):
+        response = Response()
+        response.status_code = 403
+        http_error = HTTPError(response=response)
+        mock_request.side_effect = http_error
+
+        query = Query(self.client, Tour)
+        t = query.get(1234)
+        self.assertIsNone(t)
+
+    @patch('gapipy.request.APIRequestor._request')
     def test_get_instance_with_non_existing_id(self, mock_request):
         response = Response()
         response.status_code = 404
