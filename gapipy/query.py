@@ -2,8 +2,16 @@ from functools import wraps
 from itertools import islice
 
 from requests import HTTPError
+from requests.status_codes import codes
 
 from .request import APIRequestor
+
+
+HTTPERRORS_MAPPED_TO_NONE = (
+    codes.FORBIDDEN,  # 403
+    codes.NOT_FOUND,  # 404
+    codes.GONE,  # 410
+)
 
 
 def _check_listable(func):
@@ -55,7 +63,7 @@ class Query(object):
                 cached=cached
             )
         except HTTPError as e:
-            if e.response.status_code in (404, 410):
+            if e.response.status_code in HTTPERRORS_MAPPED_TO_NONE:
                 return None
             raise e
         resource_object = self.resource(data, client=self._client)
