@@ -187,8 +187,9 @@ In addition to running the test suite against your local Python interpreter, you
 can run tests using `Tox <http://tox.testrun.org>`_. Tox allows the test suite
 to be run against multiple environments, or in this case, multiple versions of
 Python. Install and run the ``tox`` command from any place in the gapipy source
-tree::
+tree. You'll want to export your G API application key as well::
 
+  $ export GAPI_APPLICATION_KEY=MY_SECRET_KEY
   $ pip install tox
   $ tox
 
