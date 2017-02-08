@@ -303,7 +303,7 @@ class UpdateCreateResourceTestCase(unittest.TestCase):
         r = MockResource(data, client=self.client)
         r.save()
         mock_request.assert_called_once_with(
-            '/mocks', 'POST', data=json.dumps(data))
+            '/mocks', 'POST', data=r.to_json())
 
     def test_update_object(self, mock_request):
         data = {
@@ -318,7 +318,7 @@ class UpdateCreateResourceTestCase(unittest.TestCase):
         data['first_name'] = 'Jonathan'
 
         mock_request.assert_called_once_with(
-            '/mocks/1', 'PUT', data=json.dumps(data))
+            '/mocks/1', 'PUT', data=r.to_json())
 
     def test_partial_update_object(self, mock_request):
         data = {
