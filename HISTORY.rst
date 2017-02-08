@@ -3,8 +3,17 @@
 History
 =======
 
+2.5.1 (2017-02-08)
+------------------
+
+* Fixed an issue in which modifying a nested dictionary caused gapipy to not
+  identify a change in the data.
+* Added ``tox.ini`` for testing across Python platforms.
+* Capture ``403`` Status Codes as a ``None`` object.
+
 2.5.0 (2017-01-20)
 ------------------
+
 * Provided Python 3 functionality (still Python 2 compatible)
 * Removed Python 2 only tests
 * Installed ``future`` module for smooth Python 2 to Python 3 migration
