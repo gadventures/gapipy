@@ -1,4 +1,5 @@
 import sys
+from copy import deepcopy
 from decimal import Decimal
 try:
     # Python 2
@@ -41,11 +42,11 @@ class BaseModel(object):
 
     def __init__(self, data, client):
         self._client = client
-        self._raw_data = data
+        self._raw_data = deepcopy(data)
         self._fill_fields(data)
 
     def _fill_fields(self, data):
-        self._raw_data = data
+        self._raw_data = deepcopy(data)
         first = lambda l: [pair[0] for pair in l]
 
         # Initially we populate base fields, as model/resource fields may rely
