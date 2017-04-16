@@ -19,7 +19,7 @@ class Invoice(Resource):
     _resource_name = 'invoices'
     _is_listable = False
 
-    _as_is_fields = ['id', 'href', 'audience']
+    _as_is_fields = ['id', 'href']
     _date_time_fields_utc = ['date_created']
     _resource_fields = [
         ('document', Document),
