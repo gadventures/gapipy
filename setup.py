@@ -11,6 +11,7 @@ history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 requirements = [
     'requests',
+    'future',
 ]
 
 test_requirements = [
