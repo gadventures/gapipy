@@ -52,7 +52,12 @@ class BaseModel(object):
         # Initially we populate base fields, as model/resource fields may rely
         # on these to be present.
         remaining_data = {}
-        # list(dict.items()) inefficient on Python 2
+
+        if not isinstance(data, dict):
+            raise AttributeError(
+                "Unable to populate resource. Failed at data point: {}".format(data)
+            )
+
         for field, value in list(data.items()):
             if field in self._as_is_fields:
                 self._set_as_is_field(field, value)
