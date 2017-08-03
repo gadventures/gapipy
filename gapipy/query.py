@@ -67,7 +67,6 @@ class Query(object):
                 return None
             raise e
         resource_object = self.resource(data, client=self._client)
-        self._client._cache.set(key, resource_object.to_dict())
         return resource_object
 
     def get_resource_data(self, resource_id, variation_id=None, cached=True):
@@ -82,9 +81,11 @@ class Query(object):
             if resource_data is not None:
                 return resource_data
 
-        # Cache miss; get fresh data from the backend.
+        # Cache miss; get fresh data from the backend, set in cache
         requestor = APIRequestor(self._client, self.resource)
         out = requestor.get(resource_id, variation_id=variation_id)
+        if out is not None:
+            self._client._cache.set(key, out)
         self._filters = {}
         return out
 

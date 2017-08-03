@@ -3,6 +3,14 @@
 History
 =======
 
+Unreleased
+----------
+
+* Fixed `issue 65 <https://github.com/gadventures/gapipy/issues/65>`_: only
+  write data into the local cache after a fetch from the API, do not write data
+  into the local cache when fetching from the local cache.
+
+
 2.5.2 (2017-04-26)
 ------------------
 
