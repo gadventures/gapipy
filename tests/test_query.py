@@ -2,7 +2,7 @@ import json
 import sys
 import unittest
 
-from mock import patch
+from mock import MagicMock, patch
 from requests import HTTPError, Response
 
 from gapipy.client import Client
@@ -270,6 +270,29 @@ class QueryCacheTestCase(unittest.TestCase):
 
         query.get(21346)
         self.assertEqual(len(mock_request.mock_calls), 1)
+
+    def test_cached_get_does_not_set(self):
+        """
+        Regression test https://github.com/gadventures/gapipy/issues/65
+
+        We discovered that when getting a resource, even if it is a hit in our
+        local cache we would set the data back into our cache every time. When
+        using a cache with a TTL on keys (e.g. Redis) this has the effect of
+        resetting the TTL each time that that key is retrieved. This is not the
+        expected behaviour wrt cache key TTLs.
+        """
+        query = Query(self.client, Tour)
+
+        # act like we already have the data in our cache
+        mock_cache_get = MagicMock(return_value=PPP_TOUR_DATA)
+        self.cache.get = mock_cache_get
+
+        mock_cache_set = MagicMock()
+        self.cache.set = mock_cache_set
+
+        query.get(21346)
+        self.assertEqual(len(mock_cache_get.mock_calls), 1)
+        self.assertEqual(len(mock_cache_set.mock_calls), 0)
 
 
 class MockResource(Resource):
