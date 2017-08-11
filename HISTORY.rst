@@ -3,8 +3,20 @@
 History
 =======
 
-Unreleased
-----------
+2.6.2 (2017-08-11)
+------------------
+
+* Version bump
+
+
+2.6.1 (2017-08-11)
+------------------
+
+* Adds a Deprecation warning when using the `tours` resource.
+
+
+2.6.0 (2017-08-11)
+------------------
 
 * Fixed `issue 65 <https://github.com/gadventures/gapipy/issues/65>`_: only
   write data into the local cache after a fetch from the API, do not write data
