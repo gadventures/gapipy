@@ -315,17 +315,11 @@ class FlightService(Service):
     @property
     def _model_fields(self):
         return super(FlightService, self)._model_fields + [
-            ('flight_status', Refe)
+            ('flight_status', FlightStatus)
         ]
 
     @property
     def _model_collection_fields(self):
         return super(FlightService, self)._model_collection_fields + [
             ('associated_services', AssociatedService),
-        ]
-
-    @property
-    def _resource_fields(self):
-        return super(FlightService, self)._resource_fields + [
-            ('flight_status', FlightStatus),
         ]
