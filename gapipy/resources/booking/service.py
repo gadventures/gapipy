@@ -17,7 +17,6 @@ from ...models import (
 
 from ..base import Resource, BaseModel
 
-from ..flights import FlightStatus
 from ..tour import (
     Departure,
     DepartureComponent,
@@ -277,6 +276,13 @@ class FeeService(Service):
         ]
 
 
+class FlightStatus(BaseModel):
+    """
+    Represent a flight_status attached to the FlightService
+    """
+    _as_is_fields = ['id', 'href']
+
+
 class FlightService(Service):
     _resource_name = 'flight_services'
 
@@ -304,6 +310,12 @@ class FlightService(Service):
         return [
             field for field in date_fields
             if field not in ('date_confirmed', )
+        ]
+
+    @property
+    def _model_fields(self):
+        return super(FlightService, self)._model_fields + [
+            ('flight_status', Refe)
         ]
 
     @property
