@@ -3,6 +3,12 @@
 History
 =======
 
+2.7.2 (2017-08-18)
+------------------
+
+* Fix flight_status Reference value in FlightService resource
+
+
 2.7.1 (2017-08-18)
 ------------------
 
