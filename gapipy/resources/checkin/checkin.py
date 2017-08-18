@@ -22,6 +22,7 @@ class Checkin(Resource):
 
     _as_is_fields = [
         'id',
+        'href',
         'status',
     ]
 

@@ -19,7 +19,7 @@ class Departure(Product):
         'nearest_finish_airport', 'product_line', 'sku', 'requirements',
     ]
     _date_fields = ['start_date', 'finish_date']
-    _date_time_fields_utc = ['date_created', 'date_last_modified']
+    _date_time_fields_utc = ['date_created', 'date_last_modified', 'date_cancelled']
     _date_time_fields_local = ['latest_arrival_time', 'earliest_departure_time']
     _resource_fields = [('tour', 'Tour'), ('tour_dossier', TourDossier)]
     _resource_collection_fields = [
