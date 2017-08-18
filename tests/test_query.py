@@ -323,6 +323,10 @@ class UpdateCreateResourceTestCase(unittest.TestCase):
             'last_name': 'Ive',
             'id': None,
         }
+        # modify mock_request to return a value
+        # this is needed for save -> _fill_fields
+        mock_request.return_value = data
+
         r = MockResource(data, client=self.client)
         r.save()
         mock_request.assert_called_once_with(
@@ -334,11 +338,17 @@ class UpdateCreateResourceTestCase(unittest.TestCase):
             'last_name': 'Ive',
             'id': 1,
         }
-        r = MockResource(data, client=self.client)
+        # modify mock_request to return a value
+        # this is needed for save -> _fill_fields
+        mock_request.return_value = {
+            'id': 1,
+            'first_name': 'Jonathan',
+            'last_name': 'Ive',
+        }
 
+        r = MockResource(data, client=self.client)
         r.first_name = 'Jonathan'
         r.save()
-        data['first_name'] = 'Jonathan'
 
         mock_request.assert_called_once_with(
             '/mocks/1', 'PUT', data=r.to_json())
