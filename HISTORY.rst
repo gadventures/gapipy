@@ -3,6 +3,12 @@
 History
 =======
 
+2.7.0 (2017-08-18)
+------------------
+
+* Remove `flight_statuses` and `flight_segments` resources.
+
+
 2.6.2 (2017-08-11)
 ------------------
 
