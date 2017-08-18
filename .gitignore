@@ -9,3 +9,4 @@ gapipy.egg-info/*
 
 *.pyc
 .idea/
+.tox/

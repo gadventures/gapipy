@@ -3,6 +3,16 @@
 History
 =======
 
+2.7.1 (2017-08-18)
+------------------
+
+* Fix: remove FlightStatus import reference for FlightService resource
+* Add fields (fixes two broken Resource tests)
+  * Add `href` field for `checkins` resource
+  * Add `date_cancelled` field for `departures` resource
+* Fix broken UpdateCreateResource tests
+
+
 2.7.0 (2017-08-18)
 ------------------
 
