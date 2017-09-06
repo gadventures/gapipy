@@ -3,6 +3,13 @@
 History
 =======
 
+2.7.3 (2017-09-06)
+------------------
+
+* Add `type` field to `AgencyDocument` model
+* Add `structured_itinerary` model collection field to `Departure` resource
+
+
 2.7.2 (2017-08-18)
 ------------------
 
