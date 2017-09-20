@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 
 from ..base import Resource
 from .details import DossierDetail, DossierDetailsMixin
+from ..tour.video import Video
+from ..tour.image import Image
 
 
 class AccommodationDossier(Resource, DossierDetailsMixin):
@@ -31,4 +33,6 @@ class AccommodationDossier(Resource, DossierDetailsMixin):
 
     _model_collection_fields = [
         ('details', DossierDetail),
+        ('images', Image),
+        ('videos', Video),
     ]

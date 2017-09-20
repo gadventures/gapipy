@@ -1,8 +1,9 @@
 # Python 2 and 3
 from __future__ import unicode_literals
 
-from ...models.base import BaseModel
 from ..base import Resource
+from ..tour.image import Image
+from ..tour.video import Video
 from .details import DossierDetail
 
 
@@ -21,5 +22,6 @@ class PlaceDossier(Resource):
 
     _model_collection_fields = [
         ('details', DossierDetail),
-        ('images', 'Image'),
+        ('images', Image),
+        ('videos', Video),
     ]

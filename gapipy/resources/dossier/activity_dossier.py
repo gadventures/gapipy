@@ -3,6 +3,9 @@ from __future__ import unicode_literals
 
 from ...utils import humanize_price, LocationLabelMixin, DurationLabelMixin, enforce_string_type
 from ..base import Resource
+from ..tour.image import Image
+from ..tour.tour_category import TourCategoryList
+from ..tour.video import Video
 from .details import DossierDetail, DossierDetailsMixin
 from .dossier_features import DossierFeature
 
@@ -39,6 +42,9 @@ class ActivityDossier(Resource, DossierDetailsMixin, DurationLabelMixin, Locatio
     _model_collection_fields = [
         ('details', DossierDetail),
         ('features', DossierFeature),
+        ('categories', TourCategoryList),
+        ('images', Image),
+        ('videos', Video),
     ]
 
     @enforce_string_type

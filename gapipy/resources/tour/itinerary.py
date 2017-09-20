@@ -145,8 +145,15 @@ class Itinerary(Resource):
     _is_parent_resource = True
 
     _as_is_fields = [
-        'id', 'href', 'name', 'duration', 'meals_included', 'meals_budget',
-        'packing_lists', 'variation_id',
+        'id',
+        'href',
+        'name',
+        'flags',
+        'duration',
+        'meals_included',
+        'meals_budget',
+        'packing_lists',
+        'variation_id',
     ]
     _resource_fields = [
         ('start_location', 'Place'),
