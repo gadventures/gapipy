@@ -3,6 +3,12 @@
 History
 =======
 
+2.7.4 (2017-09-20)
+------------------
+
+* Add `videos`, `images`, and `categories` to Activity, Transport, Place, and Accommodation Dossiers.
+* Add `flags` to Itinerary resource
+
 2.7.3 (2017-09-06)
 ------------------
 
