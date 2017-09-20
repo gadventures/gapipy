@@ -8,6 +8,7 @@ History
 
 * Add `videos`, `images`, and `categories` to Activity, Transport, Place, and Accommodation Dossiers.
 * Add `flags` to Itinerary resource
+* Add list view of `accommodations` resource
 
 2.7.3 (2017-09-06)
 ------------------

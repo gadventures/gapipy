@@ -11,7 +11,6 @@ from ...utils import enforce_string_type
 class Accommodation(Product):
 
     _resource_name = 'accommodations'
-    _is_listable = False
 
     _as_is_fields = ['id', 'href', 'name', 'product_line', 'sku', 'type',
         'sub_type', 'phone_numbers']
