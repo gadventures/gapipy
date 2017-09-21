@@ -14,6 +14,8 @@ class Place(Resource):
 
     _resource_name = 'places'
 
+    _is_searchable = True
+
     _as_is_fields = [
         'id', 'href', 'name', 'ascii_name', 'population', 'elevation',
         'latitude', 'longitude', 'bounding_box', 'alternate_names',

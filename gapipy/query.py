@@ -140,6 +140,21 @@ class Query(object):
         for result in generator:
             yield self.resource(result, client=self._client, stub=True)
 
+    def like(self, **kwargs):
+        """
+        Supports '<api_root>/resource?<field_name>_like=<value>'
+        Usage: '<client>.<resource>.like(<field_name>=<value>)'
+        """
+        if not self.resource._is_searchable:
+            raise ValueError('This resource is not searchable')
+
+        filters = {}
+        for key, value in kwargs.items():
+            filters.update({'{0}__like'.format(key): value})
+
+        self._filters.update(filters)
+        return self
+
     def filter(self, **kwargs):
         """Add filter arguments to the query.
 

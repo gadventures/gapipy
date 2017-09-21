@@ -16,6 +16,7 @@ class Resource(BaseModel):
     _resource_name = None
     _is_parent_resource = False
     _is_listable = True  # True if resource can be listed/queried (i.e /{resource_name} is an endpoint)
+    _is_searchable = False  # Resource is searchable
     _uri = None
 
     def __init__(self, data, stub=False, client=None):
