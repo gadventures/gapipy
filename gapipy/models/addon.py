@@ -5,7 +5,10 @@ from ..utils import enforce_string_type
 class AddOn(BaseModel, RelatedResourceMixin):
     _as_is_fields = ['max_days', 'min_days', 'product']
     _date_fields = ['start_date', 'finish_date', 'halt_booking_date', 'request_space_date']
-    _resource_fields = []
+
+    def __init__(self, *args, **kwargs):
+        self._resource_fields = []
+        super(AddOn, self).__init__(*args, **kwargs)
 
     @enforce_string_type
     def __repr__(self):
