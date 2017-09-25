@@ -7,7 +7,7 @@ from requests import HTTPError, Response
 
 from gapipy.client import Client
 from gapipy.query import Query
-from gapipy.resources import Accommodation, Departure, Tour, TourDossier
+from gapipy.resources import Activity, Departure, Tour, TourDossier
 from gapipy.resources.base import Resource
 from gapipy.utils import get_available_resource_classes
 
@@ -180,23 +180,23 @@ class QueryTestCase(unittest.TestCase):
         self.assertEqual(query._filters, {})
 
     def test_listing_non_listable_resource_fails(self):
-        message = 'The Accommodation resource is not listable and/or is only available as a subresource'
+        message = 'The Activity resource is not listable and/or is only available as a subresource'
         if sys.version_info.major < 3:
             with self.assertRaisesRegexp(ValueError, message):
-                Query(self.client, Accommodation).all()
+                Query(self.client, Activity).all()
             with self.assertRaisesRegexp(ValueError, message):
-                Query(self.client, Accommodation).count()
+                Query(self.client, Activity).count()
         else:
             with self.assertRaisesRegex(ValueError, message):
-                Query(self.client, Accommodation).all()
+                Query(self.client, Activity).all()
             with self.assertRaisesRegex(ValueError, message):
-                Query(self.client, Accommodation).count()
+                Query(self.client, Activity).count()
 
     @patch('gapipy.request.APIRequestor._request', return_value=DUMMY_PROMOTION)
     def test_can_retrieve_single_non_listable_resource(self, mock_request):
-        Query(self.client, Accommodation).get(1234)
+        Query(self.client, Activity).get(1234)
         mock_request.assert_called_once_with(
-            '/accommodations/1234', 'GET')
+            '/activities/1234', 'GET')
 
     @patch('gapipy.request.APIRequestor._request', return_value=DUMMY_DEPARTURE)
     def test_can_retrieve_single_subresource_without_parent(self, mock_request):
