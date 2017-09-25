@@ -3,12 +3,24 @@
 History
 =======
 
+2.7.5 (2017-09-25)
+------------------
+
+* Add test fix for Accommodation. It is listable resource as of `2.7.4`
+* Add regression test for departures.addon.product model
+  * Ensure Addon's are instantiated to the correct underlying model.
+    * e.g. Hotel Boulevard is an `Accommodation` type addon
+    * e.g. Serengeti Balloon Safari is an `Activity` type addon
+  * Prior to this release, all Addon.product values
+
+
 2.7.4 (2017-09-20)
 ------------------
 
 * Add `videos`, `images`, and `categories` to Activity, Transport, Place, and Accommodation Dossiers.
 * Add `flags` to Itinerary resource
 * Add list view of `accommodations` resource
+
 
 2.7.3 (2017-09-06)
 ------------------
