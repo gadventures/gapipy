@@ -209,3 +209,36 @@ class PricePromotionTestCase(TestCase):
         for price in prices:
             promotion = price.promotions[0].to_dict()
             self.assertTrue('amount' in promotion)
+
+
+class DepartureAddonTestCase(TestCase):
+    """
+    Test that the departures.addons.product instances get appropriate resource
+    types.
+
+    This is a regression test for some erroneous behaviour of the AddOn model.
+
+    The AddOn._resource_fields list was defined at the class level, and as-such
+    it was shared among intances of that class. The effect is that if you have
+    three addons, they will all be using the same model for their "product"
+    even when those products are different type (e.g. "accommodations" versus
+    "activities" versus "transports" versus "single_supplements" etc.)
+
+    Desired behaviour is that each AddOn.product is represented by a model
+    appropriate for its type.
+    """
+    def test_departure_addon_product_types(self):
+        departure = Departure(DUMMY_DEPARTURE, client=Client())
+
+        for addon in departure.addons:
+
+            # Product should use a resource class that matches with its type
+            self.assertEqual(addon.product._resource_name, addon.product.type)
+
+            # Each addon instance should have only one resource class listed
+            # for it's "product" field
+            product_resource_fields = [
+                (field, resource_class)
+                for (field, resource_class) in addon._resource_fields
+                if field == 'product']
+            self.assertEqual(len(product_resource_fields), 1)
