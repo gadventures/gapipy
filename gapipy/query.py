@@ -130,6 +130,7 @@ class Query(object):
             parent=self.parent
         )
         generator = requestor.list()
+        self._filters = {}
 
         if limit:
             if isinstance(limit, int) and limit > 0:
