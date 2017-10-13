@@ -160,18 +160,44 @@ class QueryTestCase(unittest.TestCase):
 
     @patch('gapipy.request.APIRequestor._request')
     def test_filtered_query(self, mock_request):
+        """
+        Arguments passed to .filter() are stored on the Query instance but are
+        cleared when that query is evaluated.
+        """
+        # Create a basic filter query for PPP...
         query = Query(self.client, Tour).filter(tour_dossier_code='PPP')
-        list(query)  # force query evaluation
-        mock_request.assert_called_once_with(
-            '/tours', 'GET', params={'tour_dossier_code': 'PPP'})
+        self.assertEqual(len(query._filters), 1)
 
-        # Check that filters can be chained
-        list(query.filter(departures_start_date='2014-01-01'))
-        mock_request.assert_called_with(
+        # ... then chain on another filter argument...
+        query = query.filter(order_by__asc='departures_start_date')
+        self.assertEqual(len(query._filters), 2)
+
+        # ... and force query evaluation, before checking...
+        list(query)
+
+        # ... our request was made with the appropriate query args, and...
+        mock_request.assert_called_once_with(
             '/tours', 'GET', params={
                 'tour_dossier_code': 'PPP',
-                'departures_start_date': '2014-01-01'
+                'order_by__asc': 'departures_start_date',
             })
+        mock_request.reset_mock()
+
+        # ... our stored filter args got reset.
+        self.assertEqual(len(query._filters), 0)
+
+        # Check .count() also clears stored filter args appropriately:
+        query.filter(
+            tour_dossier_code='PPP',
+            order_by__desc='departures_start_date').count()
+        mock_request.assert_called_once_with(
+            '/tours', 'GET', params={
+                'tour_dossier_code': 'PPP',
+                'order_by__desc': 'departures_start_date',
+            })
+        mock_request.reset_mock()
+        self.assertEqual(len(query._filters), 0)
+
 
     @patch('gapipy.request.APIRequestor._request')
     def test_query_reset_filter(self, mock_request):
