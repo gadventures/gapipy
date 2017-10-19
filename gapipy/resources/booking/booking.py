@@ -25,6 +25,7 @@ class Booking(Resource):
     _date_time_fields_utc = ['date_created', ]
     _resource_fields = [
         ('agent', 'Agent'),
+        ('agency', 'Agency'),
         ('associated_agency', 'Agency'),
     ]
 
