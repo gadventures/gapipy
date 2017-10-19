@@ -20,8 +20,17 @@ class Agency(Resource):
     _is_parent_resource = True
 
     _as_is_fields = [
-        'id', 'href', 'name', 'booking_currencies', 'latitude', 'longitude', 'transactional_email',
-        'agent_notifications', 'communication_preferences', 'override_agency_secondary', 'passenger_notifications',
+        'id',
+        'href',
+        'name',
+        'booking_currencies',
+        'latitude',
+        'longitude',
+        'transactional_email',
+        'agent_notifications',
+        'communication_preferences',
+        'override_agency_secondary',
+        'passenger_notifications',
     ]
     _date_time_fields_local = ['date_created']
     _model_fields = [('address', Address)]
