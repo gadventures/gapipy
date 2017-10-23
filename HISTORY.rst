@@ -3,6 +3,21 @@
 History
 =======
 
+2.8.0 (2017-10-23)
+------------------
+
+* This release adds a behaviour change to the `.all()` method on resource Query
+  objects. Prior to this release, the base Resource Query object would retain
+  any previously added `filter` values, and be used in subsequent calls. Now
+  the underlying filters are reset after a `<resource>.all()` call is amde.
+
+  A more detailed description of the issue and fix can be found at:
+  * https://github.com/gadventures/gapipy/issues/76
+  * https://github.com/gadventures/gapipy/pull/77
+
+* Adds missing fields to the Agency and Flight Service resources (pull/78)
+
+
 2.7.6 (2017-10-04)
 ------------------
 
@@ -17,7 +32,8 @@ History
   * Ensure Addon's are instantiated to the correct underlying model.
     * e.g. Hotel Boulevard is an `Accommodation` type addon
     * e.g. Serengeti Balloon Safari is an `Activity` type addon
-  * Prior to this release, all Addon.product values
+  * Prior to this release, all Addon.product resources were instantiated
+    as `Accommodation`.
 
 
 2.7.4 (2017-09-20)
