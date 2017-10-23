@@ -309,7 +309,6 @@ class FlightService(Service):
 
         return [
             field for field in date_fields
-            if field not in ('date_confirmed', )
         ]
 
     @property
