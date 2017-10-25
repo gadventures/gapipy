@@ -3,6 +3,12 @@
 History
 =======
 
+2.8.1 (2017-10-25)
+------------------
+
+* Add new fields to the `Agency` and `AgencyChain` resources
+
+
 2.8.0 (2017-10-23)
 ------------------
 
@@ -30,8 +36,6 @@ History
 * Add test fix for Accommodation. It is listable resource as of `2.7.4`
 * Add regression test for departures.addon.product model
   * Ensure Addon's are instantiated to the correct underlying model.
-    * e.g. Hotel Boulevard is an `Accommodation` type addon
-    * e.g. Serengeti Balloon Safari is an `Activity` type addon
   * Prior to this release, all Addon.product resources were instantiated
     as `Accommodation`.
 
