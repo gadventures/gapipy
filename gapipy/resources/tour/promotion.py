@@ -34,19 +34,39 @@ class Promotion(Resource):
     _resource_name = 'promotions'
 
     _as_is_fields = [
-        'id', 'href', 'commission_rate', 'currencies', 'flags',
-        'min_travellers', 'name', 'promotion_code', 'room_codes',
+        'id',
+        'href',
+        'commission_rate',
+        'currencies',
+        'flags',
+        'min_travellers',
+        'name',
+        'promotion_code',
+        'room_codes',
         'terms_and_conditions',
     ]
 
-    _date_time_fields_utc = ['date_created', 'date_last_modified']
+    _date_time_fields_utc = [
+        'date_created',
+        'date_last_modified',
+        'sale_finish_datetime',
+        'sale_start_datetime',
+    ]
 
     _date_fields = [
-        'product_start_date', 'product_finish_date',
-        'sale_start_date', 'sale_finish_date'
+        'product_finish_date',
+        'product_start_date',
+        'sale_finish_date',
+        'sale_start_date',
     ]
-    _price_fields = ['discount_amount', 'discount_percent']
-    _model_collection_fields = [('products', Product)]
+    _price_fields = [
+        'discount_amount',
+        'discount_percent',
+    ]
+
+    _model_collection_fields = [
+        ('products', Product),
+    ]
 
     def _set_model_collection_field(self, field, data):
         # Only products needs special treatment.
