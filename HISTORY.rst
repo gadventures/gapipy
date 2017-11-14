@@ -3,6 +3,13 @@
 History
 =======
 
+2.8.2 (2017-11-14)
+
+* Adds fields `sale_start_datetime` and `sale_finish_datetime` to the
+  Promotion resource. The fields mark the start/finish date-time values
+  for when a Promotion is applicable. The values represented are in UTC.
+
+
 2.8.1 (2017-10-25)
 ------------------
 
@@ -36,8 +43,7 @@ History
 * Add test fix for Accommodation. It is listable resource as of `2.7.4`
 * Add regression test for departures.addon.product model
   * Ensure Addon's are instantiated to the correct underlying model.
-  * Prior to this release, all Addon.product resources were instantiated
-    as `Accommodation`.
+  * Prior to this release, all Addon.product resources were instantiated as `Accommodation`.
 
 
 2.7.4 (2017-09-20)
