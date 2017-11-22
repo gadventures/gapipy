@@ -42,6 +42,9 @@ class Query(object):
         # serializable types.
         return self._raw_data
 
+    def options(self):
+        return self.resource.options(client=self._client)
+
     def get(self, resource_id, variation_id=None, cached=True):
         """
         Returns an instance of the query resource with the given `resource_id`
