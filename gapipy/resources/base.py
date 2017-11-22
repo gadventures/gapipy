@@ -24,6 +24,10 @@ class Resource(BaseModel):
             self._uri = self._resource_name
         super(Resource, self).__init__(data, client)
 
+    @classmethod
+    def options(cls, client):
+        return APIRequestor(client, cls).options()
+
     def fetch(self):
         logger.info('Fetching %s/%s', self._resource_name, self.id)
         self.is_stub = False

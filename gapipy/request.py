@@ -8,6 +8,8 @@ ACCEPTABLE_RESPONSE_STATUS_CODES = (
     requests.codes.ok, requests.codes.created, requests.codes.accepted,
 )
 
+ALLOWED_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'OPTIONS', ]
+
 JSON_CONTENT_TYPE = 'application/json'
 
 
@@ -22,7 +24,7 @@ class APIRequestor(object):
     def _request(self, uri, method, data=None, params=None, additional_headers=None):
         """Make an HTTP request to a target API method with proper headers."""
 
-        assert method in ['GET', 'POST', 'PUT', 'PATCH'], "Only 'GET', 'POST', 'PUT', and 'PATCH' are allowed."
+        assert method in ALLOWED_METHODS, "Only {} are allowed.".format(', '.join(ALLOWED_METHODS))
         url = self._get_url(uri)
         headers = self._get_headers(method, additional_headers)
         response = self._make_call(method, url, headers, data, params)
@@ -98,6 +100,12 @@ class APIRequestor(object):
         if self.resource._uri:
             return self.resource._uri
         return self.resource._resource_name
+
+    def options(self):
+        """
+        Get the options for a resource
+        """
+        return self._request('/{0}'.format(self._get_uri()), 'OPTIONS')
 
     def get(self, resource_id=None, uri=None, variation_id=None):
         """
