@@ -76,8 +76,11 @@ An API client instance has a query object for each available resource
 Methods on Query objects
 ========================
 
-All queries support the ``get`` and ``create`` methods. The other methods are
+All queries support the ``get``, ``create`` and ``options`` methods. The other methods are
 only supported for queries whose resources are listable.
+
+``options()``
+    Get the options for a single resource
 
 ``get(resource_id)``
     Get a single resource.
