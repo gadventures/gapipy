@@ -3,7 +3,17 @@
 History
 =======
 
+2.9.1 (2017-11-22)
+------------------
+
+* Adds the `options` method on the Resource Query object.
+  A more detailed description of the issue can be found at:
+  * https://github.com/gadventures/gapipy/releases/2.9.1
+* *NOTE*: We have skip `2.9.0` due to pypi upload issues
+
+
 2.8.2 (2017-11-14)
+------------------
 
 * Adds fields `sale_start_datetime` and `sale_finish_datetime` to the
   Promotion resource. The fields mark the start/finish date-time values
@@ -22,7 +32,7 @@ History
 * This release adds a behaviour change to the `.all()` method on resource Query
   objects. Prior to this release, the base Resource Query object would retain
   any previously added `filter` values, and be used in subsequent calls. Now
-  the underlying filters are reset after a `<resource>.all()` call is amde.
+  the underlying filters are reset after a `<resource>.all()` call is made.
 
   A more detailed description of the issue and fix can be found at:
   * https://github.com/gadventures/gapipy/issues/76
