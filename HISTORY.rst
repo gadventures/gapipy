@@ -3,13 +3,19 @@
 History
 =======
 
+2.9.3 (2017-11-23)
+------------------
+* Expose `requirement_set` for `departure_services` and `activity_services`.
+* *NOTE*: We have skipped `2.9.2` due to pypi upload issues.
+
+
 2.9.1 (2017-11-22)
 ------------------
 
 * Adds the `options` method on the Resource Query object.
   A more detailed description of the issue can be found at:
   * https://github.com/gadventures/gapipy/releases/2.9.1
-* *NOTE*: We have skip `2.9.0` due to pypi upload issues
+* *NOTE*: We have skipped `2.9.0` due to pypi upload issues
 
 
 2.8.2 (2017-11-14)
