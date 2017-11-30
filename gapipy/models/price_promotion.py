@@ -17,7 +17,7 @@ class PricePromotion(Resource):
         # Python 2 and 3
         # inefficient on Python 2 to list items()
         for k, v in list(klass.__dict__.items()):
-            if 'fields' in k and isinstance(v, list):
+            if 'fields' in k:
                 setattr(self, k, getattr(klass, k))
             if '_is_parent_resource' in k:
                 setattr(self, k, v)
