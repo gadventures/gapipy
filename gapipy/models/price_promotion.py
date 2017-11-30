@@ -20,6 +20,7 @@ class PricePromotion(Resource):
             '_date_fields',
             '_price_fields',
             '_model_collection_fields',
+            '_resource_collection_fields',
         ]
 
         # Python 2 and 3
