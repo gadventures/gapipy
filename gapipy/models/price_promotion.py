@@ -31,7 +31,7 @@ class PricePromotion(Resource):
                 setattr(self, field_type, value)
 
         if getattr(klass, '_is_parent_resource', None):
-            setattr(self, klass._is_parent_resource)
+            setattr(self, '_is_parent_resource', klass._is_parent_resource)
 
         super(PricePromotion, self).__init__(data, **kwargs)
 
