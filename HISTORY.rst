@@ -3,8 +3,19 @@
 History
 =======
 
+2.10.0 (2017-12-01)
+------------------
+
+* Add the `amount_pending` field to the `Booking` resource
+* `PricePromotion` extends from the `Promotion` resource (PR 85)
+* Update the `Agent` class to use BaseModel classes for the
+  `role` and `phone_numbers` fields.
+* see https://github.com/gadventures/gapipy/releases/2.10.0 for more details
+
+
 2.9.3 (2017-11-23)
 ------------------
+
 * Expose `requirement_set` for `departure_services` and `activity_services`.
 * *NOTE*: We have skipped `2.9.2` due to pypi upload issues.
 
