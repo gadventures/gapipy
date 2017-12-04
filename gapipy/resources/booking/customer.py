@@ -1,7 +1,9 @@
 # Python 2 and 3
 from __future__ import unicode_literals
 
-from ..base import Resource, BaseModel
+from gapipy.models import Address
+from gapipy.models.base import BaseModel
+from gapipy.resources.base import Resource
 
 
 class MedicalDetail(BaseModel):
@@ -15,7 +17,6 @@ class Customer(Resource):
 
     _as_is_fields = [
         'account_email',
-        'address',
         'emergency_contacts',
         'gender',
         'href',
@@ -31,6 +32,10 @@ class Customer(Resource):
     ]
 
     _date_fields = ['date_of_birth', ]
+
+    _model_fields = [
+        ('address', Address),
+    ]
 
     _model_collection_fields = [
         ('medical_details', MedicalDetail),

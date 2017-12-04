@@ -1,5 +1,6 @@
+from gapipy.utils import enforce_string_type
+
 from .base import BaseModel
-from ..utils import enforce_string_type
 
 
 class Address(BaseModel):
