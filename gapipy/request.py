@@ -15,18 +15,20 @@ JSON_CONTENT_TYPE = 'application/json'
 
 class APIRequestor(object):
 
-    def __init__(self, client, resource, params=None, parent=None):
+    def __init__(self, client, resource, params={}, parent=None):
         self.client = client
         self.resource = resource
         self.params = params
         self.parent = parent
 
-    def _request(self, uri, method, data=None, params=None, additional_headers=None):
+    def _request(self, uri, method, data=None, params={}, additional_headers=None):
         """Make an HTTP request to a target API method with proper headers."""
 
         assert method in ALLOWED_METHODS, "Only {} are allowed.".format(', '.join(ALLOWED_METHODS))
         url = self._get_url(uri)
         headers = self._get_headers(method, additional_headers)
+        if self.client.uuid:
+            params['uuid'] = self.client.uuid
         response = self._make_call(method, url, headers, data, params)
         return response
 
