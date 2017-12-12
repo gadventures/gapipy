@@ -23,7 +23,7 @@ default_config = {
         'number': os.environ.get('GAPI_CLIENT_CONNECTION_POOL_NUMBER', 10),
         'maxsize': os.environ.get('GAPI_CLIENT_CONNECTION_POOL_MAXSIZE', 10),
     },
-    'uuid': os.environ.get('GAPI_UUID', ''),
+    'uuid': os.environ.get('GAPI_UUID', False),
 }
 
 

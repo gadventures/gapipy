@@ -47,7 +47,7 @@ class APIRequestorTestCase(unittest.TestCase):
     def test_list_resource(self, mock_request):
         requestor = APIRequestor(self.client, self.resources)
         requestor.list_raw()
-        mock_request.assert_called_once_with('/resources', 'GET', params={})
+        mock_request.assert_called_once_with('/resources', 'GET', params=None)
 
     @patch('gapipy.request.APIRequestor._request')
     def test_list_resource_with_parent(self, mock_request):
@@ -55,7 +55,7 @@ class APIRequestorTestCase(unittest.TestCase):
         requestor = APIRequestor(self.client, self.resources, parent=parent)
         requestor.list_raw()
         mock_request.assert_called_once_with(
-            '/parent/1234/resources', 'GET', params={})
+            '/parent/1234/resources', 'GET', params=None)
 
     @patch('gapipy.request.APIRequestor.list_raw')
     def test_list_generator(self, mock_list):
@@ -73,7 +73,7 @@ class APIRequestorTestCase(unittest.TestCase):
 
     @patch('gapipy.request.APIRequestor._request')
     def test_uuid_not_set(self, mock_request):
-        self.client.uuid = ''
+        self.client.uuid = False
         requestor = APIRequestor(self.client, self.resources)
         requestor.params = {'test': '1234'}
         requestor.list_raw()
@@ -81,18 +81,18 @@ class APIRequestorTestCase(unittest.TestCase):
 
     @patch('gapipy.request.APIRequestor._make_call')
     def test_uuid_set(self, mock_make_call):
-        self.client.uuid = 'test-case'
+        self.client.uuid = True
         requestor = APIRequestor(self.client, self.resources)
-        # requestor.params = {'test': '1234'}
         requestor.list_raw()
         params_arg = mock_make_call.call_args[0][-1]
-        self.assertEqual(params_arg, {'uuid': 'test-case'})
+        self.assertTrue('uuid' in params_arg)
 
     @patch('gapipy.request.APIRequestor._make_call')
     def test_uuid_with_other_params(self, mock_make_call):
-        self.client.uuid = 'test-case'
+        self.client.uuid = True
         requestor = APIRequestor(self.client, self.resources)
         requestor.params = {'test': '1234'}
         requestor.list_raw()
         params_arg = mock_make_call.call_args[0][-1]
-        self.assertEqual(params_arg, {'test': '1234', 'uuid': 'test-case'})
+        self.assertEqual(params_arg['test'], '1234')
+        self.assertTrue('uuid' in params_arg)
