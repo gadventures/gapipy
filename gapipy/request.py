@@ -1,5 +1,6 @@
 import requests
 import sys
+from uuid import uuid1
 
 from . import __title__, __version__
 
@@ -27,6 +28,10 @@ class APIRequestor(object):
         assert method in ALLOWED_METHODS, "Only {} are allowed.".format(', '.join(ALLOWED_METHODS))
         url = self._get_url(uri)
         headers = self._get_headers(method, additional_headers)
+        if self.client.uuid:
+            if not params:
+                params = {}
+            params['uuid'] = str(uuid1())
         response = self._make_call(method, url, headers, data, params)
         return response
 

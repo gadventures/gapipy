@@ -23,6 +23,7 @@ default_config = {
         'number': os.environ.get('GAPI_CLIENT_CONNECTION_POOL_NUMBER', 10),
         'maxsize': os.environ.get('GAPI_CLIENT_CONNECTION_POOL_MAXSIZE', 10),
     },
+    'uuid': os.environ.get('GAPI_UUID', False),
 }
 
 
@@ -48,6 +49,7 @@ class Client(object):
         self.api_proxy = get_config(config, 'api_proxy')
         self.api_language = get_config(config, 'api_language')
         self.cache_backend = get_config(config, 'cache_backend')
+        self.uuid = get_config(config, 'uuid')
 
         # begin with default connection pool options and overwrite any that the
         # client has specified
