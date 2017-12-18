@@ -3,6 +3,12 @@
 History
 =======
 
+2.11.0 (2017-12-18)
+------------------
+
+* `Customer.address` uses Address model, and is no longer returned as a dict.
+* Passing in `uuid=True` to `Client` kwargs enables `uuid` generation for every request.
+
 2.10.0 (2017-12-01)
 ------------------
 
