@@ -4,10 +4,11 @@ from __future__ import unicode_literals
 from gapipy.resources.checkin import Checkin
 
 from ..base import Resource
-from .transaction import Payment, Refund
+from .agency_chain import AgencyChain
 from .document import Invoice, Document
 from .override import Override
 from .service import Service
+from .transaction import Payment, Refund
 
 
 class Booking(Resource):
@@ -28,8 +29,9 @@ class Booking(Resource):
     ]
     _date_time_fields_utc = ['date_created', ]
     _resource_fields = [
-        ('agent', 'Agent'),
         ('agency', 'Agency'),
+        ('agency_chain', AgencyChain),
+        ('agent', 'Agent'),
         ('associated_agency', 'Agency'),
     ]
 
