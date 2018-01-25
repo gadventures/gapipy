@@ -14,7 +14,7 @@ class DossierDetailType(BaseModel):
 
 
 class DossierDetail(BaseModel):
-    _as_is_fields = ['body']
+    _as_is_fields = ['id', 'body']
 
     _model_fields = [
         ('detail_type', DossierDetailType),
