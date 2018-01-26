@@ -38,6 +38,7 @@ class Agency(Resource):
     _model_collection_fields = [
         ('documents', AgencyDocument),
         ('emails', AgencyEmail),
+        ('agency_chains', 'AgencyChain'),
     ]
     _resource_collection_fields = [
         ('bookings', 'Booking'),
