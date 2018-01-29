@@ -3,19 +3,30 @@
 History
 =======
 
-2.11.0 (2017-12-18)
-------------------
+2.11.4 (2018-01-29)
+-------------------
 
-* `Customer.address` uses Address model, and is no longer returned as a dict.
-* Passing in `uuid=True` to `Client` kwargs enables `uuid` generation for every request.
+* Add `agency_chain` field to `Booking` resource
+* Add `id` field as part of the `DossierDetail` model (pull/89)
+* Add `agency_chains` field to the `Agency resource (pull/90)
+* see https://github.com/gadventures/gapipy/releases/2.11.3 for more details
+
+
+2.11.0 (2017-12-18)
+-------------------
+
+* The Customer Address uses `Address` model, and is no longer a dict.
+* Passing in `uuid=True` to `Client` kwargs enables `uuid` generation
+  for every request.
+
 
 2.10.0 (2017-12-01)
-------------------
+-------------------
 
 * Add the `amount_pending` field to the `Booking` resource
-* `PricePromotion` extends from the `Promotion` resource (PR 85)
-* Update the `Agent` class to use BaseModel classes for the
-  `role` and `phone_numbers` fields.
+* The `PricePromotion` model extends from the `Promotion` resource (pull/85)
+* Update the `Agent` class to use BaseModel classes for the `role`
+  and `phone_numbers` fields.
 * see https://github.com/gadventures/gapipy/releases/2.10.0 for more details
 
 
@@ -31,7 +42,7 @@ History
 
 * Adds the `options` method on the Resource Query object.
   A more detailed description of the issue can be found at:
-  * https://github.com/gadventures/gapipy/releases/2.9.1
+  https://github.com/gadventures/gapipy/releases/2.9.1
 * *NOTE*: We have skipped `2.9.0` due to pypi upload issues
 
 
