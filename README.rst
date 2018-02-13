@@ -82,8 +82,9 @@ only supported for queries whose resources are listable.
 ``options()``
     Get the options for a single resource
 
-``get(resource_id)``
-    Get a single resource.
+``get(resource_id, [headers={}])``
+    Get a single resource; optionally passing in a dictionary of header
+    values.
 
 ``create(data)``
     Create an instance of the query resource using the given data.
