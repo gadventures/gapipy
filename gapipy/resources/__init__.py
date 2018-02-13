@@ -69,6 +69,7 @@ from .checkin import (  # NOQA
     Checkin,
 )
 
+from .booking_company import BookingCompany
 from .language import Language  # NOQA
 
 
@@ -118,6 +119,7 @@ available_private_resources = [
     'AgencyChain',
     'Agent',
     'Booking',
+    'BookingCompany',
     'Checkin',
     'Customer',
     'DeclinedReason',
