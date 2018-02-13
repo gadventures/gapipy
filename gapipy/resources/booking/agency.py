@@ -31,6 +31,7 @@ class Agency(Resource):
         'override_agency_secondary',
         'passenger_notifications',
         'agent_notifications',
+        'preferred_display_name',
     ]
     _date_time_fields_local = ['date_created']
     _model_fields = [('address', Address)]
