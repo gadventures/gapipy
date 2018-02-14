@@ -45,7 +45,7 @@ class Query(object):
     def options(self):
         return self.resource.options(client=self._client)
 
-    def get(self, resource_id, variation_id=None, cached=True):
+    def get(self, resource_id, variation_id=None, cached=True, headers=None):
         """
         Returns an instance of the query resource with the given `resource_id`
         (and optional `variation_id`) or `None` if the resource with the given
@@ -63,7 +63,8 @@ class Query(object):
             data = self.get_resource_data(
                 resource_id,
                 variation_id=variation_id,
-                cached=cached
+                cached=cached,
+                headers=headers
             )
         except HTTPError as e:
             if e.response.status_code in HTTPERRORS_MAPPED_TO_NONE:
@@ -72,7 +73,7 @@ class Query(object):
         resource_object = self.resource(data, client=self._client)
         return resource_object
 
-    def get_resource_data(self, resource_id, variation_id=None, cached=True):
+    def get_resource_data(self, resource_id, variation_id=None, cached=True, headers=None):
         '''
         Returns a dictionary of resource data, which is used to initialize
         a Resource object in the `get` method.
@@ -86,7 +87,7 @@ class Query(object):
 
         # Cache miss; get fresh data from the backend, set in cache
         requestor = APIRequestor(self._client, self.resource)
-        out = requestor.get(resource_id, variation_id=variation_id)
+        out = requestor.get(resource_id, variation_id=variation_id, headers=headers)
         if out is not None:
             self._client._cache.set(key, out)
         self._filters = {}

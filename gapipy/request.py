@@ -112,7 +112,7 @@ class APIRequestor(object):
         """
         return self._request('/{0}'.format(self._get_uri()), 'OPTIONS')
 
-    def get(self, resource_id=None, uri=None, variation_id=None):
+    def get(self, resource_id=None, uri=None, variation_id=None, headers=None):
         """
         Get a single resource with the given resource_id or uri
 
@@ -128,7 +128,7 @@ class APIRequestor(object):
         if variation_id:
             components.append(str(variation_id))
         uri = '/'.join(components)
-        return self._request(uri, 'GET')
+        return self._request(uri, 'GET', additional_headers=headers)
 
     def update(self, resource_id, data, partial=True, uri=None):
         """
