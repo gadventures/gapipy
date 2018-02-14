@@ -3,6 +3,22 @@
 History
 =======
 
+2.12.0 (2018-02-14)
+-------------------
+
+* Add optional `headers` parameter to Query.get to allow HTTP-Headers to be
+  passed. e.g. client.<resource>.get(1234, headers={'A':'a'}) (pull/91)
+* Add `preferred_display_name` field to Agency resource (#92)
+* Add `booking_companies` array field to all Product-type Resorces. (pull/93)
+  * Accommodation
+  * Activity
+  * AgencyChain
+  * Departure
+  * SingleSupplement
+  * TourDossier
+  * Transport
+
+
 2.11.4 (2018-01-29)
 -------------------
 
