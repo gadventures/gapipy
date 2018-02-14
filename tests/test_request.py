@@ -24,7 +24,7 @@ class APIRequestorTestCase(unittest.TestCase):
     def test_get_resource_by_id(self, mock_request):
         requestor = APIRequestor(self.client, self.resources)
         requestor.get(1234)
-        mock_request.assert_called_once_with('/resources/1234', 'GET')
+        mock_request.assert_called_once_with('/resources/1234', 'GET', additional_headers=None)
 
     @patch('gapipy.request.APIRequestor._request')
     def test_get_with_null_resource_id_and_uri_raises_error(self, mock_request):
@@ -41,7 +41,7 @@ class APIRequestorTestCase(unittest.TestCase):
     def test_get_with_falsy_resource_id_does_not_raise_error(self, mock_request):
         requestor = APIRequestor(self.client, self.resources)
         requestor.get(0)
-        mock_request.assert_called_once_with('/resources/0', 'GET')
+        mock_request.assert_called_once_with('/resources/0', 'GET', additional_headers=None)
 
     @patch('gapipy.request.APIRequestor._request')
     def test_list_resource(self, mock_request):

@@ -222,13 +222,13 @@ class QueryTestCase(unittest.TestCase):
     def test_can_retrieve_single_non_listable_resource(self, mock_request):
         Query(self.client, Activity).get(1234)
         mock_request.assert_called_once_with(
-            '/activities/1234', 'GET')
+            '/activities/1234', 'GET', additional_headers=None)
 
     @patch('gapipy.request.APIRequestor._request', return_value=DUMMY_DEPARTURE)
     def test_can_retrieve_single_subresource_without_parent(self, mock_request):
         Query(self.client, Departure).get(1234)
         mock_request.assert_called_once_with(
-            '/departures/1234', 'GET')
+            '/departures/1234', 'GET', additional_headers=None)
 
     @patch('gapipy.request.APIRequestor._request', return_value=TOUR_DOSSIER_LIST_DATA)
     def test_count(self, mock_request):
