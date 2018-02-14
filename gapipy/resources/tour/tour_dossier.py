@@ -1,11 +1,11 @@
 # Python 2 and 3
 from __future__ import unicode_literals
 
-from ...query import Query
-from ...utils import get_resource_class_from_class_name
-
-from ..base import Resource
-from ...models import AdvertisedDeparture
+from gapipy.models import AdvertisedDeparture
+from gapipy.query import Query
+from gapipy.resources.base import Resource
+from gapipy.resources.booking_company import BookingCompany
+from gapipy.utils import get_resource_class_from_class_name
 
 
 BRIEF_ITINERARY_TYPE = 'SUMMARY'
@@ -19,31 +19,45 @@ class TourDossier(Resource):
     _resource_name = 'tour_dossiers'
 
     _as_is_fields = [
-        'id', 'href', 'categories', 'description', 'details', 'product_line',
-        'geography', 'images', 'itineraries', 'name', 'site_links',
+        'id',
+        'href',
+        'categories',
+        'description',
+        'details',
+        'product_line',
+        'geography',
+        'images',
+        'itineraries',
+        'name',
+        'site_links',
     ]
-    _date_fields = ['departures_start_date', 'departures_end_date']
-    _resource_fields = [('tour', 'Tour')]
+    _date_fields = [
+        'departures_start_date',
+        'departures_end_date',
+    ]
+    _resource_fields = [
+        ('tour', 'Tour'),
+    ]
     _resource_collection_fields = [
         ('departures', 'Departure'),
     ]
     _model_collection_fields = [
         ('advertised_departures', AdvertisedDeparture),
+        ('booking_companies', BookingCompany),
         ('structured_itineraries', 'Itinerary'),
     ]
 
     def _set_resource_collection_field(self, field, value):
-        """Overridden to ensure that the `departures` query has the right
+        """
+        Overridden to ensure that the `departures` query has the right
         parent resource (i.e. the tour and not the tour dossier).
         """
-
         if field == 'departures':
             resource_cls = get_resource_class_from_class_name('Departure')
-
             # Tour dossiers always have the same id as the corresponding tour
             parent = ('tours', self.id, None)
-
-            setattr(self, 'departures', Query(self._client, resource_cls, parent=parent, raw_data=value))
+            query = Query(self._client, resource_cls, parent=parent, raw_data=value)
+            setattr(self, field, query)
         else:
             return super(TourDossier, self)._set_resource_collection_field(field, value)
 

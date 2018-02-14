@@ -1,8 +1,9 @@
 # Python 2 and 3
 from __future__ import unicode_literals
 
-from ...utils import get_resource_class_from_resource_name
-from ..base import Resource, Product
+from gapipy.utils import get_resource_class_from_resource_name
+from gapipy.resources.base import Resource
+from gapipy.resources.product import Product
 
 
 class PromotionProduct(Resource):

@@ -99,8 +99,3 @@ class Resource(BaseModel):
             result = self._create()
         self._fill_fields(result)
         return self
-
-
-class Product(Resource):
-    """This is used to mark those resources that can be attached to a Promotion"""
-    pass
