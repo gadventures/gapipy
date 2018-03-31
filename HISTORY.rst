@@ -6,10 +6,11 @@ History
 2.12.0 (2018-02-14)
 -------------------
 
-* Add optional `headers` parameter to Query.get to allow HTTP-Headers to be
-  passed. e.g. client.<resource>.get(1234, headers={'A':'a'}) (pull/91)
-* Add `preferred_display_name` field to Agency resource (#92)
-* Add `booking_companies` array field to all Product-type Resorces. (pull/93)
+* Add optional ``headers`` parameter to Query.get to allow HTTP-Headers to be
+  passed. e.g. ``client.<resource>.get(1234, headers={'A':'a'})`` (PR/91)
+* Add ``preferred_display_name`` field to Agency resource (#92)
+* Add ``booking_companies`` array field to all Product-type Resources. (PR/93)
+
   * Accommodation
   * Activity
   * AgencyChain
@@ -22,50 +23,51 @@ History
 2.11.4 (2018-01-29)
 -------------------
 
-* Add `agency_chain` field to `Booking` resource
-* Add `id` field as part of the `DossierDetail` model (pull/89)
-* Add `agency_chains` field to the `Agency resource (pull/90)
+* Add ``agency_chain`` field to ``Booking`` resource
+* Add ``id`` field as part of the ``DossierDetail`` model (PR/89)
+* Add ``agency_chains`` field to the ``Agency`` resource (PR/90)
 * see https://github.com/gadventures/gapipy/releases/2.11.3 for more details
 
 
 2.11.0 (2017-12-18)
 -------------------
 
-* The Customer Address uses `Address` model, and is no longer a dict.
-* Passing in `uuid=True` to `Client` kwargs enables `uuid` generation
+* The Customer Address uses ``Address`` model, and is no longer a dict.
+* Passing in ``uuid=True`` to ``Client`` kwargs enables ``uuid`` generation
   for every request.
 
 
 2.10.0 (2017-12-01)
 -------------------
 
-* Add the `amount_pending` field to the `Booking` resource
-* The `PricePromotion` model extends from the `Promotion` resource (pull/85)
-* Update the `Agent` class to use BaseModel classes for the `role`
-  and `phone_numbers` fields.
+* Add the ``amount_pending`` field to the ``Booking`` resource
+* The ``PricePromotion`` model extends from the ``Promotion`` resource (PR/85)
+* Update the ``Agent`` class to use BaseModel classes for the ``role``
+  and ``phone_numbers`` fields.
 * see https://github.com/gadventures/gapipy/releases/2.10.0 for more details
 
 
 2.9.3 (2017-11-23)
 ------------------
 
-* Expose `requirement_set` for `departure_services` and `activity_services`.
-* *NOTE*: We have skipped `2.9.2` due to pypi upload issues.
+* Expose ``requirement_set`` for ``departure_services`` and
+  ``activity_services``.
+* *NOTE*: We have skipped ``2.9.2`` due to pypi upload issues.
 
 
 2.9.1 (2017-11-22)
 ------------------
 
-* Adds the `options` method on the Resource Query object.
+* Adds the ``options`` method on the Resource Query object.
   A more detailed description of the issue can be found at:
   https://github.com/gadventures/gapipy/releases/2.9.1
-* *NOTE*: We have skipped `2.9.0` due to pypi upload issues
+* *NOTE*: We have skipped ``2.9.0`` due to pypi upload issues
 
 
 2.8.2 (2017-11-14)
 ------------------
 
-* Adds fields `sale_start_datetime` and `sale_finish_datetime` to the
+* Adds fields ``sale_start_datetime`` and ``sale_finish_datetime`` to the
   Promotion resource. The fields mark the start/finish date-time values
   for when a Promotion is applicable. The values represented are in UTC.
 
@@ -73,52 +75,56 @@ History
 2.8.1 (2017-10-25)
 ------------------
 
-* Add new fields to the `Agency` and `AgencyChain` resources
+* Add new fields to the ``Agency`` and ``AgencyChain`` resources
 
 
 2.8.0 (2017-10-23)
 ------------------
 
-* This release adds a behaviour change to the `.all()` method on resource Query
-  objects. Prior to this release, the base Resource Query object would retain
-  any previously added `filter` values, and be used in subsequent calls. Now
-  the underlying filters are reset after a `<resource>.all()` call is made.
+* This release adds a behaviour change to the ``.all()`` method on resource
+  Query objects. Prior to this release, the base Resource Query object would
+  retain any previously added ``filter`` values, and be used in subsequent
+  calls. Now the underlying filters are reset after a ``<resource>.all()`` call
+  is made.
 
   A more detailed description of the issue and fix can be found at:
+
   * https://github.com/gadventures/gapipy/issues/76
   * https://github.com/gadventures/gapipy/pull/77
 
-* Adds missing fields to the Agency and Flight Service resources (pull/78)
+* Adds missing fields to the Agency and Flight Service resources (PR/78)
 
 
 2.7.6 (2017-10-04)
 ------------------
 
-* Add `agency` field to `Booking` resource.
+* Add ``agency`` field to ``Booking`` resource.
 
 
 2.7.5 (2017-09-25)
 ------------------
 
-* Add test fix for Accommodation. It is listable resource as of `2.7.4`
+* Add test fix for Accommodation. It is listable resource as of ``2.7.4``
 * Add regression test for departures.addon.product model
   * Ensure Addon's are instantiated to the correct underlying model.
-  * Prior to this release, all Addon.product resources were instantiated as `Accommodation`.
+  * Prior to this release, all Addon.product resources were instantiated as
+  ``Accommodation``.
 
 
 2.7.4 (2017-09-20)
 ------------------
 
-* Add `videos`, `images`, and `categories` to Activity, Transport, Place, and Accommodation Dossiers.
-* Add `flags` to Itinerary resource
-* Add list view of `accommodations` resource
+* Add ``videos``, ``images``, and ``categories`` to Activity, Transport, Place,
+  and, Accommodation Dossier resources.
+* Add ``flags`` to Itinerary resource
+* Add list view of ``Accommodations`` resource
 
 
 2.7.3 (2017-09-06)
 ------------------
 
-* Add `type` field to `AgencyDocument` model
-* Add `structured_itinerary` model collection field to `Departure` resource
+* Add ``type`` field to ``AgencyDocument`` model
+* Add ``structured_itinerary`` model collection field to ``Departure`` resource
 
 
 2.7.2 (2017-08-18)
@@ -132,15 +138,17 @@ History
 
 * Fix: remove FlightStatus import reference for FlightService resource
 * Add fields (fixes two broken Resource tests)
-  * Add `href` field for `checkins` resource
-  * Add `date_cancelled` field for `departures` resource
+
+  * Add ``href`` field for ``checkins`` resource
+  * Add ``date_cancelled`` field for ``departures`` resource
+
 * Fix broken UpdateCreateResource tests
 
 
 2.7.0 (2017-08-18)
 ------------------
 
-* Remove `flight_statuses` and `flight_segments` resources.
+* Remove ``flight_statuses`` and ``flight_segments`` resources.
 
 
 2.6.2 (2017-08-11)
@@ -152,7 +160,7 @@ History
 2.6.1 (2017-08-11)
 ------------------
 
-* Adds a Deprecation warning when using the `tours` resource.
+* Adds a Deprecation warning when using the ``tours`` resource.
 
 
 2.6.0 (2017-08-11)
@@ -184,8 +192,9 @@ History
 * Removed Python 2 only tests
 * Installed ``future`` module for smooth Python 2 to Python 3 migration
 * Remove ``DictToModel`` class and the associated tests
-* ``Dossier`` Resource(s)
-* Minor field updates to: ``Customer``, ``InsuranceService``, ``DepartureService``, ``Booking``, ``FlightStatus``, ``State``
+* Add ``Dossier`` Resource(s)
+* Minor field updates to: ``Customer``, ``InsuranceService``,
+  ``DepartureService``, ``Booking``, ``FlightStatus``, ``State``
 
 2.4.9 (2016-11-22)
 ------------------
@@ -211,7 +220,8 @@ History
 2.4.5 (2016-10-13)
 ------------------
 
-* Added ``Image`` resource definition and put it to use in ``Itinerary`` and ``PlaceDossier``
+* Added ``Image`` resource definition and put it to use in ``Itinerary`` and,
+  ``PlaceDossier``
 
 2.4.4 (2016-09-09)
 ------------------
@@ -233,7 +243,8 @@ History
 ------------------
 
 * Removed use of ``.iteritems`` wherever present in favour of ``.items``
-* Added ``features`` representation to ``ActivityDossier`` and ``TransportDossier``
+* Added ``features`` representation to ``ActivityDossier`` and,
+  ``TransportDossier``
 
 2.4.0 (2016-06-29)
 ------------------
@@ -302,12 +313,18 @@ client with different configurations were used at the same time.
 ------------------
 
 * Adopted `Semantic Versioning <http://semver.org/>`_ for this project.
-* Refactored how the cache key is set. This is a breaking change for any modules that implemented their own cache interface. The cache modules are no longer responsible for defining the cache value, but simply storing whatever it is given into cache. The ``Query`` object now introduces a ``query_key`` function which generates the cache key sent to the cache modules.
+* Refactored how the cache key is set. This is a breaking change for any
+  modules that implemented their own cache interface. The cache modules are
+  no longer responsible for defining the cache value, but simply storing
+  whatever it is given into cache. The ``Query`` object now introduces a
+  ``query_key`` function which generates the cache key sent to the cache
+  modules.
 
 0.6.3 (2016-01-21)
 ------------------
 
-* Added better error handling to `Client.build`. An AttributeError raised when instantiating a resource won't be shadowed by the except block anymore.
+* Added better error handling to `Client.build`. An AttributeError raised when
+  instantiating a resource won't be shadowed by the except block anymore.
 
 
 0.6.2 (2016-01-20)
@@ -344,7 +361,8 @@ client with different configurations were used at the same time.
 0.5.2 (2015-12-15)
 ------------------
 
-* Added ``variation_id`` to ``BaseCache`` to fix a ``TypeError`` when using the ``NullCache``
+* Added ``variation_id`` to ``BaseCache`` to fix a ``TypeError`` when using
+  the ``NullCache``
 
 0.5.1 (2015-12-14)
 ------------------
@@ -354,23 +372,29 @@ client with different configurations were used at the same time.
 0.5.0 (2015-12-10)
 ------------------
 
-* Minor adjusted in Query internals to ensure the ``variation_id`` of an Itinerary is handled properly.
-* Added ``ItineraryHighlights`` and ``ItineraryMedia`` resources. These are sub resources of the ``Itinerary``
+* Minor adjusted in Query internals to ensure the ``variation_id`` of an
+  Itinerary is handled properly.
+* Added ``ItineraryHighlights`` and ``ItineraryMedia`` resources. These are
+  sub resources of the ``Itinerary``
 
 0.4.6 (2015-12-09)
 ------------------
 
-* Added connection pool caching to ``RedisCache``. Instances of ``gapipy`` with the same cache settings (in the same Python process) will share a connection pool.
+* Added connection pool caching to ``RedisCache``. Instances of ``gapipy`` with
+  the same cache settings (in the same Python process) will share a connection
+  pool.
 
 0.4.5 (2015-11-05)
 ------------------
 
-* Added ``code`` field to the ``type`` of an ``Itinerary``'s listed ``details``.
+* Added ``code`` field to the ``type`` of an ``Itinerary``'s listed
+  ``details``.
 
 0.4.4 (2015-11-04)
 ------------------
 
-* Added the ``details`` field to the ``Itinerary`` resource -- a list of textual details about an itinerary.
+* Added the ``details`` field to the ``Itinerary`` resource -- a list of
+  textual details about an itinerary.
 
 0.4.3 (2015-11-03)
 -------------------
@@ -380,27 +404,33 @@ client with different configurations were used at the same time.
 0.4.2 (2015-10-28)
 ------------------
 
-* Fixed a bug that would cause ``amount`` when looking at ``Promotion`` objects in the ``Departure`` to be removed from the data dict.
+* Fixed a bug that would cause ``amount`` when looking at ``Promotion`` objects
+  in the ``Departure`` to be removed from the data dict.
 
 0.4.1 (2015-10-16)
 ------------------
 
-* Moved an import of ``requests`` down from the module level. Fixes issues in CI environments.
+* Moved an import of ``requests`` down from the module level. Fixes issues in
+  CI environments.
 
 0.4.0 (2015-10-13)
 ------------------
 
-* Added connection pooling options, see docs for details on ``connection_pool_options``.
+* Added connection pooling options, see docs for details on
+  ``connection_pool_options``.
 
 0.3.0 (2015-09-24)
 ------------------
 
-* Modified how the ``Promotion`` object is loaded within ``price_bands`` on a ``Departure``. It now correctly captures the ``amount`` field.
+* Modified how the ``Promotion`` object is loaded within ``price_bands`` on a
+  ``Departure``. It now correctly captures the ``amount`` field.
 
 0.2.0 (2015-09-15)
 ------------------
 
-* Modified objects within ``cache`` module to handle ``variation_id``, which is exposed within the ``Itinerary`` object. Previously, the ``Itinerary`` would not be correctly stored in cache with its variant reference.
+* Modified objects within ``cache`` module to handle ``variation_id``, which is
+  exposed within the ``Itinerary`` object. Previously, the ``Itinerary`` would
+  not be correctly stored in cache with its variant reference.
 
 0.1.51 (2015-08-31)
 -------------------
@@ -411,7 +441,8 @@ client with different configurations were used at the same time.
 0.1.50 (2015-07-28)
 -------------------
 
-* Fixed an issue with the default ``gapipy.cache.NullCache`` when ``is_cached`` was used.
+* Fixed an issue with the default ``gapipy.cache.NullCache`` when ``is_cached``
+  was used.
 
 0.1.49 (2015-07-23)
 -------------------
@@ -427,22 +458,29 @@ client with different configurations were used at the same time.
 0.1.47 (2015-07-08)
 -------------------
 
-* Fixed a bug in ``APIRequestor.get``. Requesting a resource with with an id of ``0`` won't raise an Exception anymore.
+* Fixed a bug in ``APIRequestor.get``. Requesting a resource with with an id of
+  ``0`` won't raise an Exception anymore.
 
 0.1.46 (2015-06-10)
 -------------------
 
-* Added ``associated_services`` and ``original_departure_service`` to various service resources and ``departure_services`` model respectively.
+* Added ``associated_services`` and ``original_departure_service`` to various
+  service resources and ``departure_services`` model respectively.
 
 0.1.45 (2015-05-27)
 -------------------
 
-* Fixed ``products`` within the ``Promotion`` resource to properly retain ``type`` and ``sub_type`` fields after being parsed into a dictionary.
+* Fixed ``products`` within the ``Promotion`` resource to properly retain
+  ``type`` and ``sub_type`` fields after being parsed into a dictionary.
 
 0.1.44 (2015-05-22)
 -------------------
 
-* Changed default `cache_backend` to use `gapipy.cache.NullCache`. Previously, `SimpleCache` was the default and led to confusion in production environments, specifically as to why resources were not matching the API output. Now, by default, to get any caching from gapipy you must explicitly set it.
+* Changed default `cache_backend` to use `gapipy.cache.NullCache`. Previously,
+  `SimpleCache` was the default and led to confusion in production
+  environments, specifically as to why resources were not matching the API
+  output. Now, by default, to get any caching from gapipy you must explicitly
+  set it.
 
 0.1.43 (2015-04-29)
 -------------------
@@ -468,18 +506,24 @@ client with different configurations were used at the same time.
 0.1.39 (2015-03-31)
 -------------------
 
-* Refactor ``APIRequestor._request``. While this should not change existing functionality, it is now possible to override specific methods on ``APIRequestor`` if needed.
+* Refactor ``APIRequestor._request``. While this should not change existing
+  functionality, it is now possible to override specific methods on
+  ``APIRequestor`` if needed.
 
 
 0.1.38 (2015-03-23)
 -------------------
 
-* Fixed: Due to inconsistencies in the G API with regards to nested resources, the `fetch` function was modified to use the raw data from the API, rather than a specific set of allowed fields.
+* Fixed: Due to inconsistencies in the G API with regards to nested resources,
+  the `fetch` function was modified to use the raw data from the API, rather
+  than a specific set of allowed fields.
 
 0.1.37 (2015-03-23)
 -------------------
 
-* Fixed: Iterating over ``products`` within the ``promotions`` object now works as expected. Previously, accessing the ``products`` attribute would result in a Query object with incorrect parameters.
+* Fixed: Iterating over ``products`` within the ``promotions`` object now works
+  as expected. Previously, accessing the ``products`` attribute would result in
+  a Query object with incorrect parameters.
 
 0.1.36 (2015-03-17)
 -------------------
@@ -514,7 +558,8 @@ client with different configurations were used at the same time.
 0.1.32 (2015-02-18)
 -------------------
 
-* Changed cache key creation to account for `GAPI_LANGUAGE` when the environment variable is set.
+* Changed cache key creation to account for `GAPI_LANGUAGE` when the
+  environment variable is set.
 
 0.1.31 (2015-02-18)
 -------------------
@@ -539,12 +584,14 @@ client with different configurations were used at the same time.
 0.1.28 (2015-01-22)
 -------------------
 
-* Bug fix to correctly send ``Content-Type: application/json`` in POST, PUT, or PATCH.
+* Bug fix to correctly send ``Content-Type: application/json`` in POST, PUT,
+  or PATCH.
 
 0.1.27 (2015-01-19)
 -------------------
 
-* Update ``DepartureService`` object to contain a reference to its ``Itinerary``
+* Update ``DepartureService`` object to contain a reference to its
+  ``Itinerary``
 
 0.1.26 (2015-01-14)
 -------------------
@@ -554,7 +601,8 @@ client with different configurations were used at the same time.
 0.1.25 (2015-01-09)
 -------------------
 
-* Added ``ActivityDossier`` and ``AccommodationDossier`` resources, as well as references to it from ``Activity`` and ``Accommodation``.
+* Added ``ActivityDossier`` and ``AccommodationDossier`` resources, as well as
+  references to it from ``Activity`` and ``Accommodation``.
 
 0.1.24 (2015-01-07)
 -------------------
@@ -569,7 +617,8 @@ client with different configurations were used at the same time.
 0.1.21 (2014-11-26)
 -------------------
 
-* Fixed a bug with promotions on a Price object. When promotions were accessed, gapipy would query for all promotions, rather than returning the inline list.
+* Fixed a bug with promotions on a Price object. When promotions were accessed,
+  gapipy would query for all promotions, rather than returning the inline list.
 
 0.1.20 (2014-11-20)
 -------------------
@@ -579,7 +628,9 @@ client with different configurations were used at the same time.
 0.1.19 (2014-11-17)
 -------------------
 
-* Fixed a bug with `RedisCache.is_cached` where it would not use the set `key_prefix` when checking for existence in cache. Effectively, it would always return False
+* Fixed a bug with `RedisCache.is_cached` where it would not use the set
+  `key_prefix` when checking for existence in cache. Effectively, it would
+  always return False
 
 0.1.18 (2014-11-12)
 -------------------
@@ -589,13 +640,15 @@ client with different configurations were used at the same time.
 0.1.17 (2014-11-07)
 -------------------
 
-* Deprecated `RedisHashCache` from cache backends available by default. Was not well tested or reliable.
+* Deprecated `RedisHashCache` from cache backends available by default. Was not
+  well tested or reliable.
 
 0.1.16 (2014-10-28)
 ---------------------
 
-* Fixed a bug where if a model field received `null` as a value, it would fail. Now,
-    if the result is `null`, the model field will have an appropriate `None` value.
+* Fixed a bug where if a model field received `null` as a value, it would fail.
+  Now, if the result is `null`, the model field will have an appropriate `None`
+  value.
 
 0.1.15 (2014-10-23)
 ---------------------
@@ -613,12 +666,14 @@ client with different configurations were used at the same time.
 0.1.13 (2014-10-21)
 ---------------------
 
-* Add ``latitude``, ``longitude``, and ``documents`` to the ``Agency`` resource.
+* Add ``latitude``, ``longitude``, and ``documents`` to the ``Agency``
+  resource.
 
 0.1.12 (2014-10-20)
 ---------------------
 
-* ``date_created`` on the ``Agency`` resource is correctly parsed as a local time.
+* ``date_created`` on the ``Agency`` resource is correctly parsed as a local
+  time.
 
 0.1.11 (2014-10-15)
 ---------------------
@@ -656,7 +711,8 @@ client with different configurations were used at the same time.
 0.1.5 (2014-07-29)
 ---------------------
 
-* Add `details` field to the list of `incomplete_requirements` in a `DepartureService`.
+* Add `details` field to the list of `incomplete_requirements` in a
+  `DepartureService`.
 
 0.1.4 (2014-07-21)
 ---------------------
@@ -671,7 +727,9 @@ client with different configurations were used at the same time.
 * Return ``None`` instead of raising a HTTPError 404 exception when fetching a
   non-existing resource by id.
 * Added ability to create resources from the Query objects on the client
-  instance (for example, ``api.customers.create({'name': {'legal_first_name': 'Pat', ...}, ...})``)
+  instance.
+  e.g.:
+  ``api.customers.create({'name': {'legal_first_name': 'Pat', ...}, ...})``
 
 0.1.2 (2014-07-14)
 ------------------
