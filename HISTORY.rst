@@ -3,6 +3,13 @@
 History
 =======
 
+2.13.0 (2018-03-31)
+-------------------
+
+* Add ``meal_budgets`` list field to ``Country Dossier`` resource
+* Add ``publish_state`` field to ``Dossier Features`` resource
+
+
 2.12.0 (2018-02-14)
 -------------------
 
