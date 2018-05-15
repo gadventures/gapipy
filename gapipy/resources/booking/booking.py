@@ -46,3 +46,9 @@ class Booking(Resource):
             ('overrides', Override),
             ('checkins', Checkin),
         ]
+
+    @property
+    def _model_collection_fields(self):
+        return [
+            ('linked_bookings', Booking),
+        ]
