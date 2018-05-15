@@ -3,6 +3,15 @@
 History
 =======
 
+2.14.1 (2018-05-15)
+-------------------
+
+* Add ``booking_companies`` field to Agency resource
+* Remove ``bookings`` field from Agency resource
+* Add ``requirements`` as_is field to Departure Service resource
+* Add ``policy_emergency_phone_number`` field to Insurance Service resource
+
+
 2.14.0 (2018-05-15)
 -------------------
 

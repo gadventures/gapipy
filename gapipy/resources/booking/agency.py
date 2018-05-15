@@ -1,13 +1,13 @@
 # Python 2 and 3
 from __future__ import unicode_literals
 
-from ...models import Address
-from ...models import AgencyDocument
-from ...models.base import BaseModel
-from .agency_chain import AgencyChain
+from gapipy.models import Address, AgencyDocument
+from gapipy.models.base import BaseModel
+from gapipy.resources.base import Resource
+from gapipy.resources.booking_company import BookingCompany
+from gapipy.resources.tour import Promotion
 
-from ..base import Resource
-from ..tour import Promotion
+from .agency_chain import AgencyChain
 
 
 class AgencyEmail(BaseModel):
@@ -33,16 +33,22 @@ class Agency(Resource):
         'agent_notifications',
         'preferred_display_name',
     ]
-    _date_time_fields_local = ['date_created']
-    _model_fields = [('address', Address)]
-    _resource_fields = [('agency_chain', AgencyChain)]
+    _date_time_fields_local = [
+        'date_created',
+    ]
+    _model_fields = [
+        ('address', Address),
+    ]
+    _resource_fields = [
+        ('agency_chain', AgencyChain),
+    ]
     _model_collection_fields = [
+        ('agency_chains', 'AgencyChain'),
+        ('booking_companies', BookingCompany),
         ('documents', AgencyDocument),
         ('emails', AgencyEmail),
-        ('agency_chains', 'AgencyChain'),
     ]
     _resource_collection_fields = [
-        ('bookings', 'Booking'),
         ('agents', 'Agent'),
         ('promotions', Promotion),
     ]

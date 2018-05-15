@@ -3,8 +3,7 @@ from __future__ import unicode_literals
 
 from future.utils import with_metaclass
 
-from ...utils import get_resource_class_from_resource_name
-from ...models import (
+from gapipy.models import (
     ArrivalFlightDetail,
     AssociatedService,
     DepartureFlightDetail,
@@ -14,10 +13,9 @@ from ...models import (
     InternationalTicketNumber,
     TravellerHeight,
 )
-
-from ..base import Resource, BaseModel
-
-from ..tour import (
+from gapipy.models.base import BaseModel
+from gapipy.resources.base import Resource
+from gapipy.resources.tour import (
     Departure,
     DepartureComponent,
     Accommodation,
@@ -25,6 +23,8 @@ from ..tour import (
     Transport,
     SingleSupplement,
 )
+from gapipy.utils import get_resource_class_from_resource_name
+
 from .customer import Customer
 from .declined_reason import DeclinedReason
 
@@ -52,20 +52,31 @@ class Service(with_metaclass(TypeBasedServiceMeta, Resource)):
     @property
     def _as_is_fields(self):
         return [
-            'id', 'href', 'name', 'status', 'type', 'sub_type', 'flags',
+            'id',
+            'href',
+            'name',
+            'type',
+            'sub_type',
             'applied_promotion',
+            'flags',
+            'status',
             'status_transitions',
         ]
 
     @property
     def _date_fields(self):
-        return ['start_date', 'finish_date']
+        return [
+            'start_date',
+            'finish_date',
+        ]
 
     @property
     def _date_time_fields_utc(self):
         return [
-            'date_created', 'date_confirmed',
-            'date_cancelled', 'option_expiry_date',
+            'date_created',
+            'date_confirmed',
+            'date_cancelled',
+            'option_expiry_date',
         ]
 
     @property
@@ -75,7 +86,8 @@ class Service(with_metaclass(TypeBasedServiceMeta, Resource)):
     @property
     def _price_fields(self):
         return [
-            'purchase_price', 'commission',
+            'commission',
+            'purchase_price',
         ]
 
     @property
@@ -157,6 +169,12 @@ class DepartureServiceFlight(BaseModel):
 
 class DepartureService(ServiceProduct):
     _resource_name = 'departure_services'
+
+    @property
+    def _as_is_fields(self):
+        return super(DepartureService, self)._as_is_fields + [
+            'requirements',
+        ]
 
     @property
     def _price_fields(self):
@@ -253,6 +271,7 @@ class InsuranceService(Service):
         return super(InsuranceService, self)._as_is_fields + [
             'policy_details_url',
             'policy_number',
+            'policy_emergency_phone_number',
             'policy_provider',
             'policy_type',
         ]
