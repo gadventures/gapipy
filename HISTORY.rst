@@ -3,6 +3,13 @@
 History
 =======
 
+2.14.0 (2018-05-15)
+-------------------
+
+* Remove deprecated ``add_ons`` field from ``Departure`` resource
+* Add ``costs`` field to ``Accommodation & Acitivty Dossier`` resources
+
+
 2.13.0 (2018-03-31)
 -------------------
 

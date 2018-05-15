@@ -11,16 +11,19 @@ class AccommodationDossier(Resource, DossierDetailsMixin):
     _resource_name = 'accommodation_dossiers'
 
     _as_is_fields = [
-        'id', 'href', 'name',
+        'id',
+        'href',
+        'name',
         'type',
-        'website',
-        'property_type',
         'address',
-        'features',
+        'costs',
         'emails',
+        'features',
         'phone_numbers',
-        'rooms',
+        'property_type',
         'publish_state',
+        'rooms',
+        'website',
     ]
 
     _date_time_fields_local = ['date_created', 'date_last_modified']

@@ -14,22 +14,24 @@ class ActivityDossier(Resource, DossierDetailsMixin, DurationLabelMixin, Locatio
     _resource_name = 'activity_dossiers'
 
     _as_is_fields = [
+        'id',
+        'href',
+        'name',
+        'type',
+        'costs',
         'currency',
         'distance_max',
         'distance_min',
         'dossier_segment',
-        'duration_min', 'duration_max',
+        'duration_max',
+        'duration_min',
         'flags',
-        'href',
-        'id',
-        'name',
         'physical_grading',
         'price_per_group_max',
         'price_per_group_min',
         'price_per_person_max',
         'price_per_person_min',
         'publish_state',
-        'type',
     ]
 
     _date_time_fields_local = ['date_created', 'date_last_modified']

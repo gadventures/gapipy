@@ -60,5 +60,3 @@ class Departure(Product):
         ('rooms', DepartureRoom),
         ('structured_itineraries', 'Itinerary'),
     ]
-    # mark deprecated fields
-    _deprecated_fields = ['add_ons']
