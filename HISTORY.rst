@@ -22,7 +22,7 @@ History
 -------------------
 
 * Remove deprecated ``add_ons`` field from ``Departure`` resource
-* Add ``costs`` field to ``Accommodation & Acitivty Dossier`` resources
+* Add ``costs`` field to ``Accommodation & Activity Dossier`` resources
 
 
 2.13.0 (2018-03-31)
