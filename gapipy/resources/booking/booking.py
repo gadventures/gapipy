@@ -15,7 +15,7 @@ class Booking(Resource):
     _resource_name = 'bookings'
     _is_parent_resource = True
 
-    _as_is_fields = ['id', 'href', 'external_id', 'currency', 'sales_channel']
+    _as_is_fields = ['id', 'href', 'external_id', 'currency']
     _price_fields = [
         'amount_owing',
         'amount_paid',
