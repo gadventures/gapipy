@@ -49,6 +49,11 @@ class Resource(BaseModel):
     def __getattr__(self, name):
         # If we try to access a field that's allowed, and this resource is a
         # stub, we need to fetch it.
+        if name == 'id':
+            raise AttributeError(
+                'No id found for Resource %s. Possibly caused due to bad or stale data.' % self._resource_name
+            )
+
         if name in self._allowed_fields() and self.is_stub:
             self.fetch()
             return self.__getattribute__(name)
