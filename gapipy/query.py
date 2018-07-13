@@ -174,6 +174,12 @@ class Query(object):
         """Create an instance of the query resource using the given data"""
         return self.resource.create(self._client, data_dict)
 
+    def first(self):
+        """
+        Returns the first object of a query, returns None if no match is found.
+        """
+        return next(self.all(), None)
+
     def __iter__(self):
         """Provided as a convenience so that Query objects can be iterated
         without calling `all`.
