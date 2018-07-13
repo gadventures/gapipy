@@ -175,7 +175,9 @@ class APIRequestor(object):
             else:
                 uri = '/{0}'.format(self._get_uri())
 
-        return self._request(uri, 'GET', params=self.params)
+            return self._request(uri, 'GET', params=self.params)
+
+        return self._request(uri, 'GET')
 
     def list(self, uri=None):
         """Generator for listing resources"""
