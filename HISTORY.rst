@@ -3,6 +3,12 @@
 History
 =======
 
+2.14.4 (2018-07-13)
+-------------------
+* Raise an attributeerror when trying to get a non-existing id in the Query object
+* Don't send duplicate params when paginating through list results
+* Implement first() method for Query
+
 2.14.3 (2018-05-29)
 -------------------
 * Expose Linked Bookings via the API 
