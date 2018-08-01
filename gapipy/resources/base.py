@@ -1,4 +1,4 @@
-# Python 2 and 3
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
 import json
@@ -98,9 +98,13 @@ class Resource(BaseModel):
         return request.create(self.to_json())
 
     def save(self, partial=False):
-        if getattr(self, 'id', None) is not None:
+        # due to the explicit check for `id` in __getattr__, we
+        # need to check the __dict__ directly for the `id`
+        # attribute... 🐔 & 🥚 situation
+        if 'id' in self.__dict__ and self.__dict__['id']:
             result = self._update(partial=partial)
         else:
             result = self._create()
+        # set reslt fields as attributes
         self._fill_fields(result)
         return self

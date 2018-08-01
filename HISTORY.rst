@@ -3,14 +3,32 @@
 History
 =======
 
+2.14.6 (2018-08-01)
+-------------------
+
+* Check for presence of ``id`` field directly in the Resource ``__dict__`` in
+  order to prevent a chicken/egg situation when attempting to ``save``. This is
+  needed due to the change introduced in 2.14.4, where we explicitly raise an
+  AttributeError when trying to access the ``id`` attribute.
+* Added ``service_code`` field for Activty & Accommodation Dossier resources
+
+
+2.14.5 (2018-08-01)
+-------------------
+
+* deleted
+
+
 2.14.4 (2018-07-13)
 -------------------
-* Raise an attributeerror when trying to get a non-existing id in the Query object
+
+* Raise an AttributeError when trying to access `id` on Resource.__getattr__
 * Don't send duplicate params when paginating through list results
 * Implement first() method for Query
 
 2.14.3 (2018-05-29)
 -------------------
+
 * Expose Linked Bookings via the API 
 
 2.14.1 (2018-05-15)

@@ -32,6 +32,7 @@ class ActivityDossier(Resource, DossierDetailsMixin, DurationLabelMixin, Locatio
         'price_per_person_max',
         'price_per_person_min',
         'publish_state',
+        'service_code',
     ]
 
     _date_time_fields_local = ['date_created', 'date_last_modified']

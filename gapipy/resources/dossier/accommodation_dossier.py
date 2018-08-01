@@ -23,6 +23,7 @@ class AccommodationDossier(Resource, DossierDetailsMixin):
         'property_type',
         'publish_state',
         'rooms',
+        'service_code',
         'website',
     ]
 
