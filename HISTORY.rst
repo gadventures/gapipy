@@ -3,6 +3,13 @@
 History
 =======
 
+2.15.0 (2018-10-10)
+-------------------
+
+* Add ``country`` reference to ``Nationality`` resource
+* Moved ``resources/bookings/nationality.py`` to ``resources/geo/*``
+
+
 2.14.6 (2018-08-01)
 -------------------
 

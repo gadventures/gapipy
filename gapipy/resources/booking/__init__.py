@@ -8,7 +8,6 @@ from .declined_reason import DeclinedReason
 from .override_reason import OverrideReason
 from .override import Override
 from .document import Invoice, Document
-from .nationality import Nationality
 from .service import (
     AccommodationService,
     ActivityService,

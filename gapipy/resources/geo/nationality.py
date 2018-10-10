@@ -4,10 +4,12 @@ from __future__ import unicode_literals
 from gapipy.resources.base import Resource
 from gapipy.utils import enforce_string_type
 
+from .country import Country
 
-class State(Resource):
 
-    _resource_name = 'states'
+class Nationality(Resource):
+
+    _resource_name = 'nationalities'
 
     _as_is_fields = [
         'id',
@@ -16,8 +18,7 @@ class State(Resource):
     ]
 
     _resource_fields = [
-        ('country', 'Country'),
-        ('place', 'Place'),
+        ('country', Country),
     ]
 
     @enforce_string_type

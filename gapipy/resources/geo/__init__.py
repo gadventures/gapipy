@@ -4,6 +4,7 @@ from .continent import Continent
 from .country import Country
 from .feature import Feature
 from .feature_category import FeatureCategory
+from .nationality import Nationality
 from .place import Place
 from .state import State
 from .timezone import Timezone
