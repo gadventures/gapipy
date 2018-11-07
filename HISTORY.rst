@@ -3,6 +3,33 @@
 History
 =======
 
+2.16.0 (2018-11-07)
+-------------------
+
+* Completely remove the deprecated ``add_ons`` field from the Departure resource.
+* Add missing fields to various Dossier resources
+
+  * Accommodation Dossier: ``flags``, ``is_prepaid``, ``service_time``, ``show_on_reservation_sheet``
+  * Activity Dossier: ``is_prepaid``, ``service_time``, ``show_on_reservation_sheet``
+  * Country Dossier: ``flags``
+  * Place Dossier: ``flags``
+  * Transport Dossier: ``flags``
+
+* Add ``valid_during_ranges`` list field to the Itinerary resource. This field is
+  a list field of the newly added ``ValidDuringRange`` model (described below)
+* Add ``ValidDuringRange`` model. It consists of two date fields, ``start_date``,
+  and ``end_date``. It also provides a number of convenience methods to determine
+  if the date range provided is valid, or relative to some date.
+
+  * ``is_expired``: Is it expired relative to ``datetime.date.today`` (occurs in the past)
+  * ``is_valid_today``: Is it valid relative to ``datetime.date.today``
+  * ``is_valid_during_range``: Is it valid for some give start/end date range
+  * ``is_valid_on_or_after_date``: Is it valid on or after some date
+  * ``is_valid_on_or_before_date``: Is it valid on or before some date
+  * ``is_valid_on_date``: Is it valid on some date
+  * ``is_valid_sometime``: Is it valid at all
+
+
 2.15.0 (2018-10-10)
 -------------------
 
