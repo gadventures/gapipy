@@ -5,8 +5,8 @@ G API Python Client
 .. image:: https://badge.fury.io/py/gapipy.svg
     :target: http://badge.fury.io/py/gapipy
 
-.. image:: https://travis-ci.org/gadventures/gapipy.svg?branch=master
-    :target: https://travis-ci.org/gadventures/gapipy
+.. image:: https://travis-ci.com/gadventures/gapipy.svg?branch=master
+    :target: https://travis-ci.com/gadventures/gapipy
 
 A client for the G Adventures REST API (https://developers.gadventures.com)
 
