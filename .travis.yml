@@ -18,7 +18,7 @@ install:
   - pip install redis
 
 # command to run tests
-script: python setup.py nosetests -A integration!=$INTEGRATION
+script: python setup.py nosetests -A integration=$INTEGRATION
 
 services:
   - redis
