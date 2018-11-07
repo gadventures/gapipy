@@ -18,3 +18,11 @@ script: python setup.py test
 
 services:
   - redis
+
+notifications:
+  email: false
+  slack:
+    rooms:
+      - gadventures:IBz2ZsMXJpRjiT0OvZzYr7cp
+    on_success: change
+    on_failure: always
