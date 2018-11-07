@@ -8,13 +8,17 @@ python:
 
 sudo: false
 
+env:
+  - INTEGRATION=1
+  - INTEGRATION=0
+
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
   - pip install -r requirements-testing.txt
   - pip install redis
 
-# command to run tests, e.g. python setup.py test
-script: python setup.py test
+# command to run tests
+script: python setup.py nosetests -A integration==$INTEGRATION
 
 services:
   - redis
