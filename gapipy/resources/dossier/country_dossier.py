@@ -23,8 +23,9 @@ class CountryDossier(Resource):
     _as_is_fields = [
         'id',
         'href',
-        'name',
         'type',
+        'flags',
+        'name',
         'publish_state',
     ]
 

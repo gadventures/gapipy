@@ -26,6 +26,7 @@ class ActivityDossier(Resource, DossierDetailsMixin, DurationLabelMixin, Locatio
         'duration_max',
         'duration_min',
         'flags',
+        'is_prepaid',
         'physical_grading',
         'price_per_group_max',
         'price_per_group_min',
@@ -33,6 +34,8 @@ class ActivityDossier(Resource, DossierDetailsMixin, DurationLabelMixin, Locatio
         'price_per_person_min',
         'publish_state',
         'service_code',
+        'service_time',
+        'show_on_reservation_sheet',
     ]
 
     _date_time_fields_local = ['date_created', 'date_last_modified']

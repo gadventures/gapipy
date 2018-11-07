@@ -15,11 +15,12 @@ class TransportDossier(Resource, DossierDetailsMixin):
     _as_is_fields = [
         'id',
         'href',
-        'capacity',
-        'private',
-        'name',
-        'dossier_segment',
         'type',
+        'capacity',
+        'dossier_segment',
+        'flags',
+        'name',
+        'private',
         'publish_state',
     ]
 

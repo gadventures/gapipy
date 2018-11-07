@@ -11,7 +11,12 @@ class PlaceDossier(Resource):
     _resource_name = 'place_dossiers'
 
     _as_is_fields = [
-        'id', 'href', 'name', 'type', 'publish_state',
+        'id',
+        'href',
+        'type',
+        'flags',
+        'name',
+        'publish_state',
     ]
 
     _date_time_fields_local = ['date_created', 'date_last_modified']

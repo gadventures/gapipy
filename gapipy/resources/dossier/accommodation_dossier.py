@@ -13,17 +13,21 @@ class AccommodationDossier(Resource, DossierDetailsMixin):
     _as_is_fields = [
         'id',
         'href',
-        'name',
         'type',
         'address',
         'costs',
         'emails',
         'features',
+        'flags',
+        'is_prepaid',
+        'name',
         'phone_numbers',
         'property_type',
         'publish_state',
         'rooms',
         'service_code',
+        'service_time',
+        'show_on_reservation_sheet',
         'website',
     ]
 
