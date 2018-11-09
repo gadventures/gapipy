@@ -10,6 +10,10 @@ class MedicalDetail(BaseModel):
     _as_is_fields = ['type', 'value']
 
 
+class MembershipProgram(BaseModel):
+    _as_is_fields = ['code', 'label', 'value']
+
+
 class Customer(Resource):
     _resource_name = 'customers'
     _is_listable = False
@@ -39,6 +43,7 @@ class Customer(Resource):
 
     _model_collection_fields = [
         ('medical_details', MedicalDetail),
+        ('membership_programs', MembershipProgram),
     ]
 
     @property
