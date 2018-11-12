@@ -3,6 +3,12 @@
 History
 =======
 
+2.17.0 (2018-11-12)
+-------------------
+
+* Add ``membership_programs`` field to the ``Customer`` resource
+
+
 2.16.0 (2018-11-07)
 -------------------
 
