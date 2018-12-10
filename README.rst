@@ -249,3 +249,17 @@ Note: ``_model_collection_fields = [('emails', AgencyEmail),]`` and ``AgencyEmai
 * ``_resource_fields`` refer to another ``Resource``
 
 Thanks for helping!
+
+Releasing
+---------
+
+To publish the project onto PyPi and release a new version, please do the following:
+
+* Amend ``gapipy/__init__.py`` with the new version. We do our best to follow `Semantic Versioning <https://semverg..org>`_.
+* Add reference to the change(s) you've made into ``HISTORY.rst``
+
+If you are a maintainer, you'll then publish a `release via github <https://github.com/gadventures/gapipy/releases>`_. You can view `previous releases <https://github.com/gadventures/gapipy/releases/tag/2.16.0>`_ to get a sense of what's expected in a release.
+
+For distribution, you'll want to speak to someoneo on the Platform team, but understanding how `PyPi distribution works doesn't hurt! <https://packaging.python.org/tutorials/packaging-projects/#>`_
+
+
