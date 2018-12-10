@@ -253,10 +253,6 @@ Thanks for helping!
 Releasing
 ---------
 
-# `gapipy` Releases
-
-## A workflow
-
 1. Always make your changes in a branch and submit a PR  
 
 2. Once the PR has been completed and the changes pulled into the `master` branch. Do the following on your local box:
