@@ -13,7 +13,7 @@ env:
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
   - pip install -r requirements-testing.txt
-  - pip install redis
+  - pip install redis>=3.0.1
 
 # command to run tests
 script: python setup.py nosetests -A integration==$INTEGRATION
