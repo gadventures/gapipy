@@ -133,7 +133,7 @@ class RedisCache(BaseCache):
         if timeout is None:
             timeout = self.default_timeout
         data = self.dump_object(data_dict)
-        return self._client.setex(self.key_prefix + key, data, timeout)
+        return self._client.setex(self.key_prefix + key, timeout, data)
 
     def delete(self, key):
         return self._client.delete(self.key_prefix + key)
