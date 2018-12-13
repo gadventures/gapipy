@@ -8,6 +8,8 @@ except ImportError:
     # Python 3
     import pickle as pickle
 
+import json
+
 
 class BaseCache(object):
     """Base class for the cache system. All the cache systems will implement
@@ -121,10 +123,10 @@ class RedisCache(BaseCache):
         """The reversal of `dump_object`. This might be called with `None`."""
         if value is None:
             return None
-        return pickle.loads(value)
+        return json.loads(value)
 
     def dump_object(self, value):
-        return pickle.dumps(value)
+        return json.dumps(value)
 
     def get(self, key):
         return self.load_object(self._client.get(self.key_prefix + key))
