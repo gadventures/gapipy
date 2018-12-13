@@ -1,4 +1,3 @@
-import json
 import time
 from unittest import TestCase, skipUnless
 
@@ -46,21 +45,21 @@ class RedisCacheTestCase(TestCase):
 
     def test_get_set(self):
         c = self.make_cache()
-        c.set('a', json.dumps({'id': 1}))
+        c.set('a', {'id': 1})
         self.assertEqual(c.get('a'), {'id': 1})
 
-        c.set('a', json.dumps({'results': (1, 2, 3)}))
+        c.set('a', {'results': (1, 2, 3)})
         self.assertEqual(c.get('a'), {'results': (1, 2, 3)})
 
     def test_expire(self):
         c = self.make_cache()
-        c.set('expire_me', json.dumps({0: 0}), timeout=1)
+        c.set('expire_me', {0: 0}, timeout=1)
         time.sleep(2)
         self.assertEqual(c.get('expire_me'), None)
 
     def test_delete(self):
         c = self.make_cache()
-        c.set('delete_me', json.dumps({0: 0}))
+        c.set('delete_me', {0: 0})
         self.assertEqual(c.get('delete_me'), {0: 0})
         c.delete('delete_me')
         self.assertEqual(c.get('delete_me'), None)
