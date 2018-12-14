@@ -6,8 +6,6 @@ python:
   - "2.7"
   - "3.6"
 
-sudo: false
-
 env:
   - INTEGRATION=1
   - INTEGRATION=0

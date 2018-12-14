@@ -249,3 +249,59 @@ Note: ``_model_collection_fields = [('emails', AgencyEmail),]`` and ``AgencyEmai
 * ``_resource_fields`` refer to another ``Resource``
 
 Thanks for helping!
+
+Releasing
+---------
+
+1. Always make your changes in a branch and submit a PR  
+
+2. Once the PR has been completed and the changes pulled into the `master` branch. Do the following on your local box:
+    
+.. code-block:: bash
+
+   $> cd /path/to/gapipy
+   $> git checkout master
+   $> git pull origin master
+
+Then, modify the following files:
+
+* `gapipy/__init__.py`
+    * update the `__version__` variable
+    * NOTES on incrementing the version:
+    * `major.minor.patch`
+        * update `major` only when we switch to `python3 only support`
+        * update `minor` if there is some breaking change or adding a New resource
+        * update `patch` when adding new fields, fixing minor bugs
+    * See `semver.org <https://semver.org>`_ for more information.
+* `HISTORY.rst`
+    * update this file with the new `version` & `date` (x.x.x)
+    * Add some brief notes describing the changes
+
+3. Push the new commit  
+
+Use either `Release: (x.x.x)` or `Version bump (x.x.x)` for the commit title. Optionally add a description that matches the changes to `HISTORY.rst`
+
+4. Create a release on github with the following description (This will be tagged to the `version bump` commit and not the PR commit)
+
+.. code-block:: markdown
+
+    # Version x.x.x
+
+    PR: #XX
+
+    A brief description describing the changes
+    * bullet points
+    * make for easy reading
+
+5. Back to your local box  
+
+Please don't use `python setup.py sdist upload` as it seems to be having an issue pushing. We will now deploy to PyPi following these two steps  
+
+Note: If you don't have `twine` you can install it using `pip install twine`
+
+.. code-block:: bash
+
+    $> python setup.py sdist
+    # this will create `gapipy-x.x.x.tar.gz` in the `./dist` directory
+    $> twine upload dist/gapipy-x.x.x.tar.gz
+    # this will upload & create the release pypi
