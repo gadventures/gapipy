@@ -3,6 +3,13 @@
 History
 =======
 
+2.18.0 (2018-12-14)
+-------------------
+
+* Add ``merchandise`` resource.
+* Add ``merchandise_services`` resources.
+
+
 2.17.0 (2018-11-12)
 -------------------
 
@@ -69,7 +76,7 @@ History
 2.14.3 (2018-05-29)
 -------------------
 
-* Expose Linked Bookings via the API 
+* Expose Linked Bookings via the API
 
 2.14.1 (2018-05-15)
 -------------------
