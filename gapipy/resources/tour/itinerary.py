@@ -222,6 +222,7 @@ class Itinerary(Resource):
         'meals_budget',
         'packing_lists',
         'variation_id',
+        'site_links',
     ]
     _resource_fields = [
         ('start_location', 'Place'),
