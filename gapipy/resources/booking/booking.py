@@ -5,6 +5,7 @@ from gapipy.resources.checkin import Checkin
 
 from ..base import Resource
 from .agency_chain import AgencyChain
+from .customer import Customer
 from .document import Invoice, Document
 from .override import Override
 from .service import Service
@@ -45,6 +46,7 @@ class Booking(Resource):
             ('documents', Document),
             ('overrides', Override),
             ('checkins', Checkin),
+            ('customers', Customer),
         ]
 
     @property
