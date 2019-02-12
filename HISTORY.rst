@@ -3,6 +3,17 @@
 History
 =======
 
+2.19.0 (2019-02-12)
+-------------------
+
+* Add ``booking_companies`` field to ``Itinerary`` resource
+* Pin our requirement/dependency versions
+
+  * ``future == 0.16.0``
+  * ``requests >= 2.18.4, < 3.0.0``
+  * read ``setup.py`` requirements from ``requirements.txt``
+
+
 2.18.1 (2019-02-07)
 -------------------
 
