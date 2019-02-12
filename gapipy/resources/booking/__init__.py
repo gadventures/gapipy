@@ -15,6 +15,7 @@ from .service import (
     FeeService,
     FlightService,
     InsuranceService,
+    MerchandiseService,
     SingleSupplementService,
     TransportService,
 )

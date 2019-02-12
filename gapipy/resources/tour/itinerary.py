@@ -4,10 +4,16 @@ from __future__ import unicode_literals
 
 import datetime
 
-from .image import Image, MAP_TYPE
-from ..base import Resource
-from ...models.base import BaseModel
-from ...utils import DurationLabelMixin, LocationLabelMixin, duration_label, enforce_string_type
+from gapipy.models.base import BaseModel
+from gapipy.resources.base import Resource
+from gapipy.resources.booking_company import BookingCompany
+from gapipy.resources.tour.image import Image, MAP_TYPE
+from gapipy.utils import (
+    DurationLabelMixin,
+    LocationLabelMixin,
+    duration_label,
+    enforce_string_type,
+)
 
 
 class OptionalActivity(BaseModel):
@@ -36,9 +42,15 @@ class Duration(BaseModel):
 
 class ItineraryComponent(BaseModel, DurationLabelMixin, LocationLabelMixin):
     _as_is_fields = [
+        'description',
+        'distance_km',
+        'end_time',
+        'instructions',
+        'is_overnight',
+        'start_time',
+        'summary',
+        'time_period',
         'type',
-        'summary', 'description', 'instructions',
-        'distance_km', 'start_time', 'end_time', 'time_period', 'is_overnight',
     ]
     _resource_fields = [
         ('start_location', 'Place'),
@@ -74,7 +86,13 @@ class ItineraryComponent(BaseModel, DurationLabelMixin, LocationLabelMixin):
 
 class ItineraryDay(BaseModel):
     _as_is_fields = [
-        'id', 'day', 'label', 'summary', 'description', 'instructions', 'meals',
+        'id',
+        'day',
+        'label',
+        'summary',
+        'description',
+        'instructions',
+        'meals',
     ]
     _resource_fields = [
         ('start_location', 'Place'),
@@ -91,7 +109,10 @@ class ItineraryDay(BaseModel):
 
 
 class ValidDuringRange(BaseModel):
-    _date_fields = ['start_date', 'end_date']
+    _date_fields = [
+        'end_date',
+        'start_date',
+    ]
 
     def is_expired(self):
         return not self.is_valid_during_range(datetime.date.today(), None)
@@ -165,7 +186,11 @@ class ValidDuringRange(BaseModel):
 
 
 class DetailType(BaseModel):
-    _as_is_fields = ['id', 'name', 'code']
+    _as_is_fields = [
+        'id',
+        'code',
+        'name',
+    ]
 
     @enforce_string_type
     def __repr__(self):
@@ -185,11 +210,14 @@ class Detail(BaseModel):
 
 
 class ItineraryMedia(Resource):
-
     _resource_name = 'itinerary_media'
 
     _as_is_fields = [
-        'id', 'type', 'video_thumb', 'videos', 'image',
+        'id',
+        'type',
+        'image',
+        'video_thumb',
+        'videos',
     ]
 
     @enforce_string_type
@@ -200,7 +228,12 @@ class ItineraryMedia(Resource):
 class ItineraryHighlights(Resource):
     _resource_name = 'itinerary_highlights'
 
-    _as_is_fields = ['id', 'name', 'description', 'media']
+    _as_is_fields = [
+        'id',
+        'name',
+        'description',
+        'media',
+    ]
 
     @enforce_string_type
     def __repr__(self):
@@ -208,8 +241,8 @@ class ItineraryHighlights(Resource):
 
 
 class Itinerary(Resource):
-
     _resource_name = 'itineraries'
+
     _is_parent_resource = True
 
     _as_is_fields = [
@@ -221,19 +254,21 @@ class Itinerary(Resource):
         'meals_included',
         'meals_budget',
         'packing_lists',
+        'site_links',
         'variation_id',
     ]
     _resource_fields = [
-        ('start_location', 'Place'),
         ('end_location', 'Place'),
+        ('start_location', 'Place'),
         ('tour_dossier', 'TourDossier'),
     ]
     _model_collection_fields = [
+        ('booking_companies', BookingCompany),
         ('days', ItineraryDay),
         ('details', Detail),
-        ('variations', 'Itinerary'),
-        ('valid_during_ranges', ValidDuringRange),
         ('images', Image),
+        ('valid_during_ranges', ValidDuringRange),
+        ('variations', 'Itinerary'),
     ]
 
     _resource_collection_fields = [

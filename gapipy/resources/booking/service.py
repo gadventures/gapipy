@@ -20,6 +20,7 @@ from gapipy.resources.tour import (
     DepartureComponent,
     Accommodation,
     Activity,
+    Merchandise,
     Transport,
     SingleSupplement,
 )
@@ -113,6 +114,7 @@ class ServiceProduct(Service):
             'accommodation_services': Accommodation,
             'transport_services': Transport,
             'activity_services': Activity,
+            'merchandise_services': Merchandise,
             'single_supplement_services': SingleSupplement,
         }
         return mapping[self._resource_name]
@@ -250,6 +252,16 @@ class ActivityService(ServiceProduct):
             ('arrival_flight_details', ArrivalFlightDetail),
             ('associated_services', AssociatedService),
             ('incomplete_requirements', IncompleteRequirement),
+        ])
+
+
+class MerchandiseService(ServiceProduct):
+    _resource_name = 'merchandise_services'
+
+    @property
+    def _model_collection_fields(self):
+        return (super(MerchandiseService, self)._model_collection_fields + [
+            ('associated_services', AssociatedService),
         ])
 
 
