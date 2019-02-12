@@ -9,10 +9,12 @@ from setuptools import setup, find_packages
 readme = open('README.rst').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
-requirements = [
-    'future==0.16.0',
-    'requests>=2.18.4,<3.0.0',
-]
+requirements = []
+with open('requirements.txt') as reqs:
+    lines = reqs.readlines()
+    for line in lines:
+        if line:
+            requirements.append(line.strip('\n'))
 
 test_requirements = [
     'mock',
