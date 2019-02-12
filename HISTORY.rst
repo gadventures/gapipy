@@ -3,12 +3,18 @@
 History
 =======
 
+2.19.3 (2019-02-12)
+-------------------
+
+* Attempt to fix rST formatting of ``README`` and ``HISTORY`` on pypi
+
+
 2.19.2 (2019-02-12)
 -------------------
 
 * Become agnostic between redis 2.x.x && 3.x.x versions
 
-  * ``setex`` method argument order changes between the major versions
+  * the ``setex`` method argument order changes between the major versions
 
 
 2.19.1 (2019-02-12)
@@ -23,22 +29,22 @@ History
 * Add ``booking_companies`` field to ``Itinerary`` resource
 * Pin our requirement/dependency versions
 
-  * ``future == 0.16.0``
-  * ``requests >= 2.18.4, < 3.0.0``
+  * pin ``future == 0.16.0``
+  * pin ``requests >= 2.18.4, < 3.0.0``
   * read ``setup.py`` requirements from ``requirements.txt``
 
 
 2.18.1 (2019-02-07)
 -------------------
 
-* Add ``customers`` nested resource to ``bookings``.
+* Add ``customers`` nested resource to ``bookings``
 
 
 2.18.0 (2018-12-14)
 -------------------
 
-* Add ``merchandise`` resource.
-* Add ``merchandise_services`` resources.
+* Add ``merchandise`` resource
+* Add ``merchandise_services`` resources
 
 
 2.17.0 (2018-11-12)
@@ -50,7 +56,7 @@ History
 2.16.0 (2018-11-07)
 -------------------
 
-* Completely remove the deprecated ``add_ons`` field from the Departure resource.
+* Completely remove the deprecated ``add_ons`` field from the Departure resource
 * Add missing fields to various Dossier resources
 
   * Accommodation Dossier: ``flags``, ``is_prepaid``, ``service_time``, ``show_on_reservation_sheet``
