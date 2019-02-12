@@ -2,15 +2,20 @@
 
 language: python
 
-python:
-  - "2.7"
-  - "3.6"
-
 matrix:
   include:
-    - env: INTEGRATION=0 REDIS="redis==2.10.6"
-    - env: INTEGRATION=0 REDIS="redis==3.1.0"
-    - env: INTEGRATION=1 REDIS="redis"
+    - python: 2.7
+      env: INTEGRATION=0 REDIS="redis==2.10.6"
+    - python: 2.7
+      env: INTEGRATION=0 REDIS="redis==3.1.0"
+    - python: 2.7
+      env: INTEGRATION=1 REDIS="redis"
+    - python: 3.6
+      env: INTEGRATION=0 REDIS="redis==2.10.6"
+    - python: 3.6
+      env: INTEGRATION=0 REDIS="redis==3.1.0"
+    - python: 3.6
+      env: INTEGRATION=1 REDIS="redis"
 
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
