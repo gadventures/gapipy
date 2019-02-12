@@ -6,16 +6,16 @@ python:
   - "2.7"
   - "3.6"
 
-env:
-  - INTEGRATION=1
-  - INTEGRATION=0
-  - REDIS_VERSION=2.10.6
-  - REDIS_VERSION=3.1.0
+matrix:
+  include:
+    - env: INTEGRATION=0 REDIS="redis==2.10.6"
+    - env: INTEGRATION=0 REDIS="redis==3.1.0"
+    - env: INTEGRATION=1 REDIS="redis"
 
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
   - pip install -q -r requirements-testing.txt
-  - pip install -q redis==$REDIS_VERSION
+  - pip install -q $REDIS
 
 # command to run tests
 script: python setup.py nosetests -A integration==$INTEGRATION
