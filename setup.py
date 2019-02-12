@@ -10,8 +10,8 @@ readme = open('README.rst').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 requirements = [
-    'requests',
-    'future',
+    'future==0.16.0',
+    'requests>=2.18.4,<3.0.0',
 ]
 
 test_requirements = [
