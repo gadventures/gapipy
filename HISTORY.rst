@@ -3,10 +3,18 @@
 History
 =======
 
+2.19.2 (2019-02-12)
+-------------------
+
+* Become agnostic between redis 2.x.x && 3.x.x versions
+
+  * ``setex`` method argument order changes between the major versions
+
+
 2.19.1 (2019-02-12)
 -------------------
 
-* Fix for ``2.19.0`` -- adds ``requirements.txt`` file to the distribution ``MANIFEST``
+* HotFix for ``2.19.0`` -- adds ``requirements.txt`` file to the distribution ``MANIFEST``
 
 
 2.19.0 (2019-02-12)
