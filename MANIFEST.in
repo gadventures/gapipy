@@ -1,9 +1,11 @@
 include HISTORY.rst
 include LICENSE
 include README.rst
+include requirements.txt
 
 recursive-include tests *
 recursive-exclude * __pycache__
+recursive-exclude * .eggs
 recursive-exclude * *.py[co]
 
 recursive-include docs *.rst conf.py Makefile make.bat

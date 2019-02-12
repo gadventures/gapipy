@@ -3,6 +3,12 @@
 History
 =======
 
+2.19.1 (2019-02-12)
+-------------------
+
+* Fix for ``2.19.0`` -- adds ``requirements.txt`` file to the distribution ``MANIFEST``
+
+
 2.19.0 (2019-02-12)
 -------------------
 
