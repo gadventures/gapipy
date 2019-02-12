@@ -10,11 +10,12 @@ except ImportError:
 
 
 class BaseCache(object):
-    """Base class for the cache system. All the cache systems will implement
-    this API or a superset of it.
+    """
+    Base class for the cache system. All the cache systems will
+    implement this API or a superset of it.
 
-    :param default_timeout: the default timeout that is used if no timeout is
-                            specified on :meth:`set`.
+    :param default_timeout: the default timeout that is used if no
+                            timeout is specified on :meth:`set`.
     """
     def __init__(self, default_timeout=300, **kwargs):
         self.default_timeout = default_timeout
@@ -45,11 +46,12 @@ class NullCache(BaseCache):
 
 
 class SimpleCache(BaseCache):
-    """Simply memory cache for single process environments. This class exists
-    mainly for a development server and is not 100% thread safe.
+    """
+    Simply memory cache for single process environments. This class
+    exists mainly for a development server and is not 100% thread safe.
 
-    :param threshold: the maximum number of items the cache stores before
-                      it starts evicting keys.
+    :param threshold: the maximum number of items the cache stores
+                      before it starts evicting keys.
     """
     def __init__(self, threshold=500, default_timeout=300, **kwargs):
         super(SimpleCache, self).__init__(default_timeout, **kwargs)
@@ -103,17 +105,29 @@ class RedisCache(BaseCache):
     @classmethod
     def _get_client(cls, host, port, password, db):
         """
-        Retrieves a connection pool from a class-local cache (or creates it if
-        necessary), returns a Redis client instance that uses that pool.
+        Retrieves a connection pool from a class-local cache (or creates
+        it if necessary), returns a Redis client instance that uses that
+        pool.
         """
         try:
             import redis
         except ImportError:
             raise RuntimeError('no redis module found')
+        else:
+            cls.REDIS_VERSION = redis.__version__
+
+        # connection pool cache key
         credentials = (host, port, password, db)
+        # retrieve or create a pool
         pool = cls._connection_pool_cache.get(
             credentials,
-            redis.ConnectionPool(host=host, port=port, password=password, db=db))
+            redis.ConnectionPool(
+                host=host,
+                port=port,
+                password=password,
+                db=db,
+            ),
+        )
         cls._connection_pool_cache[credentials] = pool
         return redis.Redis(connection_pool=pool)
 
@@ -133,6 +147,11 @@ class RedisCache(BaseCache):
         if timeout is None:
             timeout = self.default_timeout
         data = self.dump_object(data_dict)
+        # redis 3.x.x requires the order of arguments in setex to be:
+        # (name, time, value)
+        if self.REDIS_VERSION >= '3.0.0':
+            return self._client.setex(self.key_prefix + key, timeout, data)
+        # redis < 3.0.0
         return self._client.setex(self.key_prefix + key, data, timeout)
 
     def delete(self, key):
