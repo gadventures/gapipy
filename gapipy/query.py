@@ -133,7 +133,14 @@ class Query(object):
             params=self._filters,
             parent=self.parent
         )
-        generator = requestor.list()
+        # use href when available; this change should be transparent
+        # introduced: 2.20.0
+        href =  None
+        if isinstance(self._raw_data, dict):
+            href = self._raw_data.get('href')
+        # generator to fetch list resources
+        generator = requestor.list(href)
+        # reset filters in case they were set on this query
         self._filters = {}
 
         if limit:
