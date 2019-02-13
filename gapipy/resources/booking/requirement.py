@@ -96,10 +96,11 @@ class RequirementSet(Resource):
         'complete_by_date',
     ]
 
+    _model_collection_fields = [
+        ('requirements', Requirement),
+    ]
+
     _resource_fields = [
         ('booking', 'Booking'),
     ]
 
-    _resource_collection_fields = [
-        ('requirements', Requirement),
-    ]
