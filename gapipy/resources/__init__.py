@@ -36,6 +36,7 @@ from .booking import (  # NOQA
     AgencyChain,
     Agent,
     Booking,
+    Checkin,
     Customer,
     Invoice,
     DeclinedReason,
