@@ -1,4 +1,5 @@
-from .tour import (  # NOQA
+# flake8: NOQA
+from .tour import (
     Accommodation,
     Activity,
     OptionalActivity,
@@ -18,7 +19,7 @@ from .tour import (  # NOQA
     Transport,
 )
 
-from .dossier import (  # NOQA
+from .dossier import (
     AccommodationDossier,
     ActivityDossier,
     PlaceDossier,
@@ -31,7 +32,7 @@ from .dossier import (  # NOQA
     CountryDossier,
 )
 
-from .booking import (  # NOQA
+from .booking import (
     Agency,
     AgencyChain,
     Agent,
@@ -52,11 +53,13 @@ from .booking import (  # NOQA
     TransportService,
     Payment,
     Refund,
+    Requirement,
+    RequirementSet,
     Override,
     OverrideReason,
 )
 
-from .geo import (  # NOQA
+from .geo import (
     Airport,
     Continent,
     Country,
@@ -68,12 +71,8 @@ from .geo import (  # NOQA
     Timezone,
 )
 
-from .checkin import (  # NOQA
-    Checkin,
-)
-
 from .booking_company import BookingCompany
-from .language import Language  # NOQA
+from .language import Language
 
 
 available_public_resources = [
@@ -138,6 +137,8 @@ available_private_resources = [
     'Override',
     'Payment',
     'Refund',
+    'Requirement',
+    'RequirementSet',
     'SingleSupplementService',
     'TransportService',
 ]

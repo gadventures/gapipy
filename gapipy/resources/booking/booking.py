@@ -8,6 +8,7 @@ from .checkin import Checkin
 from .customer import Customer
 from .document import Invoice, Document
 from .override import Override
+from .requirement import RequirementSet
 from .service import Service
 from .transaction import Payment, Refund
 
@@ -46,6 +47,7 @@ class Booking(Resource):
             ('overrides', Override),
             ('payments', Payment),
             ('refunds', Refund),
+            ('requirements', RequirementSet),
             ('services', Service),
         ]
 
