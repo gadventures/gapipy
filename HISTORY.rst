@@ -3,6 +3,12 @@
 History
 =======
 
+2.19.4 (2019-02-14)
+-------------------
+
+* Add ``get_category_name`` helper method to ``TourDossier`` resource
+
+
 2.19.3 (2019-02-12)
 -------------------
 
