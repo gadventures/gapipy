@@ -3,6 +3,20 @@
 History
 =======
 
+2.20.0 (2019-02-20)
+-------------------
+
+* Add ``Requirement`` and ``RequirementSet`` resources
+* Move ``Checkin`` resource to the ``resources.booking`` module
+* The ``Query`` object will resolve to use the ``href`` value when
+  returning the iterator to fetch _all_ of some resource. This is needed
+  because ``bookings/{id}/requirements`` actually returns a list of
+  ``RequirementSet``s
+* Usage info available in the Release notes:
+
+  * https://github.com/gadventures/gapipy/releases/tag/2.20.0
+
+
 2.19.4 (2019-02-14)
 -------------------
 
