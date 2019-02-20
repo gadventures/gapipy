@@ -3,18 +3,22 @@
 History
 =======
 
+2.20.1 (2019-02-20)
+-------------------
+
+* HISTORY.rst doc fixes
+
+
 2.20.0 (2019-02-20)
 -------------------
 
 * Add ``Requirement`` and ``RequirementSet`` resources
 * Move ``Checkin`` resource to the ``resources.booking`` module
 * The ``Query`` object will resolve to use the ``href`` value when
-  returning the iterator to fetch _all_ of some resource. This is needed
-  because ``bookings/{id}/requirements`` actually returns a list of
-  ``RequirementSet``s
-* Usage info available in the Release notes:
-
-  * https://github.com/gadventures/gapipy/releases/tag/2.20.0
+  returning the iterator to fetch ``all`` of some resource. This is
+  needed because ``bookings/123456/requirements`` actually returns a list
+  of ``RequirementSet`` resources
+* see https://github.com/gadventures/gapipy/releases/tag/2.20.0 for more details
 
 
 2.19.4 (2019-02-14)
@@ -181,7 +185,7 @@ History
 * Add ``agency_chain`` field to ``Booking`` resource
 * Add ``id`` field as part of the ``DossierDetail`` model (PR/89)
 * Add ``agency_chains`` field to the ``Agency`` resource (PR/90)
-* see https://github.com/gadventures/gapipy/releases/2.11.3 for more details
+* see https://github.com/gadventures/gapipy/releases/tag/2.11.3 for more details
 
 
 2.11.0 (2017-12-18)
@@ -199,7 +203,7 @@ History
 * The ``PricePromotion`` model extends from the ``Promotion`` resource (PR/85)
 * Update the ``Agent`` class to use BaseModel classes for the ``role``
   and ``phone_numbers`` fields.
-* see https://github.com/gadventures/gapipy/releases/2.10.0 for more details
+* see https://github.com/gadventures/gapipy/releases/tag/2.10.0 for more details
 
 
 2.9.3 (2017-11-23)
@@ -215,7 +219,7 @@ History
 
 * Adds the ``options`` method on the Resource Query object.
   A more detailed description of the issue can be found at:
-  https://github.com/gadventures/gapipy/releases/2.9.1
+  https://github.com/gadventures/gapipy/releases/tag/2.9.1
 * *NOTE*: We have skipped ``2.9.0`` due to pypi upload issues
 
 
