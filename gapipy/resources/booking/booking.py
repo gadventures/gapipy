@@ -1,13 +1,14 @@
 # Python 2 and 3
 from __future__ import unicode_literals
 
-from gapipy.resources.checkin import Checkin
+from gapipy.resources.base import Resource
 
-from ..base import Resource
 from .agency_chain import AgencyChain
+from .checkin import Checkin
 from .customer import Customer
 from .document import Invoice, Document
 from .override import Override
+from .requirement import RequirementSet
 from .service import Service
 from .transaction import Payment, Refund
 
@@ -39,14 +40,15 @@ class Booking(Resource):
     @property
     def _resource_collection_fields(self):
         return [
-            ('services', Service),
-            ('invoices', Invoice),
-            ('payments', Payment),
-            ('refunds', Refund),
-            ('documents', Document),
-            ('overrides', Override),
             ('checkins', Checkin),
             ('customers', Customer),
+            ('documents', Document),
+            ('invoices', Invoice),
+            ('overrides', Override),
+            ('payments', Payment),
+            ('refunds', Refund),
+            ('requirements', RequirementSet),
+            ('services', Service),
         ]
 
     @property

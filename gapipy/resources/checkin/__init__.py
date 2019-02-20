@@ -1,1 +1,0 @@
-from .checkin import Checkin
