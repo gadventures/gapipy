@@ -15,6 +15,13 @@ from gapipy.utils import (
     enforce_string_type,
 )
 
+class RippleScore(BaseModel):
+    _as_is_fields = [
+        'score',
+        'end_date',
+        'start_date',
+    ]
+
 
 class OptionalActivity(BaseModel):
     _resource_fields = [
@@ -269,6 +276,10 @@ class Itinerary(Resource):
         ('images', Image),
         ('valid_during_ranges', ValidDuringRange),
         ('variations', 'Itinerary'),
+    ]
+
+    _model_fields = [
+        ('ripple_score', RippleScore),
     ]
 
     _resource_collection_fields = [
