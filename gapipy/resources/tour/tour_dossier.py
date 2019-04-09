@@ -90,3 +90,8 @@ class TourDossier(Resource):
         for detail in self.details:
             if detail['detail_type']['label'] == label:
                 return detail['body']
+
+    def get_category_name(self, label):
+        for category in self.categories:
+            if category['category_type']['label'] == label:
+                return category['name']

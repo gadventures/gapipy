@@ -2,18 +2,25 @@
 
 language: python
 
-python:
-  - "2.7"
-  - "3.6"
-
-env:
-  - INTEGRATION=1
-  - INTEGRATION=0
+matrix:
+  include:
+    - python: 2.7
+      env: INTEGRATION=0 REDIS="redis==2.10.6"
+    - python: 2.7
+      env: INTEGRATION=0 REDIS="redis==3.1.0"
+    - python: 2.7
+      env: INTEGRATION=1 REDIS="redis"
+    - python: 3.6
+      env: INTEGRATION=0 REDIS="redis==2.10.6"
+    - python: 3.6
+      env: INTEGRATION=0 REDIS="redis==3.1.0"
+    - python: 3.6
+      env: INTEGRATION=1 REDIS="redis"
 
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
-  - pip install -r requirements-testing.txt
-  - pip install redis
+  - pip install -q -r requirements-testing.txt
+  - pip install -q $REDIS
 
 # command to run tests
 script: python setup.py nosetests -A integration==$INTEGRATION

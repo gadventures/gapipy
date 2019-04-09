@@ -3,28 +3,72 @@
 History
 =======
 
+2.20.1 (2019-02-20)
+-------------------
+
+* HISTORY.rst doc fixes
+
+
+2.20.0 (2019-02-20)
+-------------------
+
+* Add ``Requirement`` and ``RequirementSet`` resources
+* Move ``Checkin`` resource to the ``resources.booking`` module
+* The ``Query`` object will resolve to use the ``href`` value when
+  returning the iterator to fetch ``all`` of some resource. This is
+  needed because ``bookings/123456/requirements`` actually returns a list
+  of ``RequirementSet`` resources
+* see https://github.com/gadventures/gapipy/releases/tag/2.20.0 for more details
+
+
+2.19.4 (2019-02-14)
+-------------------
+
+* Add ``get_category_name`` helper method to ``TourDossier`` resource
+
+
+2.19.3 (2019-02-12)
+-------------------
+
+* Attempt to fix rST formatting of ``README`` and ``HISTORY`` on pypi
+
+
+2.19.2 (2019-02-12)
+-------------------
+
+* Become agnostic between redis 2.x.x && 3.x.x versions
+
+  * the ``setex`` method argument order changes between the major versions
+
+
+2.19.1 (2019-02-12)
+-------------------
+
+* HotFix for ``2.19.0`` -- adds ``requirements.txt`` file to the distribution ``MANIFEST``
+
+
 2.19.0 (2019-02-12)
 -------------------
 
 * Add ``booking_companies`` field to ``Itinerary`` resource
 * Pin our requirement/dependency versions
 
-  * ``future == 0.16.0``
-  * ``requests >= 2.18.4, < 3.0.0``
+  * pin ``future == 0.16.0``
+  * pin ``requests >= 2.18.4, < 3.0.0``
   * read ``setup.py`` requirements from ``requirements.txt``
 
 
 2.18.1 (2019-02-07)
 -------------------
 
-* Add ``customers`` nested resource to ``bookings``.
+* Add ``customers`` nested resource to ``bookings``
 
 
 2.18.0 (2018-12-14)
 -------------------
 
-* Add ``merchandise`` resource.
-* Add ``merchandise_services`` resources.
+* Add ``merchandise`` resource
+* Add ``merchandise_services`` resources
 
 
 2.17.0 (2018-11-12)
@@ -36,7 +80,7 @@ History
 2.16.0 (2018-11-07)
 -------------------
 
-* Completely remove the deprecated ``add_ons`` field from the Departure resource.
+* Completely remove the deprecated ``add_ons`` field from the Departure resource
 * Add missing fields to various Dossier resources
 
   * Accommodation Dossier: ``flags``, ``is_prepaid``, ``service_time``, ``show_on_reservation_sheet``
@@ -141,7 +185,7 @@ History
 * Add ``agency_chain`` field to ``Booking`` resource
 * Add ``id`` field as part of the ``DossierDetail`` model (PR/89)
 * Add ``agency_chains`` field to the ``Agency`` resource (PR/90)
-* see https://github.com/gadventures/gapipy/releases/2.11.3 for more details
+* see https://github.com/gadventures/gapipy/releases/tag/2.11.3 for more details
 
 
 2.11.0 (2017-12-18)
@@ -159,7 +203,7 @@ History
 * The ``PricePromotion`` model extends from the ``Promotion`` resource (PR/85)
 * Update the ``Agent`` class to use BaseModel classes for the ``role``
   and ``phone_numbers`` fields.
-* see https://github.com/gadventures/gapipy/releases/2.10.0 for more details
+* see https://github.com/gadventures/gapipy/releases/tag/2.10.0 for more details
 
 
 2.9.3 (2017-11-23)
@@ -175,7 +219,7 @@ History
 
 * Adds the ``options`` method on the Resource Query object.
   A more detailed description of the issue can be found at:
-  https://github.com/gadventures/gapipy/releases/2.9.1
+  https://github.com/gadventures/gapipy/releases/tag/2.9.1
 * *NOTE*: We have skipped ``2.9.0`` due to pypi upload issues
 
 

@@ -65,7 +65,7 @@ class TourDossierTestCase(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.dossier = Client().tour_dossiers.get(21715)
+        cls.dossier = Client().tour_dossiers.get(24515)
 
     def setUp(self):
         self.dossier = TourDossierTestCase.dossier
@@ -89,13 +89,22 @@ class TourDossierTestCase(TestCase):
         self.assertIsInstance(countries, list)
 
     def test_get_trip_detail(self):
-        detail = self.dossier.get_trip_detail('Max Pax')
+        detail = self.dossier.get_trip_detail('Highlights')
         if sys.version_info.major < 3:
             # Python 2
             self.assertIsInstance(detail, basestring)
         else:
             # Python 3
             self.assertIsInstance(detail, str)
+
+    def test_get_category_name(self):
+        category = self.dossier.get_category_name('Trip Type')
+        if sys.version_info.major < 3:
+            # Python 2
+            self.assertIsInstance(category, basestring)
+        else:
+            # Python 3
+            self.assertIsInstance(category, str)
 
 
 @attr('integration')
@@ -131,7 +140,7 @@ class LiveAPITestCase(TestCase):
         (Timezone, 4),
         (Tour, 21715),
         (TourCategory, 15),
-        (TourDossier, 21715),
+        (TourDossier, 24515),
         (Transport, 298),
         (TransportDossier, 51),
     ]
