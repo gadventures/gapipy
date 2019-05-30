@@ -3,11 +3,15 @@
 History
 =======
 
+UNRELEASED
+----------
+
+* Remove deprecated ``tour_dossiers.itineraries`` field and related code
+
 2.22.0 (2019-10-10)
 -------------------
 
 * Add ``booking_company`` field to ``Booking`` resource
-
 
 2.21.0 (2019-04-09)
 -------------------

@@ -93,54 +93,6 @@ SECOND_PAGE_LIST_DATA = {
 PPP_DOSSIER_DATA = {
     "departures_start_date": "2013-01-01",
     "departures_end_date": "2013-12-31",
-    "itineraries": [
-        {
-            "duration": 15,
-            "type": "SUMMARY",
-            "days": [
-                {
-                    "body": "Arrive at any time.",
-                    "id": "125737468",
-                    "label": "Day 1 Lima"
-                },
-                {
-                    "body": "Fly to Juliaca and transfer to Puno.  Visit the floating Islands of Uros and take a guided tour of Lake Titicaca with a homestay in a small village.   Optional visit to Sillustani burial site.",
-                    "id": "125737469",
-                    "label": "Days 2-4 Puno/Lake Titicaca (1B,1L,1D)"
-                },
-                {
-                    "body": "Travel day by bus from Puno to Cuzco.",
-                    "id": "125737470",
-                    "label": "Day 5 Cuzco"
-                },
-                {
-                    "body": "Full day guided tour of the Sacred Valley and Ollantaytambo ruins along with a visit to a Planeterra weaving project in a local community. Shopping opportunities at a local market.",
-                    "id": "125737471",
-                    "label": "Day 6 Sacred Valley/Ollantaytambo"
-                },
-                {
-                    "body": "4-day guided Inca Trail hike with visit to Machu Picchu. Optional visit to the Inca Bridge before returning to Cuzco.",
-                    "id": "125737472",
-                    "label": "Days 7-10 Inca Trail/Machu Picchu (3B,3L,3D)"
-                },
-                {
-                    "body": "Free day to explore Cuzco or relax. Active options include whitewater rafting, horseback riding and mountain biking.",
-                    "id": "125737473",
-                    "label": "Day 11 Cuzco"
-                },
-                {
-                    "body": "Fly to Puerto Maldonado and continue by motorized canoe to our comfortable, intimate and exclusive G Lodge Amazon. Enjoy guided excursions by expert naturalists to spot wildlife at nearby oxbow lakes, clay licks and treetop towers. Included rubber boots while at the lodge. Fly back to Lima on Day 14.",
-                    "id": "125737474",
-                    "label": "Days 12-14 Amazon Jungle (2B,2L,2D)"
-                },
-                {
-                    "body": "Depart at any time.",
-                    "id": "125737475",
-                    "label": "Day 15 Lima"
-                }
-            ]
-        }
-    ],
     "description": "Spot macaws in the jungle and caimans on the riverbanks, sail the waters of Lake Titicaca, delight in the smells of markets and explore ancient ruins, including a trek along the Inca Trail. As we operate our own treks, our quality equipment and the expertise of our porters and CEOs will ensure that your first glimpse of Machu Picchu will leave you in awe. Whether you're scanning the canopy for wildlife from the comfort of our intimate and exclusive G Lodge Amazon or following in the footsteps of the Incas, this fast-paced adventure provides a sweeping view of this diverse country.",
     "tour": {
         "href": "http://localhost:5000/tours/21346",
