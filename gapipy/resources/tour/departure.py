@@ -28,6 +28,7 @@ class Departure(Product):
         'product_line',
         'sku',
         'requirements',
+        'program',
     ]
     _date_fields = [
         'start_date',
