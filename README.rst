@@ -24,15 +24,14 @@ Quick Start
     >>> api = Client(application_key='MY_SECRET_KEY')
 
     >>> # Get a resource by id
-    >>> tour = api.tours.get(24309)
-    >>> tour.product_line
+    >>> tour_dossier = api.tour_dossiers.get(24309)
+    >>> tour_dossier.product_line
     u'AHEH'
-    >>> tour.departures.count()
+    >>> tour_dossier.departures.count()
     134
-    >>> dossier = tour.tour_dossier
-    >>> dossier.name
+    >>> tour_dossier.name
     u'Essential India'
-    >>> itinerary = dossier.structured_itineraries[0]
+    >>> itinerary = tour_dossier.structured_itineraries[0]
     >>> {day.day: day.summary for day in itinerary.days[:3]}
     {1: u'Arrive at any time. Arrival transfer included through the G Adventures-supported Women on Wheels project.',
     2: u'Take a morning walk through the city with a young adult from the G Adventures-supported New Delhi Streetkids Project. Later, visit Old Delhi, explore the spice markets, and visit Jama Masjid and Connaught Place.',
