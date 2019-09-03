@@ -73,6 +73,7 @@ from .geo import (
 
 from .booking_company import BookingCompany
 from .language import Language
+from .quick_quote import QuickQuote
 
 
 available_public_resources = [
@@ -136,6 +137,7 @@ available_private_resources = [
     'Nationality',
     'Override',
     'Payment',
+    'QuickQuote',
     'Refund',
     'Requirement',
     'RequirementSet',
