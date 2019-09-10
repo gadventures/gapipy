@@ -1,8 +1,6 @@
 # Python 2 and 3
 from __future__ import unicode_literals
 
-from future.utils import with_metaclass
-
 from gapipy.models.base import BaseModel
 from gapipy.resources.base import Resource
 from gapipy.utils import get_resource_class_from_resource_name
