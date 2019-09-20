@@ -177,9 +177,9 @@ class Query(object):
         self._filters = {}
         return out
 
-    def create(self, data_dict):
+    def create(self, data_dict, headers=None):
         """Create an instance of the query resource using the given data"""
-        return self.resource.create(self._client, data_dict)
+        return self.resource.create(self._client, data_dict, headers=headers)
 
     def first(self):
         """

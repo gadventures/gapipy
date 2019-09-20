@@ -356,7 +356,7 @@ class UpdateCreateResourceTestCase(unittest.TestCase):
         r = MockResource(data, client=self.client)
         r.save()
         mock_request.assert_called_once_with(
-            '/mocks', 'POST', data=r.to_json())
+            '/mocks', 'POST', data=r.to_json(), additional_headers=None)
 
     def test_update_object(self, mock_request):
         data = {
