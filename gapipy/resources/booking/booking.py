@@ -35,6 +35,7 @@ class Booking(Resource):
         ('agency_chain', AgencyChain),
         ('agent', 'Agent'),
         ('associated_agency', 'Agency'),
+        ('booking_company', 'BookingCompany')
     ]
 
     @property
