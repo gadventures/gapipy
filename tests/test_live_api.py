@@ -55,10 +55,6 @@ class TourTestCase(TestCase):
     def setUp(self):
         self.tour = TourTestCase.tour
 
-    def test_get_itinerary(self):
-        itin = self.tour.get_brief_itinerary()
-        self.assertIsInstance(itin, list)
-
 
 @attr('integration')
 class TourDossierTestCase(TestCase):
@@ -69,10 +65,6 @@ class TourDossierTestCase(TestCase):
 
     def setUp(self):
         self.dossier = TourDossierTestCase.dossier
-
-    def test_get_itinerary(self):
-        itin = self.dossier.get_detailed_itinerary()
-        self.assertIsInstance(itin, list)
 
     def test_get_image_url(self):
         url = self.dossier.get_map_url()

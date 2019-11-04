@@ -8,8 +8,6 @@ from gapipy.resources.booking_company import BookingCompany
 from gapipy.utils import get_resource_class_from_class_name
 
 
-BRIEF_ITINERARY_TYPE = 'SUMMARY'
-DETAILED_ITINERARY_TYPE = 'DETAILED'
 MAP_IMAGE_TYPE = 'MAP'
 BANNER_IMAGE_TYPE = 'BANNER'
 
@@ -27,7 +25,6 @@ class TourDossier(Resource):
         'product_line',
         'geography',
         'images',
-        'itineraries',
         'name',
         'site_links',
     ]
@@ -60,17 +57,6 @@ class TourDossier(Resource):
             setattr(self, field, query)
         else:
             return super(TourDossier, self)._set_resource_collection_field(field, value)
-
-    def _get_itinerary(self, itinerary_type):
-        for itin in self.itineraries:
-            if itin['type'] == itinerary_type:
-                return [dict(label=i['label'], body=i['body']) for i in itin['days']]
-
-    def get_brief_itinerary(self):
-        return self._get_itinerary(BRIEF_ITINERARY_TYPE)
-
-    def get_detailed_itinerary(self):
-        return self._get_itinerary(DETAILED_ITINERARY_TYPE)
 
     def _get_image_url(self, image_type):
         for image in self.images:

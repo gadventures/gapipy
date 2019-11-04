@@ -25,12 +25,6 @@ class Tour(Resource):
         """, DeprecationWarning)
         super(Tour, self).__init__(*args, **kwargs)
 
-    def get_brief_itinerary(self):
-        return self.tour_dossier.get_brief_itinerary()
-
-    def get_detailed_itinerary(self):
-        return self.tour_dossier.get_detailed_itinerary()
-
     def get_map_url(self):
         return self.tour_dossier.get_map_url()
 
