@@ -142,13 +142,13 @@ class APIRequestor(object):
             uri = '/{0}/{1}'.format(self._get_uri(), resource_id)
         return self._request(uri, method, data=data)
 
-    def create(self, data, uri=None):
+    def create(self, data, uri=None, headers=None):
         """
         Create a single new resource with the given data.
         """
         if not uri:
             uri = '/{0}'.format(self._get_uri())
-        return self._request(uri, 'POST', data=data)
+        return self._request(uri, 'POST', data=data, additional_headers=headers)
 
     def list_raw(self, uri=None):
         """Return the raw response for listing resources.

@@ -41,9 +41,9 @@ class Resource(BaseModel):
         return self
 
     @classmethod
-    def create(cls, client, data_dict):
+    def create(cls, client, data_dict, headers=None):
         request = APIRequestor(client, cls)
-        response = request.create(json.dumps(data_dict))
+        response = request.create(json.dumps(data_dict), headers=headers)
         return cls(response, client=client)
 
     def __getattr__(self, name):

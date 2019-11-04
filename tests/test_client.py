@@ -1,3 +1,4 @@
+import json
 from mock import patch
 import unittest
 
@@ -53,6 +54,32 @@ class ClientTestCase(unittest.TestCase):
         # final resource.
         resource = self.gapi.create('foo', {'id': 1, 'foo': 'bar', 'context': 'abc'})
         self.assertEqual(resource.id, 1)
+
+    @patch('gapipy.request.APIRequestor._request')
+    def test_create_extra_headers(self, mock_request):
+        """
+        Test that extra HTTP headers can be passed through the `.create`
+        method on a resource
+        """
+        class MockResource(Resource):
+            _as_is_fields = ['id', 'foo']
+            _resource_name = 'foo'
+        self.gapi.foo = Query(self.gapi, MockResource)
+
+        resource_data = {'id': 1, 'foo': 'bar'}  # content doesn't really matter for this test
+        mock_request.return_value = resource_data
+
+        # Create a `foo` while passing extra headers
+        extra_headers = {'X-Bender': 'I\'m not allowed to sing. Court order.'}
+        self.gapi.create('foo', resource_data, headers=extra_headers)
+
+        # Did those headers make it all the way to the requestor?
+        mock_request.assert_called_once_with(
+            '/foo',
+            'POST',
+            data=json.dumps(resource_data),
+            additional_headers=extra_headers,
+        )
 
     @patch('gapipy.query.Query.get_resource_data')
     def test_correct_client_is_associated_with_resources(self, mock_get_data):

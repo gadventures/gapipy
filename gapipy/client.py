@@ -142,7 +142,7 @@ class Client(object):
 
         return resource_cls(data_dict, client=self, **kwargs)
 
-    def create(self, resource_name, data_dict):
+    def create(self, resource_name, data_dict, headers=None):
         """
         Create an instance of the specified resource with `data_dict`
         """
@@ -151,4 +151,4 @@ class Client(object):
         except AttributeError:
             raise AttributeError("No resource named %s is defined." % resource_name)
 
-        return resource_cls.create(self, data_dict)
+        return resource_cls.create(self, data_dict, headers=headers)
