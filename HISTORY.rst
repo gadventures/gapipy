@@ -3,8 +3,8 @@
 History
 =======
 
-UNRELEASED
-----------
+2.23.0 (2019-11-04)
+-------------------
 
 * Remove deprecated ``tour_dossiers.itineraries`` field and related code
 
