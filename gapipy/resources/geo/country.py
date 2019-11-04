@@ -17,6 +17,11 @@ class Country(Resource):
         'name',
     ]
 
+    _resource_fields = [
+        ('continent', 'Continent'),
+        ('place', 'Place'),
+    ]
+
     _resource_collection_fields = [
         ('states', State),
     ]
