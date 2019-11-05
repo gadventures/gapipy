@@ -1,10 +1,11 @@
 # Python 2 and 3
 from __future__ import unicode_literals
 
-from ..base import Resource
 from .details import DossierDetail, DossierDetailsMixin
-from ..tour.video import Video
+from ..base import BaseModel, Resource
 from ..tour.image import Image
+from ..tour.tour_category import TourCategoryList
+from ..tour.video import Video
 
 
 class AccommodationDossier(Resource, DossierDetailsMixin):
@@ -31,7 +32,10 @@ class AccommodationDossier(Resource, DossierDetailsMixin):
         'website',
     ]
 
-    _date_time_fields_local = ['date_created', 'date_last_modified']
+    _date_time_fields_local = [
+        'date_created',
+        'date_last_modified',
+    ]
 
     _resource_fields = [
         ('location', 'Place'),
@@ -40,7 +44,11 @@ class AccommodationDossier(Resource, DossierDetailsMixin):
     ]
 
     _model_collection_fields = [
+        ('categories', TourCategoryList),
         ('details', DossierDetail),
         ('images', Image),
+        # ('suggested_dossiers', Dossier),
         ('videos', Video),
+        ('visited_cities', 'Place'),
+        ('visited_countries', 'Country'),
     ]
