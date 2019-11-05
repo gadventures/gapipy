@@ -29,6 +29,7 @@ class AccommodationDossier(Resource, DossierDetailsMixin):
         'service_code',
         'service_time',
         'show_on_reservation_sheet',
+        'suggested_dossiers',  # FIXME: these are typed references to other *_dossiers
         'website',
     ]
 
@@ -47,7 +48,6 @@ class AccommodationDossier(Resource, DossierDetailsMixin):
         ('categories', TourCategoryList),
         ('details', DossierDetail),
         ('images', Image),
-        # ('suggested_dossiers', Dossier),
         ('videos', Video),
         ('visited_cities', 'Place'),
         ('visited_countries', 'Country'),
