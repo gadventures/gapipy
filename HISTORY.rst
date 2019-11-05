@@ -3,20 +3,38 @@
 History
 =======
 
+2.24.0 (2019-11-05)
+-------------------
+
+* Add missing/new fields to resources
+  * Accommodation Dossier: categories, suggested_dossiers, visited_countries, and visited_cities
+  * Activity Dossier: suggested_dossiers, visited_countries, and visited_cities
+  * Departure: local_payments
+  * Itinerary: publish_state
+  * See https://github.com/gadventures/gapipy/pull/117
+* Add ``continent`` and ``place`` references to the ``Countries`` resource
+  * See https://github.com/gadventures/gapipy/pull/115
+* Accept ``additional_headers`` optional kwarg on ``create``
+  * See https://github.com/gadventures/gapipy/pull/114
+
+
 2.23.0 (2019-11-04)
 -------------------
 
 * Remove deprecated ``tour_dossiers.itineraries`` field and related code
+
 
 2.22.0 (2019-10-10)
 -------------------
 
 * Add ``booking_company`` field to ``Booking`` resource
 
+
 2.21.0 (2019-04-09)
 -------------------
 
 * Add ``ripple_score`` to ``Itinerary`` resource
+
 
 2.20.1 (2019-02-20)
 -------------------
