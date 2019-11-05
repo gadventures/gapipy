@@ -261,6 +261,7 @@ class Itinerary(Resource):
         'meals_included',
         'meals_budget',
         'packing_lists',
+        'publish_state',
         'site_links',
         'variation_id',
     ]
