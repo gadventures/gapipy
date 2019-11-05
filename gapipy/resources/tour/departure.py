@@ -1,12 +1,21 @@
 # Python 2 and 3
 from __future__ import unicode_literals
 
+from gapipy.models.base import BaseModel
 from gapipy.models import AddOn, Address, DepartureRoom, PP2aPrice
 from gapipy.resources.booking_company import BookingCompany
 from gapipy.resources.product import Product
 
 from .tour_dossier import TourDossier
 from .departure_component import DepartureComponent
+
+
+class LocalPayment(BaseModel):
+    _as_is_fields = [
+        'amount',
+        'currency',
+        'label',
+    ]
 
 
 class Departure(Product):
@@ -57,6 +66,7 @@ class Departure(Product):
     _model_collection_fields = [
         ('addons', AddOn),
         ('booking_companies', BookingCompany),
+        ('local_payments', LocalPayment),
         ('lowest_pp2a_prices', PP2aPrice),
         ('rooms', DepartureRoom),
         ('structured_itineraries', 'Itinerary'),

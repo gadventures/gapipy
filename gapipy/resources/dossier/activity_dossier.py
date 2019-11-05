@@ -36,6 +36,7 @@ class ActivityDossier(Resource, DossierDetailsMixin, DurationLabelMixin, Locatio
         'service_code',
         'service_time',
         'show_on_reservation_sheet',
+        'suggested_dossiers',  # FIXME: these are typed references to other *_dossiers
     ]
 
     _date_time_fields_local = ['date_created', 'date_last_modified']
@@ -51,6 +52,8 @@ class ActivityDossier(Resource, DossierDetailsMixin, DurationLabelMixin, Locatio
         ('categories', TourCategoryList),
         ('images', Image),
         ('videos', Video),
+        ('visited_cities', 'Place'),
+        ('visited_countries', 'Country'),
     ]
 
     @enforce_string_type
