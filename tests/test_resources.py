@@ -97,6 +97,42 @@ class ResourceTestCase(TestCase):
             datetime.datetime.strptime('2014-01-01', DATE_FORMAT).date()
         )
 
+    def test_populate_bad_stub(self):
+        """Calling fetch on an invalid stub should raise an exception"""
+
+        # A dummy class with some non-ID field
+        class Bar(Resource):
+            _resource_name = 'bars'
+            _as_is_fields = ['id']
+            _date_fields = ['date']
+
+        # A dummy class that has a reference to our other dummy, Bar
+        class Foo(Resource):
+            _resource_fields = [('bar', Bar)]
+
+        # Create a Foo with a stub-reference to some Bar...
+        f = Foo({
+            'bar': {
+                'id': 'shoobeedoobeedoo',
+            }
+        }, client=self.client)
+
+        # ... then set up a mock instead of a real requestor for that resource...
+        with patch.object(self.client, 'bars', create=True) as mock_bars:
+
+            # ... configure it to return None, as though the backend responded
+            # with a 404 or 410...
+            mock_bars.get.return_value = None
+
+            # ... and then try to access an attribute that's not in the stub,
+            # trigering a `fetch` -- this should raise an exception
+            with self.assertRaises(ValueError):
+                print(f.bar.date)
+
+            # make sure that our mock was used the way that we meant
+            mock_bars.get.assert_called_once_with(f.bar.id, variation_id=None)
+
+
     def test_model_fields(self):
         from gapipy.models.base import BaseModel
 
