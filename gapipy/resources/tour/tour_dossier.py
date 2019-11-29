@@ -27,6 +27,7 @@ class TourDossier(Resource):
         'images',
         'name',
         'site_links',
+        'slug',
     ]
     _date_fields = [
         'departures_start_date',
