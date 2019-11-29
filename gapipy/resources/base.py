@@ -37,9 +37,8 @@ class Resource(BaseModel):
             variation_id=getattr(self, 'variation_id', None),
             httperrors_mapped_to_none=None)
 
-        if resource_obj:
-            self._fill_fields(resource_obj._raw_data)
-            self.is_stub = False
+        self._fill_fields(resource_obj._raw_data)
+        self.is_stub = False
 
         return self
 
