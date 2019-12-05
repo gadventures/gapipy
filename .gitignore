@@ -11,4 +11,3 @@ gapipy.egg-info/*
 .idea/
 .tox/
 .eggs/
-.python-version

@@ -38,6 +38,10 @@ def _check_listable(func):
     return inner
 
 
+class Empty:
+    pass
+
+
 class Query(object):
 
     def __init__(self, client, resource, filters=None, parent=None, raw_data=None):
@@ -74,7 +78,7 @@ class Query(object):
         something Falsey as `httperrors_mapped_to_none` like a `None` or an
         empty list.
         """
-        key = self.query_key(resource_id, variation_id)
+        key = self.query_key(resource_id, variation_id) # noqa
 
         try:
             data = self.get_resource_data(
@@ -138,27 +142,37 @@ class Query(object):
             parts.append(part)
         return ':'.join(parts)
 
+    def _clone(self):
+        """
+        Object cloner
+        """
+        obj = Empty()
+        obj.__class__ = self.__class__
+        for attr, value in self.__dict__.items():
+            setattr(obj, attr, value)
+        return obj
+
     @_check_listable
     def all(self, limit=None):
         """Generator of instances of the query resource. If limit is set to a
         positive integer `n`, only return the first `n` results.
         """
+        obj = self._clone()
 
         requestor = APIRequestor(
-            self._client,
-            self.resource,
-            params=self._filters,
-            parent=self.parent
+            obj._client,
+            obj.resource,
+            params=obj._filters,
+            parent=obj.parent
         )
         # use href when available; this change should be transparent
         # introduced: 2.20.0
-        href =  None
-        if isinstance(self._raw_data, dict):
-            href = self._raw_data.get('href')
+        href = None
+        if isinstance(obj._raw_data, dict):
+            href = obj._raw_data.get('href')
+
         # generator to fetch list resources
         generator = requestor.list(href)
-        # reset filters in case they were set on this query
-        self._filters = {}
 
         if limit:
             if isinstance(limit, int) and limit > 0:
@@ -167,7 +181,7 @@ class Query(object):
                 raise ValueError('`limit` must be a positive integer')
 
         for result in generator:
-            yield self.resource(result, client=self._client, stub=True)
+            yield obj.resource(result, client=obj._client, stub=True)
 
     def filter(self, **kwargs):
         """Add filter arguments to the query.
@@ -177,21 +191,30 @@ class Query(object):
         only dossiers whose names contain 'Amazing Adventure'.
         """
         self._filters.update(kwargs)
-        return self
+        obj = self._clone()
+
+        # we have clear here else next filter call will inherit from the
+        # stacked filters. Necessary if we want to preserve the instance independence
+        self._filters = {}
+
+        return obj
 
     @_check_listable
     def count(self):
         """Returns the number of element in the query."""
 
+        obj = self._clone()
+
         requestor = APIRequestor(
-            self._client,
-            self.resource,
-            params=self._filters,
-            parent=self.parent
+            obj._client,
+            obj.resource,
+            params=obj._filters,
+            parent=obj.parent
         )
+
         response = requestor.list_raw()
         out = response.get('count')
-        self._filters = {}
+
         return out
 
     def create(self, data_dict, headers=None):

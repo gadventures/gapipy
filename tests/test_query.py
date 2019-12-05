@@ -195,10 +195,24 @@ class QueryTestCase(unittest.TestCase):
             query.get(1234, httperrors_mapped_to_none=[response.status_code]))
 
     @patch('gapipy.request.APIRequestor._request')
+    def test_filtered_query_returns_new_object(self, mock_request):
+        """
+        Arguments passed to .filter() are stored on new (copied) Query instance
+        that will be different from the one it derived from.
+        Instances should be different and filters should not stack up
+        Every new filter returns a new object.
+        """
+        query = Query(self.client, Tour).filter(tour_dossier_code='PPP')
+        query1 = Query(self.client, Tour).filter(tour_dossier_code='DJNN')
+
+        self.assertFalse(query is query1)
+        self.assertNotEqual(query._filters, query1._filters)
+
+    @patch('gapipy.request.APIRequestor._request')
     def test_filtered_query(self, mock_request):
         """
-        Arguments passed to .filter() are stored on the Query instance but are
-        cleared when that query is evaluated.
+        Arguments passed to .filter() are stored on new (copied) Query instance
+        and are not supposed to be cleared when that query is evaluated.
         """
         # Create a basic filter query for PPP...
         query = Query(self.client, Tour).filter(tour_dossier_code='PPP')
@@ -219,27 +233,20 @@ class QueryTestCase(unittest.TestCase):
             })
         mock_request.reset_mock()
 
-        # ... our stored filter args got reset.
-        self.assertEqual(len(query._filters), 0)
+        # ... our stored filter args remain for the current instance.
+        self.assertEqual(len(query._filters), 2)
 
-        # Check .count() also clears stored filter args appropriately:
-        query.filter(
-            tour_dossier_code='PPP',
-            order_by__desc='departures_start_date').count()
-        mock_request.assert_called_once_with(
-            '/tours', 'GET', params={
-                'tour_dossier_code': 'PPP',
-                'order_by__desc': 'departures_start_date',
-            })
-        mock_request.reset_mock()
-        self.assertEqual(len(query._filters), 0)
-
+        # .count() should remain the query filters and
+        # respond from a new instance with the count value:
+        query.count()
+        self.assertEqual(len(query._filters), 2)
 
     @patch('gapipy.request.APIRequestor._request')
-    def test_query_reset_filter(self, mock_request):
+    def test_query_persist_filter_on_count(self, mock_request):
         query = Query(self.client, Tour)
-        query.filter(tour_dossier_code='PPP').count()
-        self.assertEqual(query._filters, {})
+        my_query = query.filter(tour_dossier_code='PPP')
+        my_query.count()
+        self.assertEqual(my_query._filters, {'tour_dossier_code': 'PPP'})
 
     def test_listing_non_listable_resource_fails(self):
         message = 'The Activity resource is not listable and/or is only available as a subresource'
