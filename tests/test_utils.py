@@ -14,6 +14,8 @@ from gapipy.utils import (
     humanize_time,
     location_label,
     enforce_string_type,
+    compute_request_signature,
+    compute_webhook_validation_key,
 )
 
 
@@ -66,3 +68,39 @@ class UtilsTestCase(TestCase):
         place_2 = Place(name='Montreal')
         self.assertEqual(location_label(place_1, place_2), 'Toronto – Montreal')
         self.assertEqual(location_label(place_1, place_1), 'Toronto')
+
+    def test_compute_request_signature_handles_unicode_and_str(self):
+        """
+        Test that compute_request_signature doesn't explode when given both unicode
+        and str inputs.
+        NOTE: All this test does is validate that calling the method does not raise an
+        exception for the different scenarios.
+        """
+        # Matching types for both args
+        compute_request_signature(str('str app key'), str('str request body'))
+        compute_request_signature(u'unicode app key', u'unicode request body')
+
+        # Mismatched types for the args
+        compute_request_signature(str('str app key'), u'unicode request body')
+        compute_request_signature(u'unicode app key', str('str request body'))
+
+        # Including special characters (really this should never come up for the
+        # app key... should only contain digits and a-f as it is a hex string)
+        compute_request_signature(str('str app key'), u'ʎpoq ʇsǝnbǝɹ ǝpoɔᴉun')
+        compute_request_signature(u'ʎǝʞ ddɐ ǝpoɔᴉun', str('str request body'))
+        compute_request_signature(u'ʎǝʞ ddɐ ǝpoɔᴉun', u'ʎpoq ʇsǝnbǝɹ ǝpoɔᴉun')
+
+    def test_compute_webhook_validation_key_handles_unicode_and_str(self):
+        """
+        Test that compute_webhook_validation_key doesn't explode when given unicode
+        or str input.
+        NOTE: All this test does is validate that calling the method does not raise an
+        exception for the different scenarios.
+        """
+        # Bytestring/Unicode with only ASCII chars
+        compute_webhook_validation_key(str('str app key'))
+        compute_webhook_validation_key(u'unicode app key')
+
+        # Non-ASCII chars! (really this should never come up because app keys
+        # should only contain digits and a-f as they are hex strings)
+        compute_webhook_validation_key(u'ʎǝʞ ddɐ ǝpoɔᴉun')
