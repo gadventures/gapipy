@@ -30,7 +30,7 @@ setup(
     author='G Adventures',
     author_email='software@gadventures.com',
     url='https://github.com/gadventures/gapipy',
-    packages=find_packages(),
+    packages=find_packages(exclude=('tests',)),
     package_dir={'gapipy': 'gapipy'},
     include_package_data=True,
     install_requires=requirements,

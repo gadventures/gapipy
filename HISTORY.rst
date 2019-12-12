@@ -3,11 +3,22 @@
 History
 =======
 
+2.24.3 (2019-12-12)
+-------------------
+
+* Exclude the ``tests`` package from the package distribution
+
+
 2.24.2 (2019-12-12)
 -------------------
 
 * Adds the ``compute_request_signature`` and ``compute_webhook_validation_key`` utility methods
   * See https://github.com/gadventures/gapipy/pull/122
+
+
+2.24.1 (2019-12-12)
+-------------------
+
 * Add ``slug`` field to ``TourDossier`` resource
   * See https://github.com/gadventures/gapipy/pull/120
 
