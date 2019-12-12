@@ -1,6 +1,6 @@
-===============================
+===================
 G API Python Client
-===============================
+===================
 
 .. image:: https://badge.fury.io/py/gapipy.svg
     :target: http://badge.fury.io/py/gapipy
@@ -300,7 +300,7 @@ Then, modify the following files:
 
 5. Back to your local box
 
-* Please don't use `python setup.py sdist upload` as it seems to be having an issue pushing. We will now deploy to PyPi following these two steps
+* Please don't use `python setup.py sdist upload` as it seems to be having an issue pushing to pypi. We will now deploy to PyPi following these two steps
 
 * Note: If you don't have `twine` you can install it using `pip install twine`
 

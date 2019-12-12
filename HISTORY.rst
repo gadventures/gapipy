@@ -3,8 +3,8 @@
 History
 =======
 
-Unreleased
-----------
+2.24.1 (2019-12-12)
+-------------------
 
 * Add ``slug`` field to ``TourDossier`` resource
 
