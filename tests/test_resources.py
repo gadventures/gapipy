@@ -7,10 +7,9 @@ import sys
 from unittest import TestCase
 
 from mock import patch
-from requests.exceptions import HTTPError
 
 from gapipy.client import Client
-from gapipy.query import HTTPERRORS_MAPPED_TO_NONE, Query
+from gapipy.query import Query
 from gapipy.models import DATE_FORMAT, AccommodationRoom
 from gapipy.resources import (
     ActivityDossier,
@@ -97,72 +96,6 @@ class ResourceTestCase(TestCase):
             t.departures_end_date,
             datetime.datetime.strptime('2014-01-01', DATE_FORMAT).date()
         )
-
-    def test_populate_bad_stub(self):
-        """Calling fetch on an invalid stub should raise an exception"""
-
-        class NormallyIgnoredHTTPError(HTTPError):
-            """A dummy exception class with one of the error codes that
-            `Query.get` maps to `None` by default.
-
-            In this test we want to see that `fetch` will actually allow this
-            exception to be raised, unlike that default `get` behaviour.
-            """
-            status_code = HTTPERRORS_MAPPED_TO_NONE[0]
-
-        class Bar(Resource):
-            """A dummy resource with some non-ID field"""
-            _resource_name = 'bars'
-            _as_is_fields = ['id']
-            _date_fields = ['date']
-
-        def get_bars_query():
-            """Return a `Query` instance for our `Bar` resource to be patched
-            onto our client for testing.
-            """
-            return Query(self.client, Bar)
-
-        class Foo(Resource):
-            """A dummy resource that has a reference to our other dummy, Bar"""
-            _resource_name = 'foos'
-            _resource_fields = [('bar', Bar)]
-
-        # Create a Foo instance with a stub-reference to a Bar
-        f = Foo({
-            'bar': {
-                'id': 'shoobeedoobeedoo',
-            }
-        }, client=self.client)
-
-        # Patch our client-instance with a Query for the `bars` resource, and
-        # mock out its `get_resource_data` method...
-        with patch.object(self.client, 'bars', new_callable=get_bars_query, create=True) as mock_bars:
-            with patch.object(mock_bars, 'get_resource_data', create=True) as mock_get_resource_data:
-
-                # ... configure it to raise an HTTPError (with a status_code
-                # Query.get would ignore by default)...
-                mock_get_resource_data.side_effect = NormallyIgnoredHTTPError
-                mock_get_resource_data.return_value = None
-
-                # ... and then try to access an attribute that's not in the
-                # stub. This triggers a `Resource.fetch` which triggers a
-                # `Query.get` and a `Query.get_resource_data` -- which has been
-                # mocked to raise an exception
-                #
-                # This test makes sure that `Query.get` and `Resource.fetch`
-                # allow the error from `Query.get_resource_data` to escape up
-                # to the caller
-                with self.assertRaises(NormallyIgnoredHTTPError):
-                    print(f.bar.date)
-
-                # Make sure that our mock was used as intended
-                mock_get_resource_data.assert_called_once_with(
-                    f.bar.id,
-                    variation_id=None,
-                    cached=True,
-                    headers=None,
-                )
-
 
     def test_model_fields(self):
         from gapipy.models.base import BaseModel
