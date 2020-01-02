@@ -278,9 +278,11 @@ Note: ``_model_collection_fields = [('emails', AgencyEmail),]`` and ``AgencyEmai
 Contributing
 ------------
 
+0. Run ``pip install -r requirements-dev.txt`` to setup dev dependencies
+
 1. Always make your changes in a branch and submit a PR
 
-2. Once the PR has been completed and the changes pulled into the `master` branch. Do the following on your local box:
+2. Once the PR has been accepted/merged into the `master` branch, follow these steps on your local box
 
 .. code-block:: bash
 
@@ -305,18 +307,37 @@ Then, modify the following files:
 
 * ``HISTORY.rst``
 
-  * update this file with the new ``version`` & ``date`` (x.x.x)
+  * update this file with the new ``version`` & ``date``
   * Add some brief notes describing the changes
 
-3. Push the new commit
+3. Check the generated long_description rST file is valid
 
-* Use ``Release: x.x.x (YYYY-MM-DD)`` format for the commit title. Optionally add a description that matches the changes to ``HISTORY.rst``
+.. code-block:: bash
 
-4. Create a release on github with the following description (This will be tagged to the ``version bump`` commit and not the PR commit)
+    $> python setup.py sdist
+    # this created `gapipy-a.b.c.tar.gz` in the `./dist` directory
+    # where a.b.c is the ``__version__`` value
+
+    $> twine check dist/gapipy-a.b.c.tar.gz
+    # checks the long-form rST file is valid
+
+    # if there are any errors fix, and repeat
+
+    # example success check
+    $> twine check dist/gapipy-2.25.0.tar.gz
+    Checking dist/gapipy-2.25.0.tar.gz: PASSED, with warnings
+      warning: `long_description_content_type` missing.  defaulting to `text/x-rst`.
+    # the above warning can be ignored
+
+4. Push the new commit
+
+* Use ``Release a.b.c (YYYY-MM-DD)`` format for the commit title. Optionally add a description that matches the changes to ``HISTORY.rst``
+
+5. Create a release on github with the following description (This will be tagged to the ``version bump`` commit and not the PR commit)
 
 .. code-block:: md
 
-    # Version 2.x.x
+    # Version a.b.c
 
     PR: #123
 
@@ -324,20 +345,18 @@ Then, modify the following files:
     * bullet points
     * make for easy reading
 
-
-5. Back to your local box
-
-* Please don't use `python setup.py sdist upload` as it seems to be having an issue pushing to pypi. We will now deploy to PyPi following these two steps
-
-* Note: If you don't have `twine` you can install it using `pip install twine`
+6. Back to your local box
 
 .. code-block:: bash
 
+    # `gapipy-a.b.c.tar.gz` in the `./dist` directory
+    # where a.b.c is the ``__version__`` value
     $> python setup.py sdist
-    # this will create `gapipy-x.x.x.tar.gz` in the `./dist` directory
 
-    $> twine upload dist/gapipy-x.x.x.tar.gz
+    # check the long-form rST file is valid
+    $> twine check dist/gapipy-a.b.c.tar.gz
+
+    $> twine upload dist/gapipy-a.b.c.tar.gz
     # this will upload & create the release pypi
-
 
 Thanks for helping!

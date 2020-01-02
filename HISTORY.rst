@@ -3,6 +3,13 @@
 History
 =======
 
+2.25.1 (2020-01-02)
+-------------------
+
+* Improve contribution instructions to check long_description rST file in dist
+* Adds ``readme_renderer==24.0`` dependency & update ``twine==1.15.0`` for ``twine check`` command
+
+
 2.25.0 (2020-01-02)
 -------------------
 

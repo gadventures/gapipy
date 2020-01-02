@@ -2,8 +2,9 @@
 
 coverage==3.7.1
 Sphinx==1.2.2
+readme_renderer==24.0    # for twine check
 sphinx_rtd_theme==0.1.6  # Sphinx theme
-twine==1.10.0  # for PyPi dist
+twine==1.15.0            # for PyPi dist
 wheel==0.23.0
 
 # code cleanliness
