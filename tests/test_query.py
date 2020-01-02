@@ -119,9 +119,18 @@ class QueryTestCase(unittest.TestCase):
         http_error = HTTPError(response=response)
         mock_request.side_effect = http_error
 
+        # default behaviour is to return None...
         query = Query(self.client, Tour)
-        t = query.get(1234)
-        self.assertIsNone(t)
+        self.assertIsNone(query.get(1234))
+
+        # ... but if this status code is not in the list of ones to explicitly
+        # turn into Nones, then it will get raised:
+        with self.assertRaises(HTTPError) as context:
+            query.get(1234, httperrors_mapped_to_none=None)
+
+        self.assertEqual(
+            context.exception.response.status_code,
+            response.status_code)
 
     @patch('gapipy.request.APIRequestor._request')
     def test_get_instance_with_non_existing_id(self, mock_request):
@@ -130,9 +139,18 @@ class QueryTestCase(unittest.TestCase):
         http_error = HTTPError(response=response)
         mock_request.side_effect = http_error
 
+        # default behaviour is to return None...
         query = Query(self.client, Tour)
-        t = query.get(1234)
-        self.assertIsNone(t)
+        self.assertIsNone(query.get(1234))
+
+        # ... but if this status code is not in the list of ones to explicitly
+        # turn into Nones, then it will get raised:
+        with self.assertRaises(HTTPError) as context:
+            query.get(1234, httperrors_mapped_to_none=None)
+
+        self.assertEqual(
+            context.exception.response.status_code,
+            response.status_code)
 
     @patch('gapipy.request.APIRequestor._request')
     def test_get_instance_with_gone_id(self, mock_request):
@@ -141,9 +159,18 @@ class QueryTestCase(unittest.TestCase):
         http_error = HTTPError(response=response)
         mock_request.side_effect = http_error
 
+        # default behaviour is to return None...
         query = Query(self.client, Tour)
-        t = query.get(1234)
-        self.assertIsNone(t)
+        self.assertIsNone(query.get(1234))
+
+        # ... but if this status code is not in the list of ones to explicitly
+        # turn into Nones, then it will get raised:
+        with self.assertRaises(HTTPError) as context:
+            query.get(1234, httperrors_mapped_to_none=None)
+
+        self.assertEqual(
+            context.exception.response.status_code,
+            response.status_code)
 
     @patch('gapipy.request.APIRequestor._request')
     def test_get_instance_by_id_with_non_404_error(self, mock_request):
@@ -152,11 +179,20 @@ class QueryTestCase(unittest.TestCase):
         http_error = HTTPError(response=response)
         mock_request.side_effect = http_error
 
+        # default behaviour is to raise...
         query = Query(self.client, Tour)
-        with self.assertRaises(HTTPError) as cm:
+        with self.assertRaises(HTTPError) as context:
             query.get(1234)
 
-        self.assertEqual(cm.exception.response.status_code, 401)
+        self.assertEqual(
+            context.exception.response.status_code,
+            response.status_code)
+
+        # ... but if we don't want that exception raised, then we can include
+        # that status code in our `httperrors_mapped_to_none` and verify that a
+        # `None` is returned:
+        self.assertIsNone(
+            query.get(1234, httperrors_mapped_to_none=[response.status_code]))
 
     @patch('gapipy.request.APIRequestor._request')
     def test_filtered_query(self, mock_request):

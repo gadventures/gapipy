@@ -45,17 +45,24 @@ class Query(object):
     def options(self):
         return self.resource.options(client=self._client)
 
-    def get(self, resource_id, variation_id=None, cached=True, headers=None):
+    def get(self, resource_id, variation_id=None, cached=True, headers=None,
+            httperrors_mapped_to_none=HTTPERRORS_MAPPED_TO_NONE):
         """
         Returns an instance of the query resource with the given `resource_id`
-        (and optional `variation_id`) or `None` if the resource with the given
-        id does not exist.
+        (and optional `variation_id`).
 
         If the resource is available in the cache and `cached` is True, no http
         request will be made. If `cached` is False, a fresh request will be
         made for the resource, which will be re-added to the cache. This is a
         good method to invalidate persistent cache backend after receiving a
         webhook that a resource has changed.
+
+        If an HTTP error code within `httperrors_mapped_to_none` is raised,
+        this method will return `None` -- see `HTTPERRORS_MAPPED_TO_NONE` for
+        the default list of errors which cause a `None` return. If you wish to
+        allow all raised `HTTPErrors` to escape this method, you can pass
+        something Falsey as `httperrors_mapped_to_none` like a `None` or an
+        empty list.
         """
         key = self.query_key(resource_id, variation_id)
 
@@ -67,7 +74,7 @@ class Query(object):
                 headers=headers
             )
         except HTTPError as e:
-            if e.response.status_code in HTTPERRORS_MAPPED_TO_NONE:
+            if httperrors_mapped_to_none and e.response.status_code in httperrors_mapped_to_none:
                 return None
             raise e
         resource_object = self.resource(data, client=self._client)

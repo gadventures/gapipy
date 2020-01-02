@@ -30,14 +30,16 @@ class Resource(BaseModel):
 
     def fetch(self):
         logger.info('Fetching %s/%s', self._resource_name, self.id)
-        self.is_stub = False
 
         # Fetch the resource using the client bound on it, which handles cache get/set.
         resource_obj = getattr(self._client, self._resource_name).get(
             self.id,
-            variation_id=getattr(self, 'variation_id', None))
-        if resource_obj:
-            self._fill_fields(resource_obj._raw_data)
+            variation_id=getattr(self, 'variation_id', None),
+            httperrors_mapped_to_none=None)
+
+        self._fill_fields(resource_obj._raw_data)
+        self.is_stub = False
+
         return self
 
     @classmethod
