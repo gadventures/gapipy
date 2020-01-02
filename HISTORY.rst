@@ -3,6 +3,22 @@
 History
 =======
 
+2.25.0 (2020-01-02)
+-------------------
+
+* Failing to fetch inlined Resource (from Stubs) will raise the underlying
+  requests.HTTPError instead of AttributeError resulting from a ``None``.
+* Adds ``httperrors_mapped_to_none`` kwarg to ``gapipy.query.Query.get``
+  with default value ``gapipy.query.HTTPERRORS_MAPPED_TO_NONE``
+* Modifies ``gapipy.resources.base.Resource.fetch`` to
+  pass ``httperrors_mapped_to_none=None`` to ``Query.get``
+* This ensures that any underlying ``requests.HTTPError`` from ``Query.get``
+  is bubbled up to the caller. It is most prevalent when reference Resource stubs
+  fail to be retrieved from the G API. Prior to this change ``Resource.fetch``
+  would return a ``None`` value resulting in an ``AttributeError``. Now, if the
+  stub fails to fetch due to an HTTPError, that will be raised instead
+
+
 2.24.3 (2019-12-12)
 -------------------
 

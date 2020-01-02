@@ -44,6 +44,33 @@ Quick Start
     >>> booking.external_id = 'def'
     >>> booking.save()
 
+    >>> # since 2.25.0 reference stubs that fail to fetch will return a
+
+    >>> # subclass of requests.HTTPError (See: https://github.com/gadventures/gapipy/pull/119)
+    >>> # This can also be done on Query.get by passing a Falsy value for the
+    >>> # httperrors_mapped_to_none kwarg.
+    >>>
+    >>> dep = api.departures.get('404_404', httperrors_mapped_to_none=None)
+    ... # omitted stacktrace
+    HTTPError: 404 Client Error: {"http_status_code":404,"message":"Not found.","errors":[],"time":"2020-01-02T19:46:07Z","error_id":"gapi_asdf1234"} for url: https://rest.gadventures.com/departures/404_404
+
+    >>> dep = api.departures.get('404404')
+    >>> dep.start_address.country
+    <Country: BR (stub)>
+
+    >>> # lets have GAPI return a _404_ error here for the country stub `fetch`
+    >>> # when we attempt to retrieve the continent attribute
+
+    >>> dep.start_address.country.continent  # reference/stub forces a fetch
+
+    >>> # pre 2.25.0 behaviour
+    ... # omitted stacktrace
+    AttributeError: 'Country' has no field 'continent' available
+
+    >>> # post 2.25.0 behaviour
+    ... # omitted stacktrace
+    HTTPError: 404 Client Error: {"http_status_code":404,"message":"Not found.","errors":[],"time":"2020-01-02T19:46:07Z","error_id":"gapi_qwer5678"} for url: https://rest.gadventures.com/countries/BR
+
 
 Resources
 ---------
