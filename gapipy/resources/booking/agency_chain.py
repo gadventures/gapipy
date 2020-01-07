@@ -7,12 +7,12 @@ from gapipy.resources.booking_company import BookingCompany
 
 class AgencyChain(Resource):
     _resource_name = 'agency_chains'
+    _is_parent_resource = True
 
     _as_is_fields = [
         'id',
         'href',
         'name',
-        'agencies',
         'agent_notifications',
         'communication_preferences',
         'flags',
@@ -28,3 +28,5 @@ class AgencyChain(Resource):
     _resource_fields = [
         ('booking_company', BookingCompany),
     ]
+
+    _resource_collection_fields = [('agencies', 'Agency')]
