@@ -26,27 +26,39 @@ HTTPERRORS_MAPPED_TO_NONE = (
 
 
 def _check_listable(func):
-
+    """
+    decorator to ensure the Query we're attempting to call func on is listable
+    """
     @wraps(func)
-    def inner(query, *args, **kwargs):
+    def wrapper(query, *args, **kwargs):
         if not (query.resource._is_listable or query.parent):
             raise ValueError(
-                'The {0} resource is not listable and/or is only available as a subresource'.format(
-                    query.resource.__name__))
-
+                "The {} resource is not listable and/or is only available as a subresource".format(
+                    query.resource.__name__,
+                )
+            )
         return func(query, *args, **kwargs)
 
-    return inner
+    return wrapper
 
 
 class Query(object):
 
     def __init__(self, client, resource, filters=None, parent=None, raw_data=None):
-        self._client = client
-        self._raw_data = raw_data or {}
-        self.resource = resource
-        self._filters = filters or {}
         self.parent = parent
+        self.resource = resource
+        self._client = client
+        self._filters = filters or {}
+        self._raw_data = raw_data or {}
+
+    def __iter__(self):
+        """Provided as a convenience so that Query objects can be iterated
+        without calling `all`.
+
+        i.e.  `for dossier in dossiers.filter(name="Peru")`
+              instead of `for dossier in dossiers.filter(name="Peru").all()`
+        """
+        return self.all()
 
     def _to_dict(self):
         # Used by Resource when converting nested Query objects into
@@ -64,9 +76,6 @@ class Query(object):
             parent=self.parent,
             raw_data=deepcopy(self._raw_data),
         )
-
-    def options(self):
-        return self.resource.options(client=self._client)
 
     def get(self, resource_id, variation_id=None, cached=True, headers=None,
             httperrors_mapped_to_none=HTTPERRORS_MAPPED_TO_NONE):
@@ -104,10 +113,10 @@ class Query(object):
         return resource_object
 
     def get_resource_data(self, resource_id, variation_id=None, cached=True, headers=None):
-        '''
+        """
         Returns a dictionary of resource data, which is used to initialize
         a Resource object in the `get` method.
-        '''
+        """
         key = self.query_key(resource_id, variation_id)
         resource_data = None
         if cached:
@@ -145,17 +154,24 @@ class Query(object):
             parts.append(self._client.api_language)
 
         if self._client.application_key:
-            part = self._client.application_key.split('_')[0]
-            if part == self._client.application_key or part.strip(' ') != 'test':
-                return ':'.join(parts)
+            part = self._client.application_key.split("_")[0]
+            if part == self._client.application_key or part.strip(" ") != "test":
+                return ":".join(parts)
             parts.append(part)
-        return ':'.join(parts)
+        return ":".join(parts)
 
     @_check_listable
     def all(self, limit=None):
         """Generator of instances of the query resource. If limit is set to a
         positive integer `n`, only return the first `n` results.
         """
+        # check limit is valid integer value
+        if limit is not None:
+            if not isinstance(limit, int):
+                raise TypeError("limit must be an integer")
+            elif limit <= 0:
+                raise ValueError("limit must be a positive integer")
+
         requestor = APIRequestor(
             self._client,
             self.resource,
@@ -166,26 +182,18 @@ class Query(object):
         # introduced: 2.20.0
         href = None
         if isinstance(self._raw_data, dict):
-            href = self._raw_data.get('href')
+            href = self._raw_data.get("href")
 
         # generator to fetch list resources
-        generator = requestor.list(href)
-
-        if limit:
-            if isinstance(limit, int) and limit > 0:
-                generator = islice(generator, limit)
-            else:
-                raise ValueError('`limit` must be a positive integer')
-
-        for result in generator:
+        for result in islice(requestor.list(href), limit):
             yield self.resource(result, client=self._client, stub=True)
 
     def filter(self, **kwargs):
         """Add filter arguments to the query.
 
         For example, if `query` is a Query for the TourDossier ressource, then
-        `query.filter(name='Amazing Adventure')` will return a query containing
-        only dossiers whose names contain 'Amazing Adventure'.
+        `query.filter(name="Amazing Adventure")` will return a query containing
+        only dossiers whose names contain "Amazing Adventure".
         """
         clone = self._clone()
         clone._filters.update(kwargs)
@@ -212,11 +220,8 @@ class Query(object):
         """
         return next(self.all(), None)
 
-    def __iter__(self):
-        """Provided as a convenience so that Query objects can be iterated
-        without calling `all`.
-
-            i.e.  `for dossier in dossiers.filter(name='Peru')`
-                instead of `for dossier in dossiers.filter(name='Peru').all()`
+    def options(self):
         """
-        return self.all()
+        return the OPTIONS response for the resource bound to this Query
+        """
+        return self.resource.options(client=self._client)

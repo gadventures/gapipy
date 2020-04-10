@@ -309,8 +309,8 @@ class QueryTestCase(unittest.TestCase):
         mock_request.assert_called_once_with(
             '/tour_dossiers', 'GET', params={})
 
-    def test_fetch_all_with_wrong_argument_for_limit(self):
-        message = '`limit` must be a positive integer'
+    def test_fetch_all_with_negative_arg_for_limit(self):
+        message = 'limit must be a positive integer'
         if sys.version_info.major < 3:
             with self.assertRaisesRegexp(ValueError, message):
                 query = Query(self.client, Tour).all(limit=-1)
@@ -319,6 +319,20 @@ class QueryTestCase(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, message):
                 query = Query(self.client, Tour).all(limit=-1)
                 list(query)  # force the query to evaluate
+
+    def test_fetch_all_with_wrong_arg_types_for_limit(self):
+        wrong_arg_types = ['', [], {}, object()]
+        message = 'limit must be an integer'
+
+        for wrong_arg in wrong_arg_types:
+            if sys.version_info.major < 3:
+                with self.assertRaisesRegexp(TypeError, message):
+                    query = Query(self.client, Tour).all(limit=wrong_arg)
+                    list(query)  # force the query to evaluate
+            else:
+                with self.assertRaisesRegex(TypeError, message):
+                    query = Query(self.client, Tour).all(limit=wrong_arg)
+                    list(query)  # force the query to evaluate
 
 
 class QueryCacheTestCase(unittest.TestCase):
