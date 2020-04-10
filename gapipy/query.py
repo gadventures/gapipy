@@ -1,3 +1,4 @@
+from copy import deepcopy
 from functools import wraps
 from itertools import islice
 
@@ -38,10 +39,6 @@ def _check_listable(func):
     return inner
 
 
-class Empty:
-    pass
-
-
 class Query(object):
 
     def __init__(self, client, resource, filters=None, parent=None, raw_data=None):
@@ -55,6 +52,18 @@ class Query(object):
         # Used by Resource when converting nested Query objects into
         # serializable types.
         return self._raw_data
+
+    def _clone(self):
+        """
+        create a clone of this Query, with deep copies of _filter & _raw_data
+        """
+        return Query(
+            self._client,
+            self.resource,
+            filters=deepcopy(self._filters),
+            parent=self.parent,
+            raw_data=deepcopy(self._raw_data),
+        )
 
     def options(self):
         return self.resource.options(client=self._client)
@@ -142,34 +151,22 @@ class Query(object):
             parts.append(part)
         return ':'.join(parts)
 
-    def _clone(self):
-        """
-        Object cloner
-        """
-        obj = Empty()
-        obj.__class__ = self.__class__
-        for attr, value in self.__dict__.items():
-            setattr(obj, attr, value)
-        return obj
-
     @_check_listable
     def all(self, limit=None):
         """Generator of instances of the query resource. If limit is set to a
         positive integer `n`, only return the first `n` results.
         """
-        obj = self._clone()
-
         requestor = APIRequestor(
-            obj._client,
-            obj.resource,
-            params=obj._filters,
-            parent=obj.parent
+            self._client,
+            self.resource,
+            params=self._filters,
+            parent=self.parent
         )
         # use href when available; this change should be transparent
         # introduced: 2.20.0
         href = None
-        if isinstance(obj._raw_data, dict):
-            href = obj._raw_data.get('href')
+        if isinstance(self._raw_data, dict):
+            href = self._raw_data.get('href')
 
         # generator to fetch list resources
         generator = requestor.list(href)
@@ -181,7 +178,7 @@ class Query(object):
                 raise ValueError('`limit` must be a positive integer')
 
         for result in generator:
-            yield obj.resource(result, client=obj._client, stub=True)
+            yield self.resource(result, client=self._client, stub=True)
 
     def filter(self, **kwargs):
         """Add filter arguments to the query.
@@ -190,32 +187,20 @@ class Query(object):
         `query.filter(name='Amazing Adventure')` will return a query containing
         only dossiers whose names contain 'Amazing Adventure'.
         """
-        self._filters.update(kwargs)
-        obj = self._clone()
-
-        # we have clear here else next filter call will inherit from the
-        # stacked filters. Necessary if we want to preserve the instance independence
-        self._filters = {}
-
-        return obj
+        clone = self._clone()
+        clone._filters.update(kwargs)
+        return clone
 
     @_check_listable
     def count(self):
         """Returns the number of element in the query."""
-
-        obj = self._clone()
-
         requestor = APIRequestor(
-            obj._client,
-            obj.resource,
-            params=obj._filters,
-            parent=obj.parent
+            self._client,
+            self.resource,
+            params=self._filters,
+            parent=self.parent
         )
-
-        response = requestor.list_raw()
-        out = response.get('count')
-
-        return out
+        return requestor.list_raw().get("count")
 
     def create(self, data_dict, headers=None):
         """Create an instance of the query resource using the given data"""
