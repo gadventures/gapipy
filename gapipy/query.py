@@ -96,8 +96,6 @@ class Query(object):
         something Falsey as `httperrors_mapped_to_none` like a `None` or an
         empty list.
         """
-        key = self.query_key(resource_id, variation_id) # noqa
-
         try:
             data = self.get_resource_data(
                 resource_id,
