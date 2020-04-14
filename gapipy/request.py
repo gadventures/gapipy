@@ -159,25 +159,35 @@ class APIRequestor(object):
         first page of results will be returned. To get an iterator over all
         resources, use `list`.
         """
-        if not uri:
-            if self.parent:
-                parent_uri, parent_id, parent_variation_id = self.parent
-
-                # First slash ensures leading slash.
-                parts = [parent_uri, parent_id]
-                if parent_variation_id:
-                    parts.append(parent_variation_id)
-
-                parts.append(self._get_uri())
-
-                # Ensure leading slash.
-                uri = '/' + '/'.join(parts)
-            else:
-                uri = '/{0}'.format(self._get_uri())
-
+        # A uri is provided, the primary use case is that `list` has been
+        # called and as GAPI's next hrefs preserve the parameter filters, we
+        # don't want to duplicate them.
+        if uri:
+            # assume we have parameters
+            if '?' in uri:
+                return self._request(uri, 'GET')
+            # otherwise use the params this Requester was initialised with
             return self._request(uri, 'GET', params=self.params)
 
-        return self._request(uri, 'GET')
+        # No uri provided, build it and request it
+        #
+        # if this requester has a parent, it implies we're fetching nested-list
+        # of the resource. We need to build the uri prefix in the form
+        # /parent/{id}[/{variation_id}]/{self._get_uri()
+        #
+        # parent is a 3-Tuple. See: BaseModel._set_resource_collection_field
+        if self.parent:
+            parts = [
+                self.parent[0],  # parent uri
+                self.parent[1],  # parent id
+                self.parent[2],  # parent variation id
+                self._get_uri(), # self uri
+            ]
+            uri = '/{0}'.format('/'.join(filter(None, parts)))
+        else:
+            uri = '/{0}'.format(self._get_uri())
+
+        return self._request(uri, 'GET', params=self.params)
 
     def list(self, uri=None):
         """Generator for listing resources"""

@@ -50,6 +50,32 @@ class APIRequestorTestCase(unittest.TestCase):
         mock_request.assert_called_once_with('/resources', 'GET', params=None)
 
     @patch('gapipy.request.APIRequestor._request')
+    def test_list_raw_uri_requestor_params(self, mock_request):
+        params = {'param': 'value'}
+        requestor = APIRequestor(self.client, self.resources, params=params)
+        requestor.list_raw('/test_uri')
+        mock_request.assert_called_once_with('/test_uri', 'GET', params=params)
+
+    @patch('gapipy.request.APIRequestor._request')
+    def test_list_raw_uri_no_requestor_params(self, mock_request):
+        requestor = APIRequestor(self.client, self.resources)
+        requestor.list_raw('/test_uri')
+        mock_request.assert_called_once_with('/test_uri', 'GET', params=None)
+
+    @patch('gapipy.request.APIRequestor._request')
+    def test_list_raw_uri_params_requestor_params(self, mock_request):
+        params = {'param': 'value'}
+        requestor = APIRequestor(self.client, self.resources, params=params)
+        requestor.list_raw('/test_uri?')
+        mock_request.assert_called_once_with('/test_uri?', 'GET')
+
+    @patch('gapipy.request.APIRequestor._request')
+    def test_list_raw_uri_params_no_requestor_params(self, mock_request):
+        requestor = APIRequestor(self.client, self.resources)
+        requestor.list_raw('/test_uri?')
+        mock_request.assert_called_once_with('/test_uri?', 'GET')
+
+    @patch('gapipy.request.APIRequestor._request')
     def test_list_resource_with_parent(self, mock_request):
         parent = ('parent', '1234', None)
         requestor = APIRequestor(self.client, self.resources, parent=parent)
