@@ -44,6 +44,11 @@ Quick Start
     >>> booking.external_id = 'def'
     >>> booking.save()
 
+
+Since `2.25.1 (2020-01-02)`_
+
+.. code-block:: python
+
     >>> # since 2.25.0 reference stubs that fail to fetch will return a
 
     >>> # subclass of requests.HTTPError (See: https://github.com/gadventures/gapipy/pull/119)
@@ -119,9 +124,16 @@ only supported for queries whose resources are listable.
     Generator over all resources in the current query. If ``limit`` is a
     positive integer ``n``, then only the first ``n`` results will be returned.
 
+    * A ``TypeError`` will be raised if limit is not ``None`` or ``int`` type
+    * A ``ValueError`` will be raised if ``limit <= 0``>
+
 ``filter(field1=value1, [field2=value2, ...])``
+``filter(**{"nested.field": "value", "field": "anothervalue"})``
+
     Filter resources on the provided fields and values. Calls to ``filter`` can
-    be chained.
+    be chained. The method will return a clone of the ``Query`` object and must
+    be stored in a separate variable in order to have access to **stacked**
+    filters.
 
 ``count()``
     Return the number of resources in the current query (by reading the

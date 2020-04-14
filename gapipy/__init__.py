@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = '2.25.1'
+__version__ = '2.26.0'
 __title__ = 'gapipy'
 
 from .client import Client  # NOQA

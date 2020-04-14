@@ -3,6 +3,42 @@
 History
 =======
 
+2.26.0 (2020-04-14)
+-------------------
+
+**Breaking Changes**
+
+* The ``Query.filter`` method will return a clone/copy of itself. This will
+  preserve the state of ``filters`` on the original Query object.
+* The ``Query.all`` method will **not** clear the filters after returning.
+* The ``Query.all`` method will return a ``TypeError`` if a type other than
+  an ``int`` is passed to the ``limit`` argument.
+* The ``Query.count`` method will **not** clear the filters after returning.
+* see: https://github.com/gadventures/gapipy/pull/121
+
+New behaviour with the ``Query.filter`` method
+
+.. code-block:: python
+
+    >>> from gapipy import Client
+    >>> api = Client(application_key='MY_SECRET_KEY')
+
+    # create a filter on the departures
+    >>> query = api.departures.filter(**{"tour_dossier.id": "24309"})
+    >>> query.count()
+    494
+
+    # we preserve the filter status of the current query
+    >>> query.filter(**{"availability.status": "AVAILABLE"}).count()
+    80
+
+    >>> query.count()
+    494
+
+* The ``AgencyChain.agencies`` field will be returned as a list of Resource objects
+* see: https://github.com/gadventures/gapipy/commit/f34afd52
+
+
 2.25.1 (2020-01-02)
 -------------------
 
