@@ -1,21 +1,13 @@
+import datetime
 import sys
 from copy import deepcopy
 from decimal import Decimal
-try:
-    # Python 2
-    from itertools import ifilterfalse as filterfalse
-except ImportError:
-    # Python 3
-    from itertools import filterfalse
-import datetime
 
 from gapipy.query import Query
 from gapipy.utils import (
-    enforce_string_type,
     get_resource_class_from_class_name,
     get_resource_class_from_resource_name,
 )
-
 
 DATE_FORMAT = '%Y-%m-%d'
 DATE_TIME_UTC_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
@@ -140,7 +132,6 @@ class BaseModel(object):
             setattr(self, field, self._model_cls(field)(value, client=self._client))
 
     def _set_model_collection_field(self, field, value):
-        from functools import partial
         from gapipy.resources.base import Resource
 
         model_cls = self._model_cls(field)
@@ -164,21 +155,19 @@ class BaseModel(object):
             setattr(self, field, self._model_cls(field)(value, client=self._client, stub=True))
 
     def _set_resource_collection_field(self, field, value):
-        is_parent_resource = getattr(self, '_is_parent_resource', None)
-        if is_parent_resource:
+        # set the `parent` attribute
+        parent = None
+        if getattr(self, '_is_parent_resource', False):
             # FIXME: variation_id is hardcoded all over the client. This should
             # not be the case, but is a neccessity for now.
-            parent = (
-                self._uri,
-                self.id,
-                getattr(self, 'variation_id', None),
-            )
+            parent = (self._uri, self.id, getattr(self, 'variation_id', None))
 
-        else:
-            parent = None
-
-        raw_data = value
-        query = Query(self._client, self._model_cls(field), parent=parent, raw_data=raw_data)
+        query = Query(
+            self._client,
+            self._model_cls(field),
+            parent=parent,
+            raw_data=value,
+        )
         setattr(self, field, query)
 
     def _allowed_fields(self):

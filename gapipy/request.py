@@ -1,12 +1,14 @@
-import requests
 import sys
 from uuid import uuid1
 
+import requests
+
 from . import __title__, __version__
 
-
 ACCEPTABLE_RESPONSE_STATUS_CODES = (
-    requests.codes.ok, requests.codes.created, requests.codes.accepted,
+    requests.codes.ok,        # 200
+    requests.codes.created,   # 201
+    requests.codes.accepted,  # 202
 )
 
 ALLOWED_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'OPTIONS', ]
