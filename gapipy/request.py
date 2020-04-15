@@ -168,12 +168,12 @@ class APIRequestor(object):
             # assume we have parameters
             if '?' in uri:
                 return self._request(uri, 'GET')
-            # otherwise use the params this Requester was initialised with
+            # otherwise use the params this requestor was initialised with
             return self._request(uri, 'GET', params=self.params)
 
         # No uri provided, build it and request it
         #
-        # if this requester has a parent, it implies we're fetching nested-list
+        # if this requestor has a parent, it implies we're fetching nested-list
         # of the resource. We need to build the uri prefix in the form
         # /parent/{id}[/{variation_id}]/{self._get_uri()
         #
