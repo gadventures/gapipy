@@ -24,6 +24,7 @@ default_config = {
         'maxsize': os.environ.get('GAPI_CLIENT_CONNECTION_POOL_MAXSIZE', 10),
     },
     'uuid': os.environ.get('GAPI_UUID', False),
+    'max_retries': 0,
 }
 
 
@@ -50,6 +51,7 @@ class Client(object):
         self.api_language = get_config(config, 'api_language')
         self.cache_backend = get_config(config, 'cache_backend')
         self.uuid = get_config(config, 'uuid')
+        self.max_retries = get_config(config, 'max_retries')
 
         # begin with default connection pool options and overwrite any that the
         # client has specified
@@ -61,7 +63,7 @@ class Client(object):
         self.logger.setLevel(log_level)
 
         self._set_cache_instance(get_config(config, 'cache_options'))
-        self._set_requestor(self.connection_pool_options)
+        self._set_requestor(self.connection_pool_options, self.max_retries)
 
         # Prevent install issues where setup.py digs down the path and
         # eventually fails on a missing requests requirement by importing Query
@@ -77,7 +79,7 @@ class Client(object):
         cache = getattr(module, class_name)(**cache_options)
         self._cache = cache
 
-    def _set_requestor(self, pool_options):
+    def _set_requestor(self, pool_options, max_retries):
         """
         Set the requestor based on connection pooling options.
 
@@ -88,17 +90,20 @@ class Client(object):
         # to break some CI environments
         import requests
 
-        if not pool_options['enable']:
-            self._requestor = requests
-            return
-
         session = requests.Session()
-        adapter = requests.adapters.HTTPAdapter(
-            pool_block=pool_options['block'],
-            pool_connections=pool_options['number'],
-            pool_maxsize=pool_options['maxsize'],
-        )
-        logger.info(
+
+        if not pool_options['enable']:
+
+            adapter = requests.adapters.HTTPAdapter(max_retries=max_retries)
+
+        else:
+            adapter = requests.adapters.HTTPAdapter(
+                pool_block=pool_options['block'],
+                pool_connections=pool_options['number'],
+                pool_maxsize=pool_options['maxsize'],
+                max_retries=max_retries,
+            )
+            logger.info(
             'Created connection pool (block={}, number={}, maxsize={})'.format(
                 pool_options['block'],
                 pool_options['number'],
@@ -107,13 +112,13 @@ class Client(object):
         prefix = _get_protocol_prefix(self.api_root)
         if prefix:
             session.mount(prefix, adapter)
-            logger.info('Mounted connection pool for "{}"'.format(prefix))
+            logger.info('Mounted session for "{}"'.format(prefix))
         else:
             session.mount('http://', adapter)
             session.mount('https://', adapter)
             logger.info(
                 'Could not find protocol prefix in API root, mounted '
-                'connection pool on both http and https.')
+                'session on both http and https.')
 
         self._requestor = session
 

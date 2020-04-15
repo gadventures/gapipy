@@ -94,3 +94,34 @@ class ClientTestCase(unittest.TestCase):
 
         self.assertEqual(en_itin._client, en_client)
         self.assertEqual(de_itin._client, de_client)
+
+    def test_default_retries(self):
+        """Should not set any retries on the client's requestor."""
+        http_retries = self.gapi.requestor.adapters['http://'].max_retries.total
+        https_retries = self.gapi.requestor.adapters['https://'].max_retries.total
+
+        self.assertEqual(http_retries, 0)
+        self.assertEqual(https_retries, 0)
+
+    def test_retries_no_connection_pooling(self):
+        """Should initialize the client's requestor with the passed number of retries."""
+        expected_retries = 42
+        client_with_retries = Client(max_retries=expected_retries)
+
+        # Connection pooling defaults to https only
+        https_retries = client_with_retries.requestor.adapters['https://'].max_retries.total
+
+        self.assertEqual(https_retries, expected_retries)
+
+    def test_retries_with_connection_pooling(self):
+        """Should initialize the client's requestor with the passed number of retries."""
+        expected_retries = 84
+        connection_pool_options = {"enable": True}
+
+        client_with_retries = Client(max_retries=expected_retries, connection_pool_options=connection_pool_options)
+
+        # Connection pooling defaults to https only
+        https_retries = client_with_retries.requestor.adapters['https://'].max_retries.total
+
+        self.assertEqual(https_retries, expected_retries)
+
