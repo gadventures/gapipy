@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# Python 2 and 3
 from __future__ import unicode_literals
 
 from ..base import Resource
@@ -16,7 +15,10 @@ IMAGE_TYPES = (
 
 class ImageFile(BaseModel):
     _as_is_fields = [
-        'url', 'data', 'mime_type', 'exif',
+        'url',
+        'data',
+        'mime_type',
+        'exif',
     ]
 
 
@@ -25,9 +27,24 @@ class Image(Resource):
     _resource_name = 'images'
 
     _as_is_fields = [
-        'id', 'href', 'modification', 'description', 'keywords',
-        'attribution', 'channels', 'variations', 'type',
+        'id',
+        'href',
+        'variation_id',
+        'attribution',
+        'channels',
+        'description',
+        'keywords',
+        'modification',
+        'type',
+        'variations',
     ]
-    _date_time_fields_local = ['date_created', 'date_last_modified']
-    _resource_fields = [('original', 'Image')]
-    _model_fields = [('file', ImageFile)]
+    _date_time_fields_local = [
+        'date_created',
+        'date_last_modified',
+    ]
+    _resource_fields = [
+        ('original', 'Image'),
+    ]
+    _model_fields = [
+        ('file', ImageFile),
+    ]
