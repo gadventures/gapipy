@@ -26,7 +26,7 @@ class ActivityDossier(Resource, DossierDetailsMixin, DurationLabelMixin, Locatio
         'duration_max',
         'duration_min',
         'flags',
-        'is_prepaid',
+        'has_costs',
         'physical_grading',
         'price_per_group_max',
         'price_per_group_min',

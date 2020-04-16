@@ -20,7 +20,7 @@ class AccommodationDossier(Resource, DossierDetailsMixin):
         'emails',
         'features',
         'flags',
-        'is_prepaid',
+        'has_costs',
         'name',
         'phone_numbers',
         'property_type',
