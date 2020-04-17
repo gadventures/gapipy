@@ -4,6 +4,7 @@ import unittest
 from mock import call, patch
 
 from gapipy.client import Client
+from gapipy.models.base import _Parent
 from gapipy.request import APIRequestor
 
 from .fixtures import FIRST_PAGE_LIST_DATA, SECOND_PAGE_LIST_DATA
@@ -50,8 +51,34 @@ class APIRequestorTestCase(unittest.TestCase):
         mock_request.assert_called_once_with('/resources', 'GET', params=None)
 
     @patch('gapipy.request.APIRequestor._request')
+    def test_list_raw_uri_requestor_params(self, mock_request):
+        params = {'param': 'value'}
+        requestor = APIRequestor(self.client, self.resources, params=params)
+        requestor.list_raw('/test_uri')
+        mock_request.assert_called_once_with('/test_uri', 'GET', params=params)
+
+    @patch('gapipy.request.APIRequestor._request')
+    def test_list_raw_uri_no_requestor_params(self, mock_request):
+        requestor = APIRequestor(self.client, self.resources)
+        requestor.list_raw('/test_uri')
+        mock_request.assert_called_once_with('/test_uri', 'GET', params=None)
+
+    @patch('gapipy.request.APIRequestor._request')
+    def test_list_raw_uri_params_requestor_params(self, mock_request):
+        params = {'param': 'value'}
+        requestor = APIRequestor(self.client, self.resources, params=params)
+        requestor.list_raw('/test_uri?')
+        mock_request.assert_called_once_with('/test_uri?', 'GET', params=params)
+
+    @patch('gapipy.request.APIRequestor._request')
+    def test_list_raw_uri_params_no_requestor_params(self, mock_request):
+        requestor = APIRequestor(self.client, self.resources)
+        requestor.list_raw('/test_uri?')
+        mock_request.assert_called_once_with('/test_uri?', 'GET', params=None)
+
+    @patch('gapipy.request.APIRequestor._request')
     def test_list_resource_with_parent(self, mock_request):
-        parent = ('parent', '1234', None)
+        parent = _Parent('parent', '1234', None)
         requestor = APIRequestor(self.client, self.resources, parent=parent)
         requestor.list_raw()
         mock_request.assert_called_once_with(

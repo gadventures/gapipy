@@ -1,12 +1,15 @@
-import requests
 import sys
+from urlparse import urlparse
 from uuid import uuid1
+
+import requests
 
 from . import __title__, __version__
 
-
 ACCEPTABLE_RESPONSE_STATUS_CODES = (
-    requests.codes.ok, requests.codes.created, requests.codes.accepted,
+    requests.codes.ok,        # 200
+    requests.codes.created,   # 201
+    requests.codes.accepted,  # 202
 )
 
 ALLOWED_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'OPTIONS', ]
@@ -159,25 +162,35 @@ class APIRequestor(object):
         first page of results will be returned. To get an iterator over all
         resources, use `list`.
         """
-        if not uri:
-            if self.parent:
-                parent_uri, parent_id, parent_variation_id = self.parent
-
-                # First slash ensures leading slash.
-                parts = [parent_uri, parent_id]
-                if parent_variation_id:
-                    parts.append(parent_variation_id)
-
-                parts.append(self._get_uri())
-
-                # Ensure leading slash.
-                uri = '/' + '/'.join(parts)
-            else:
-                uri = '/{0}'.format(self._get_uri())
-
+        # A uri is provided, the primary use case is that `list` has been
+        # called and as GAPI's next hrefs preserve the parameter filters, we
+        # don't want to duplicate them.
+        if uri:
+            # check if we have query parameters
+            if urlparse(uri).query:
+                return self._request(uri, 'GET')
+            # otherwise use the params this requestor was initialised with
             return self._request(uri, 'GET', params=self.params)
 
-        return self._request(uri, 'GET')
+        # No uri provided, build it and request it
+        #
+        # if this requestor has a parent, it implies we're fetching nested-list
+        # of the resource. We need to build the uri prefix in the form
+        # /parent/{id}[/{variation_id}]/{self._get_uri()}
+        #
+        # parent is a 3-Tuple. See: BaseModel._set_resource_collection_field
+        if self.parent:
+            parts = [
+                self.parent.uri,
+                self.parent.id,
+                self.parent.variation_id,
+                self._get_uri(),
+            ]
+            uri = '/{0}'.format('/'.join(filter(None, parts)))
+        else:
+            uri = '/{0}'.format(self._get_uri())
+
+        return self._request(uri, 'GET', params=self.params)
 
     def list(self, uri=None):
         """Generator for listing resources"""
