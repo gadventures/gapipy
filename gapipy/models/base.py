@@ -1,5 +1,6 @@
 import datetime
 import sys
+from collections import namedtuple
 from copy import deepcopy
 from decimal import Decimal
 
@@ -13,6 +14,9 @@ DATE_FORMAT = '%Y-%m-%d'
 DATE_TIME_UTC_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 DATE_TIME_LOCAL_FORMAT = "%Y-%m-%dT%H:%M:%S"
 
+# _Parent is a 3-Tuple that is used to store the based URI of a Resource, the
+# ID, and Variation ID if it has one
+_Parent = namedtuple("_Parent", ["uri", "id", "variation_id"])
 
 class BaseModel(object):
     """
@@ -154,18 +158,17 @@ class BaseModel(object):
         else:
             setattr(self, field, self._model_cls(field)(value, client=self._client, stub=True))
 
-    def _set_resource_collection_field(self, field, value):
-        # set the `parent` attribute
-        parent = None
-        if getattr(self, '_is_parent_resource', False):
-            # FIXME: variation_id is hardcoded all over the client. This should
-            # not be the case, but is a neccessity for now.
-            parent = (self._uri, self.id, getattr(self, 'variation_id', None))
+    def _parent(self):
+        if getattr(self, "_is_parent_resource", False):
+            # FIXME: stop hard-coding variation_id all over the place
+            return _Parent(self._uri, self.id, getattr(self, "variation_id", None))
+        return None
 
+    def _set_resource_collection_field(self, field, value):
         query = Query(
             self._client,
             self._model_cls(field),
-            parent=parent,
+            parent=self._parent(),
             raw_data=value,
         )
         setattr(self, field, query)

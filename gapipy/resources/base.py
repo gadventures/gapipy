@@ -3,10 +3,10 @@ from __future__ import unicode_literals
 
 import json
 import logging
-from gapipy.request import APIRequestor
-from gapipy.models.base import BaseModel
-from gapipy.utils import enforce_string_type
 
+from gapipy.models.base import BaseModel
+from gapipy.request import APIRequestor
+from gapipy.utils import enforce_string_type
 
 logger = logging.getLogger(__name__)
 

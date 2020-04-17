@@ -4,6 +4,7 @@ import unittest
 from mock import call, patch
 
 from gapipy.client import Client
+from gapipy.models.base import _Parent
 from gapipy.request import APIRequestor
 
 from .fixtures import FIRST_PAGE_LIST_DATA, SECOND_PAGE_LIST_DATA
@@ -77,7 +78,7 @@ class APIRequestorTestCase(unittest.TestCase):
 
     @patch('gapipy.request.APIRequestor._request')
     def test_list_resource_with_parent(self, mock_request):
-        parent = ('parent', '1234', None)
+        parent = _Parent('parent', '1234', None)
         requestor = APIRequestor(self.client, self.resources, parent=parent)
         requestor.list_raw()
         mock_request.assert_called_once_with(

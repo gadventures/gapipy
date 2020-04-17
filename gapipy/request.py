@@ -181,10 +181,10 @@ class APIRequestor(object):
         # parent is a 3-Tuple. See: BaseModel._set_resource_collection_field
         if self.parent:
             parts = [
-                self.parent[0],  # parent uri
-                self.parent[1],  # parent id
-                self.parent[2],  # parent variation id
-                self._get_uri(), # self uri
+                self.parent.uri,
+                self.parent.id,
+                self.parent.variation_id,
+                self._get_uri(),
             ]
             uri = '/{0}'.format('/'.join(filter(None, parts)))
         else:
