@@ -24,7 +24,7 @@ default_config = {
         'maxsize': os.environ.get('GAPI_CLIENT_CONNECTION_POOL_MAXSIZE', 10),
     },
     'uuid': os.environ.get('GAPI_UUID', False),
-    'max_retries': 0,
+    'max_retries': os.environ.get('GAPI_CLIENT_MAX_RETRIES', 0),
 }
 
 
