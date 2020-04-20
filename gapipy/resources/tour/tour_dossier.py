@@ -2,11 +2,8 @@
 from __future__ import unicode_literals
 
 from gapipy.models import AdvertisedDeparture
-from gapipy.query import Query
 from gapipy.resources.base import Resource
 from gapipy.resources.booking_company import BookingCompany
-from gapipy.utils import get_resource_class_from_class_name
-
 
 MAP_IMAGE_TYPE = 'MAP'
 BANNER_IMAGE_TYPE = 'BANNER'
@@ -15,6 +12,7 @@ BANNER_IMAGE_TYPE = 'BANNER'
 class TourDossier(Resource):
 
     _resource_name = 'tour_dossiers'
+    _is_parent_resource = True
 
     _as_is_fields = [
         'id',
@@ -29,40 +27,31 @@ class TourDossier(Resource):
         'site_links',
         'slug',
     ]
+
     _date_fields = [
         'departures_start_date',
         'departures_end_date',
     ]
+
     _resource_fields = [
         ('tour', 'Tour'),
     ]
+
     _resource_collection_fields = [
         ('departures', 'Departure'),
     ]
+
     _model_collection_fields = [
         ('advertised_departures', AdvertisedDeparture),
         ('booking_companies', BookingCompany),
         ('structured_itineraries', 'Itinerary'),
     ]
 
-    def _set_resource_collection_field(self, field, value):
-        """
-        Overridden to ensure that the `departures` query has the right
-        parent resource (i.e. the tour and not the tour dossier).
-        """
-        if field == 'departures':
-            resource_cls = get_resource_class_from_class_name('Departure')
-            # Tour dossiers always have the same id as the corresponding tour
-            parent = ('tours', self.id, None)
-            query = Query(self._client, resource_cls, parent=parent, raw_data=value)
-            setattr(self, field, query)
-        else:
-            return super(TourDossier, self)._set_resource_collection_field(field, value)
-
     def _get_image_url(self, image_type):
         for image in self.images:
             if image['type'] == image_type:
                 return image['image_href']
+        return None
 
     def get_map_url(self):
         return self._get_image_url(MAP_IMAGE_TYPE)
@@ -77,8 +66,10 @@ class TourDossier(Resource):
         for detail in self.details:
             if detail['detail_type']['label'] == label:
                 return detail['body']
+        return None
 
     def get_category_name(self, label):
         for category in self.categories:
             if category['category_type']['label'] == label:
                 return category['name']
+        return None
