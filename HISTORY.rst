@@ -3,6 +3,30 @@
 History
 =======
 
+2.26.1 (2020-04-20)
+-------------------
+
+* Fix for `2.26.0 (2020-04-14)`_ and `Issue #113`_.
+  * Calls to ``Query.all`` will use initialised its parameters, unless the URI
+  provides its own.
+  * See `PR 123 <https://github.com/gadventures/gapipy/pull/123>`_.
+* Add the ability to define the ``max_retries`` values on the requestor.
+  * New ``env`` value ``GAPI_CLIENT_MAX_RETRIES``.
+  * The default value will be ``0``, and if provided will override the ``retry``
+  value on the ``requests.Session``.
+  * This change will also always initialize a ``requests.Session`` value on
+  initialisation of the ``gapipy.Client``.
+  * See `PR 124 <https://github.com/gadventures/gapipy/pull/124>`_.
+* Add ``variation_id`` field to the ``Image`` resource.
+  * See `Commit edc8d9b <https://github.com/gadventures/gapipy/commit/edc8d9b>`_.
+* Update the ``ActivityDossier`` and ``AccommodationDOssier`` resources.
+  * Remove the ``is_prepaid`` field.
+  * Adds the ``has_costs`` field.
+  * See `Commit bd35531 <https://github.com/gadventures/gapipy/commit/bd35531>`_.
+
+.. _`Issue #113`: https://github.com/gadventures/gapipy/issues/113
+
+
 2.26.0 (2020-04-14)
 -------------------
 
@@ -14,9 +38,9 @@ History
 * The ``Query.all`` method will return a ``TypeError`` if a type other than
   an ``int`` is passed to the ``limit`` argument.
 * The ``Query.count`` method will **not** clear the filters after returning.
-* see: https://github.com/gadventures/gapipy/pull/121
+* See `PR 121 <https://github.com/gadventures/gapipy/pull/121>`_
 
-New behaviour with the ``Query.filter`` method
+New behaviour with the ``Query.filter`` method:
 
 .. code-block:: python
 
@@ -35,15 +59,17 @@ New behaviour with the ``Query.filter`` method
     >>> query.count()
     494
 
-* The ``AgencyChain.agencies`` field will be returned as a list of Resource objects
-* see: https://github.com/gadventures/gapipy/commit/f34afd52
+* The ``AgencyChain.agencies`` attribute returns a list of ``Agency`` objects
+  * See `Commit f34afd52 <https://github.com/gadventures/gapipy/commit/f34afd52>`_
 
 
 2.25.1 (2020-01-02)
 -------------------
 
 * Improve contribution instructions to check long_description rST file in dist
-* Adds ``readme_renderer==24.0`` dependency & update ``twine==1.15.0`` for ``twine check`` command
+* Dev Requirement updates:
+  * Add ``readme_renderer==24.0``
+  * Add ``twine==1.15.0`` for ``twine check`` command
 
 
 2.25.0 (2020-01-02)

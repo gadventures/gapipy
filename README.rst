@@ -128,8 +128,8 @@ only supported for queries whose resources are listable.
     * A ``ValueError`` will be raised if ``limit <= 0``>
 
 ``filter(field1=value1, [field2=value2, ...])``
-``filter(**{"nested.field": "value", "field": "anothervalue"})``
 
+``filter(**{"nested.field": "value"})``
     Filter resources on the provided fields and values. Calls to ``filter`` can
     be chained. The method will return a clone of the ``Query`` object and must
     be stored in a separate variable in order to have access to **stacked**
