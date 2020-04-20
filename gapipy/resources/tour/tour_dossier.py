@@ -2,12 +2,8 @@
 from __future__ import unicode_literals
 
 from gapipy.models import AdvertisedDeparture
-from gapipy.models.base import _Parent
-from gapipy.query import Query
 from gapipy.resources.base import Resource
 from gapipy.resources.booking_company import BookingCompany
-from gapipy.utils import get_resource_class_from_class_name
-
 
 MAP_IMAGE_TYPE = 'MAP'
 BANNER_IMAGE_TYPE = 'BANNER'
@@ -55,6 +51,7 @@ class TourDossier(Resource):
         for image in self.images:
             if image['type'] == image_type:
                 return image['image_href']
+        return None
 
     def get_map_url(self):
         return self._get_image_url(MAP_IMAGE_TYPE)
@@ -69,8 +66,10 @@ class TourDossier(Resource):
         for detail in self.details:
             if detail['detail_type']['label'] == label:
                 return detail['body']
+        return None
 
     def get_category_name(self, label):
         for category in self.categories:
             if category['category_type']['label'] == label:
                 return category['name']
+        return None
