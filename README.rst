@@ -45,7 +45,7 @@ Quick Start
     >>> booking.save()
 
 
-Since `2.25.1 (2020-01-02)`_
+Since `2.25.0 (2020-01-02)`_
 
 .. code-block:: python
 

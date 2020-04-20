@@ -3,12 +3,32 @@
 History
 =======
 
+2.26.2 (2020-04-20)
+-------------------
+
+* Fix for `2.26.1 (2020-04-20)`_ and `Issue #113`_.
+  * See `PR 125 <https://github.com/gadventures/gapipy/pull/125>`_
+  * Remove the ``_set_resource_collection_field`` method in ``TourDossier``
+  * Introducing the ``_Parent`` namedtuple in `PR 123 <https://github.com/gadventures/gapipy/pull/123>`_
+  broke being able to Query-chain from Tour-Dossiers to departures
+  * Buggy behaviour from ``2.26.1`` below:
+
+  .. code-block:: python
+
+    >>> from gapipy import Client
+    >>> api = Client(application_key='MY_SECRET_KEY')
+
+    >>> api.tour_dossiers(24309).departures.count()
+    # AttributeError: 'tuple' object has no attribute 'uri'
+
+
+
 2.26.1 (2020-04-20)
 -------------------
 
 * Fix for `2.26.0 (2020-04-14)`_ and `Issue #113`_.
-  * Calls to ``Query.all`` will use initialised its parameters, unless the URI
-  provides its own.
+  * Calls to ``APIRequestor.list_raw`` will use initialised its parameters,
+  unless the URI provides its own.
   * See `PR 123 <https://github.com/gadventures/gapipy/pull/123>`_.
 * Add the ability to define the ``max_retries`` values on the requestor.
   * New ``env`` value ``GAPI_CLIENT_MAX_RETRIES``.
@@ -19,7 +39,7 @@ History
   * See `PR 124 <https://github.com/gadventures/gapipy/pull/124>`_.
 * Add ``variation_id`` field to the ``Image`` resource.
   * See `Commit edc8d9b <https://github.com/gadventures/gapipy/commit/edc8d9b>`_.
-* Update the ``ActivityDossier`` and ``AccommodationDOssier`` resources.
+* Update the ``ActivityDossier`` and ``AccommodationDossier`` resources.
   * Remove the ``is_prepaid`` field.
   * Adds the ``has_costs`` field.
   * See `Commit bd35531 <https://github.com/gadventures/gapipy/commit/bd35531>`_.
