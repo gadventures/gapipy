@@ -231,9 +231,9 @@ to be run against multiple environments, or in this case, multiple versions of
 Python. Install and run the ``tox`` command from any place in the gapipy source
 tree. You'll want to export your G API application key as well::
 
-  $ export GAPI_APPLICATION_KEY=MY_SECRET_KEY
-  $ pip install tox
-  $ tox
+    $ export GAPI_APPLICATION_KEY=MY_SECRET_KEY
+    $ pip install tox
+    $ tox
 
 Tox will attempt to run against all environments defined in the ``tox.ini``. It
 is recommended to use a tool like `pyenv <https://github.com/yyuu/pyenv>`_ to
@@ -251,20 +251,20 @@ Note: ``_model_fields = [('address', Address)]`` and ``Address`` subclasses ``Ba
 .. code-block:: python
 
     "address": {
-        "street": "19 Charlotte St",
-        "city": "Toronto",
-        "state": {
-          "id": "CA-ON",
-          "href": "https://rest.gadventures.com/states/CA-ON",
-          "name": "Ontario"
-        },
-        "country": {
-          "id": "CA",
-          "href": "https://rest.gadventures.com/countries/CA",
-          "name": "Canada"
-        },
-        "postal_zip": "M5V 2H5"
-      }
+      "street": "19 Charlotte St",
+      "city": "Toronto",
+      "state": {
+        "id": "CA-ON",
+        "href": "https://rest.gadventures.com/states/CA-ON",
+        "name": "Ontario"
+      },
+      "country": {
+        "id": "CA",
+        "href": "https://rest.gadventures.com/countries/CA",
+        "name": "Canada"
+      },
+      "postal_zip": "M5V 2H5"
+    }
 
 
 * ``_model_collection_fields`` represent a list of dictionary fields like so:
@@ -274,101 +274,14 @@ Note: ``_model_collection_fields = [('emails', AgencyEmail),]`` and ``AgencyEmai
 .. code-block:: python
 
     "emails": [
-        {
-          "type": "ALLOCATIONS_RELEASE",
-          "address": "g@gadventures.com"
-        },
-        {
-          "type": "ALLOCATIONS_RELEASE",
-          "address": "g2@gadventures.com"
-        }
-      ]
+      {
+        "type": "ALLOCATIONS_RELEASE",
+        "address": "g@gadventures.com"
+      },
+      {
+        "type": "ALLOCATIONS_RELEASE",
+        "address": "g2@gadventures.com"
+      }
+    ]
 
 * ``_resource_fields`` refer to another ``Resource``
-
-
-Contributing
-------------
-
-0. Run ``pip install -r requirements-dev.txt`` to setup dev dependencies
-
-1. Always make your changes in a branch and submit a PR
-
-2. Once the PR has been accepted/merged into the `master` branch, follow these steps on your local box
-
-.. code-block:: bash
-
-   $> cd /path/to/gapipy
-   $> git checkout master
-   $> git pull origin master
-
-
-Then, modify the following files:
-
-* ``gapipy/__init__.py``
-
-  * update the ``__version__`` variable
-  * NOTES on incrementing the version:
-
-    * ``major.minor.patch``
-    * update ``major`` only when we switch to ``python3`` only support
-    * update ``minor`` if there is some breaking change or adding a New resource
-    * update ``patch`` when adding new fields, fixing minor bugs
-
-    * See `semver.org <https://semver.org>`_ for more information.
-
-* ``HISTORY.rst``
-
-  * update this file with the new ``version`` & ``date``
-  * Add some brief notes describing the changes
-
-3. Check the generated long_description rST file is valid
-
-.. code-block:: bash
-
-    $> python setup.py sdist
-    # this created `gapipy-a.b.c.tar.gz` in the `./dist` directory
-    # where a.b.c is the ``__version__`` value
-
-    $> twine check dist/gapipy-a.b.c.tar.gz
-    # checks the long-form rST file is valid
-
-    # if there are any errors fix, and repeat
-
-    # example success check
-    $> twine check dist/gapipy-2.25.0.tar.gz
-    Checking dist/gapipy-2.25.0.tar.gz: PASSED, with warnings
-      warning: `long_description_content_type` missing.  defaulting to `text/x-rst`.
-    # the above warning can be ignored
-
-4. Push the new commit
-
-* Use ``Release a.b.c (YYYY-MM-DD)`` format for the commit title. Optionally add a description that matches the changes to ``HISTORY.rst``
-
-5. Create a release on github with the following description (This will be tagged to the ``version bump`` commit and not the PR commit)
-
-.. code-block:: md
-
-    # Version a.b.c
-
-    PR: #123
-
-    A brief description describing the changes
-    * bullet points
-    * make for easy reading
-
-6. Back to your local box
-
-.. code-block:: bash
-
-    # `gapipy-a.b.c.tar.gz` in the `./dist` directory
-    # where a.b.c is the ``__version__`` value
-    $> python setup.py sdist
-
-    # check the long-form rST file is valid
-    $> twine check dist/gapipy-a.b.c.tar.gz
-
-    $> twine upload dist/gapipy-a.b.c.tar.gz
-    # this will upload & create the release pypi
-
-Thanks for helping!

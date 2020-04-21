@@ -1,13 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import gapipy
-
 from setuptools import setup, find_packages
 
+import gapipy
 
+# build the long description from the *.RST files
 readme = open('README.rst').read()
+contributing = open('CONTRIBUTING.rst').read().replace('.. :contributing:', '')
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
+
+long_description = readme + '\n\n' + contributing + '\n\n' + history
 
 requirements = []
 with open('requirements.txt') as reqs:
@@ -26,7 +29,8 @@ setup(
     name='gapipy',
     version=gapipy.__version__,
     description='Python client for the G Adventures REST API',
-    long_description=readme + '\n\n' + history,
+    long_description=long_description,
+    long_description_content_type='text/x-rst',
     author='G Adventures',
     author_email='software@gadventures.com',
     url='https://github.com/gadventures/gapipy',
