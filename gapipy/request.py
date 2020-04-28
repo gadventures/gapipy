@@ -1,8 +1,8 @@
 import sys
-from urlparse import urlparse
 from uuid import uuid1
 
 import requests
+from future.moves.urllib.parse import urlparse
 
 from . import __title__, __version__
 

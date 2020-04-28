@@ -3,6 +3,12 @@
 History
 =======
 
+2.26.3 (2020-04-28)
+-------------------
+
+* Fix py2 & py3 compatibility for ``urlparse``
+
+
 2.26.2 (2020-04-20)
 -------------------
 
@@ -20,7 +26,6 @@ History
 
     >>> api.tour_dossiers(24309).departures.count()
     # AttributeError: 'tuple' object has no attribute 'uri'
-
 
 
 2.26.1 (2020-04-20)
