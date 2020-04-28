@@ -3,8 +3,15 @@
 History
 =======
 
-2.26.3 (2020-04-28)
+2.26.4 (2020-04-28)
 -------------------
+
+* Fix 2.26.3: include ``CONTRIBUTING.rst`` in the manifest.
+  * This was broken when attempting to install ``gapipy`` using ``pip``
+
+
+2.26.3 (2020-04-28) (Yanked)
+----------------------------
 
 * Fix py2 & py3 compatibility for ``urlparse``
 
