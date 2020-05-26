@@ -3,6 +3,24 @@
 History
 =======
 
+2.27.0 (2020-05-26)
+-------------------
+
+* Make ``Customer.nationality`` a *resource field*. This allows attribute style
+  access to the field values, whereas before they needed to be accessed using
+  ``dict`` style syntax.
+
+  .. code-block:: python
+
+    # before
+    >>> api.customers.get(123456).nationality["name"]
+    u'Canadian'
+
+    # now
+    >>> api.customers.get(123456).nationality.name
+    u'Canadian'
+
+
 2.26.4 (2020-04-28)
 -------------------
 
