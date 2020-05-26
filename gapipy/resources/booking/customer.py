@@ -5,6 +5,8 @@ from gapipy.models import Address
 from gapipy.models.base import BaseModel
 from gapipy.resources.base import Resource
 
+from ..geo import Nationality
+
 
 class MedicalDetail(BaseModel):
     _as_is_fields = ['type', 'value']
@@ -29,13 +31,16 @@ class Customer(Resource):
         'meal_preference',
         'medical_notes',
         'name',
-        'nationality',
         'passport',
         'phone_numbers',
         'place_of_birth',
     ]
 
     _date_fields = ['date_of_birth', ]
+
+    _resource_fields = [
+        ('nationality', Nationality),
+    ]
 
     _model_fields = [
         ('address', Address),
