@@ -123,3 +123,43 @@ class APIRequestorTestCase(unittest.TestCase):
         params_arg = mock_make_call.call_args[0][-1]
         self.assertEqual(params_arg['test'], '1234')
         self.assertTrue('uuid' in params_arg)
+
+    def test_extra_headers_from_client(self):
+        """
+        The client's "extra_http_headers" should be included when generating
+        HTTP headers for a request.
+        """
+        header_name = "x-farnsworth"
+        header_value = "here's where I keep assorted lengths of wire",
+        self.client.extra_http_headers = {header_name: header_value}
+        requestor = APIRequestor(self.client, self.resources)
+
+        method = 'METHOD'
+        additional_headers = {}
+        request_headers = requestor._get_headers(method, additional_headers)
+
+        self.assertIn(header_name, request_headers)
+        self.assertEqual(request_headers[header_name], header_value)
+
+    def test_extra_headers_from_client_overriden_by_additional_headers(self):
+        """
+        The client's "extra_http_headers" should be included when generating
+        HTTP headers for a request, but are overridable by headers added later.
+        """
+        header_name = "x-farnsworth"
+        header_value = "here's where I keep assorted lengths of wire",
+        self.client.extra_http_headers = {header_name: header_value}
+        requestor = APIRequestor(self.client, self.resources)
+
+        method = 'METHOD'
+
+        # If `_get_headers` is given an `additional_headers` value with the
+        # same `header_name` as was in the client configs...
+        request_headers = requestor._get_headers(method, {
+            header_name: 'good news'
+        })
+
+        # ... the value from `additional_headers` will be the one in the final
+        # header-dict
+        self.assertIn(header_name, request_headers)
+        self.assertEqual(request_headers[header_name], 'good news')
