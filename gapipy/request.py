@@ -58,15 +58,18 @@ class APIRequestor(object):
     def _get_headers(self, method, additional_headers):
         """Return a dictionary of HTTP headers to set on the request to the API."""
 
-        # Start with identification + auth headers
-        headers = {
-            'User-Agent': '{0}/{1}'.format(__title__, __version__),
-            'X-Application-Key': self.client.application_key,
-        }
+        # Start with an empty collection of headers
+        headers = {}
 
         # If our client was configured to send extra headers, include those
         if self.client.extra_http_headers:
             headers.update(self.client.extra_http_headers)
+
+        # Add the identification + auth headers
+        headers.update({
+            'User-Agent': '{0}/{1}'.format(__title__, __version__),
+            'X-Application-Key': self.client.application_key,
+        })
 
         # gapipy works in JSON. Ensure the receiving API is aware of the type of
         # payload being sent.

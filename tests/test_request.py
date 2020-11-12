@@ -163,3 +163,37 @@ class APIRequestorTestCase(unittest.TestCase):
         # header-dict
         self.assertIn(header_name, request_headers)
         self.assertEqual(request_headers[header_name], 'good news')
+
+    def test_extra_headers_from_client_overriden_by_gapipy_headers(self):
+        """
+        The client's "extra_http_headers" should be included when generating
+        HTTP headers for a request, but are overriden by some required headers
+        added by gapipy.
+        """
+        self.client.api_language = 'human'
+
+        # We'll set up some HTTP headers in our client config...
+        header_value = "woob woob woob woob woob woob woob",
+        self.client.extra_http_headers = {
+            'Accept-Language': header_value,
+            'User-Agent': header_value,
+            'X-Application-Key': header_value,
+            'X-Zoidberg': header_value,
+        }
+        requestor = APIRequestor(self.client, self.resources)
+
+        method = 'METHOD'
+        additional_headers = {}
+
+        # ... and ask for some request headers...
+        request_headers = requestor._get_headers(method, additional_headers)
+
+        # ... and we should find that gapipy has overridden some of those
+        # headers...
+        self.assertNotEqual(request_headers['Accept-Language'], header_value)
+        self.assertNotEqual(request_headers['User-Agent'], header_value)
+        self.assertNotEqual(request_headers['X-Application-Key'], header_value)
+
+        # ... but we still other header values from the config that do not
+        # collide with headers gapipy writes
+        self.assertEqual(request_headers['X-Zoidberg'], header_value)
