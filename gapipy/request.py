@@ -61,9 +61,10 @@ class APIRequestor(object):
         # Start with an empty collection of headers
         headers = {}
 
-        # If our client was configured to send extra headers, include those
-        if self.client.extra_http_headers:
-            headers.update(self.client.extra_http_headers)
+        # If our client was configured to send some headers globally on all
+        # requests, include those
+        if self.client.global_http_headers:
+            headers.update(self.client.global_http_headers)
 
         # Add the identification + auth headers
         headers.update({

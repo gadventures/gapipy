@@ -124,14 +124,14 @@ class APIRequestorTestCase(unittest.TestCase):
         self.assertEqual(params_arg['test'], '1234')
         self.assertTrue('uuid' in params_arg)
 
-    def test_extra_headers_from_client(self):
+    def test_global_headers_from_client(self):
         """
-        The client's "extra_http_headers" should be included when generating
+        The client's "global_http_headers" should be included when generating
         HTTP headers for a request.
         """
         header_name = "x-farnsworth"
         header_value = "here's where I keep assorted lengths of wire",
-        self.client.extra_http_headers = {header_name: header_value}
+        self.client.global_http_headers = {header_name: header_value}
         requestor = APIRequestor(self.client, self.resources)
 
         method = 'METHOD'
@@ -141,14 +141,14 @@ class APIRequestorTestCase(unittest.TestCase):
         self.assertIn(header_name, request_headers)
         self.assertEqual(request_headers[header_name], header_value)
 
-    def test_extra_headers_from_client_overriden_by_additional_headers(self):
+    def test_global_headers_from_client_overriden_by_additional_headers(self):
         """
-        The client's "extra_http_headers" should be included when generating
+        The client's "global_http_headers" should be included when generating
         HTTP headers for a request, but are overridable by headers added later.
         """
         header_name = "x-farnsworth"
         header_value = "here's where I keep assorted lengths of wire",
-        self.client.extra_http_headers = {header_name: header_value}
+        self.client.global_http_headers = {header_name: header_value}
         requestor = APIRequestor(self.client, self.resources)
 
         method = 'METHOD'
@@ -164,9 +164,9 @@ class APIRequestorTestCase(unittest.TestCase):
         self.assertIn(header_name, request_headers)
         self.assertEqual(request_headers[header_name], 'good news')
 
-    def test_extra_headers_from_client_overriden_by_gapipy_headers(self):
+    def test_global_headers_from_client_overriden_by_gapipy_headers(self):
         """
-        The client's "extra_http_headers" should be included when generating
+        The client's "global_http_headers" should be included when generating
         HTTP headers for a request, but are overriden by some required headers
         added by gapipy.
         """
@@ -174,7 +174,7 @@ class APIRequestorTestCase(unittest.TestCase):
 
         # We'll set up some HTTP headers in our client config...
         header_value = "woob woob woob woob woob woob woob",
-        self.client.extra_http_headers = {
+        self.client.global_http_headers = {
             'Accept-Language': header_value,
             'User-Agent': header_value,
             'X-Application-Key': header_value,

@@ -25,7 +25,7 @@ default_config = {
     },
     'uuid': os.environ.get('GAPI_UUID', False),
     'max_retries': os.environ.get('GAPI_CLIENT_MAX_RETRIES', 0),
-    'extra_http_headers': {},
+    'global_http_headers': {},
 }
 
 
@@ -53,7 +53,7 @@ class Client(object):
         self.cache_backend = get_config(config, 'cache_backend')
         self.uuid = get_config(config, 'uuid')
         self.max_retries = get_config(config, 'max_retries')
-        self.extra_http_headers = get_config(config, 'extra_http_headers')
+        self.global_http_headers = get_config(config, 'global_http_headers')
 
         # begin with default connection pool options and overwrite any that the
         # client has specified

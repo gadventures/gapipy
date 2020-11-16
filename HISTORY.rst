@@ -6,11 +6,11 @@ History
 Unreleased
 ----------
 
-* Add a new ``Client`` config option, ``extra_http_headers``, a dict of HTTP
+* Add a new ``Client`` config option, ``global_http_headers``, a dict of HTTP
   headers to add to each request made with that client.
 
   This is similar to the ``headers=`` kwargs available when making ``get`` and
-  ``create`` calls, except that the ``extra_http_headers`` set on a client will
+  ``create`` calls, except that the ``global_http_headers`` set on a client will
   apply on *every request* made by that client instance.
 
 
