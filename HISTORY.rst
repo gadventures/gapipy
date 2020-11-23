@@ -3,8 +3,8 @@
 History
 =======
 
-Unreleased
-----------
+2.28.0 (2020-11-23)
+-------------------
 
 * Add a new ``Client`` config option, ``global_http_headers``, a dict of HTTP
   headers to add to each request made with that client.
