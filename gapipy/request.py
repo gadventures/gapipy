@@ -58,10 +58,19 @@ class APIRequestor(object):
     def _get_headers(self, method, additional_headers):
         """Return a dictionary of HTTP headers to set on the request to the API."""
 
-        headers = {
+        # Start with an empty collection of headers
+        headers = {}
+
+        # If our client was configured to send some headers globally on all
+        # requests, include those
+        if self.client.global_http_headers:
+            headers.update(self.client.global_http_headers)
+
+        # Add the identification + auth headers
+        headers.update({
             'User-Agent': '{0}/{1}'.format(__title__, __version__),
             'X-Application-Key': self.client.application_key,
-        }
+        })
 
         # gapipy works in JSON. Ensure the receiving API is aware of the type of
         # payload being sent.
@@ -71,6 +80,7 @@ class APIRequestor(object):
         if self.client.api_language:
             headers['Accept-Language'] = self.client.api_language
 
+        # If this specific call included additional headers, include them
         if additional_headers:
             headers.update(additional_headers)
 
