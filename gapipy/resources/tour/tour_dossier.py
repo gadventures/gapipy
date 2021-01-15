@@ -2,11 +2,28 @@
 from __future__ import unicode_literals
 
 from gapipy.models import AdvertisedDeparture
+from gapipy.models.base import BaseModel
 from gapipy.resources.base import Resource
 from gapipy.resources.booking_company import BookingCompany
 
+from ._valid_during_range import ValidDuringRange
+
+
 MAP_IMAGE_TYPE = 'MAP'
 BANNER_IMAGE_TYPE = 'BANNER'
+
+
+class Relationship(BaseModel):
+    _as_is_fields = [
+        'type',
+        'sub_type',
+    ]
+    _resource_fields = [
+        ('tour_dossier', 'TourDossier'),
+    ]
+    _model_collection_fields = [
+        ('valid_during_ranges', ValidDuringRange),
+    ]
 
 
 class TourDossier(Resource):
@@ -44,6 +61,7 @@ class TourDossier(Resource):
     _model_collection_fields = [
         ('advertised_departures', AdvertisedDeparture),
         ('booking_companies', BookingCompany),
+        ('relationships', Relationship),
         ('structured_itineraries', 'Itinerary'),
     ]
 

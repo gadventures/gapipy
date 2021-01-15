@@ -18,6 +18,16 @@ class LocalPayment(BaseModel):
     ]
 
 
+class Relationship(BaseModel):
+    _as_is_fields = [
+        'type',
+        'sub_type',
+    ]
+    _resource_fields = [
+        ('departure', 'Departure'),
+    ]
+
+
 class Departure(Product):
 
     _resource_name = 'departures'
@@ -68,6 +78,7 @@ class Departure(Product):
         ('booking_companies', BookingCompany),
         ('local_payments', LocalPayment),
         ('lowest_pp2a_prices', PP2aPrice),
+        ('relationships', Relationship),
         ('rooms', DepartureRoom),
         ('structured_itineraries', 'Itinerary'),
     ]
