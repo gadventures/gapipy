@@ -8,4 +8,5 @@ twine==1.15.0            # for PyPi dist
 wheel==0.23.0
 
 # code cleanliness
+flake8
 pylint
