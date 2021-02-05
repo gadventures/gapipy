@@ -2,18 +2,14 @@
 # Python 2 and 3
 from __future__ import unicode_literals
 
-import sys
 from unittest import TestCase
 
-from gapipy.client import Client
-from gapipy.resources.base import Resource
 from gapipy.utils import (
     duration_label,
     humanize_amount,
     humanize_price,
     humanize_time,
     location_label,
-    enforce_string_type,
     compute_request_signature,
     compute_webhook_validation_key,
 )

@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 import datetime
-import sys
 from unittest import TestCase
 
 from mock import patch
@@ -12,7 +11,6 @@ from gapipy.client import Client
 from gapipy.query import Query
 from gapipy.models import DATE_FORMAT, AccommodationRoom
 from gapipy.resources import (
-    ActivityDossier,
     Departure,
     Itinerary,
     Promotion,
@@ -20,7 +18,7 @@ from gapipy.resources import (
     TourDossier,
 )
 from gapipy.resources.base import Resource
-from gapipy.resources.tour.itinerary import ValidDuringRange
+from gapipy.resources.tour._valid_during_range import ValidDuringRange
 
 from .fixtures import DUMMY_DEPARTURE, PPP_TOUR_DATA, PPP_DOSSIER_DATA
 

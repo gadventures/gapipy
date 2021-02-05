@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Python 2 and 3
 from __future__ import unicode_literals
 
@@ -15,6 +16,16 @@ class LocalPayment(BaseModel):
         'amount',
         'currency',
         'label',
+    ]
+
+
+class DepartureRelationship(BaseModel):
+    _as_is_fields = [
+        'type',
+        'sub_type',
+    ]
+    _resource_fields = [
+        ('departure', 'Departure'),
     ]
 
 
@@ -68,6 +79,7 @@ class Departure(Product):
         ('booking_companies', BookingCompany),
         ('local_payments', LocalPayment),
         ('lowest_pp2a_prices', PP2aPrice),
+        ('relationships', DepartureRelationship),
         ('rooms', DepartureRoom),
         ('structured_itineraries', 'Itinerary'),
     ]
