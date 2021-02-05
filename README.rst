@@ -1,4 +1,3 @@
-===================
 G API Python Client
 ===================
 
@@ -9,7 +8,7 @@ A client for the G Adventures REST API (https://developers.gadventures.com)
 
 * GitHub Repository: https://github.com/gadventures/gapipy/
 * Documentation: http://gapipy.readthedocs.org.
-* Free software: MIT license
+* Free software: MIT License
 
 
 Quick Start
@@ -17,61 +16,61 @@ Quick Start
 
 .. code-block:: python
 
-    >>> from gapipy import Client
-    >>> api = Client(application_key='MY_SECRET_KEY')
+   >>> from gapipy import Client
+   >>> api = Client(application_key='MY_SECRET_KEY')
 
-    >>> # Get a resource by id
-    >>> tour_dossier = api.tour_dossiers.get(24309)
-    >>> tour_dossier.product_line
-    u'AHEH'
-    >>> tour_dossier.departures.count()
-    134
-    >>> tour_dossier.name
-    u'Essential India'
-    >>> itinerary = tour_dossier.structured_itineraries[0]
-    >>> {day.day: day.summary for day in itinerary.days[:3]}
-    {1: u'Arrive at any time. Arrival transfer included through the G Adventures-supported Women on Wheels project.',
-    2: u'Take a morning walk through the city with a young adult from the G Adventures-supported New Delhi Streetkids Project. Later, visit Old Delhi, explore the spice markets, and visit Jama Masjid and Connaught Place.',
-    3: u"Arrive in Jaipur and explore this gorgeous 'pink city'."}
+   >>> # Get a resource by id
+   >>> tour_dossier = api.tour_dossiers.get(24309)
+   >>> tour_dossier.product_line
+   u'AHEH'
+   >>> tour_dossier.departures.count()
+   134
+   >>> tour_dossier.name
+   u'Essential India'
+   >>> itinerary = tour_dossier.structured_itineraries[0]
+   >>> {day.day: day.summary for day in itinerary.days[:3]}
+   {1: u'Arrive at any time. Arrival transfer included through the G Adventures-supported Women on Wheels project.',
+   2: u'Take a morning walk through the city with a young adult from the G Adventures-supported New Delhi Streetkids Project. Later, visit Old Delhi, explore the spice markets, and visit Jama Masjid and Connaught Place.',
+   3: u"Arrive in Jaipur and explore this gorgeous 'pink city'."}
 
-    >>> # Create a new resource
-    >>> booking = api.bookings.create({'currency': 'CAD', 'external_id': 'abc'})
+   >>> # Create a new resource
+   >>> booking = api.bookings.create({'currency': 'CAD', 'external_id': 'abc'})
 
-    >>> # Modify an existing resource
-    >>> booking.external_id = 'def'
-    >>> booking.save()
+   >>> # Modify an existing resource
+   >>> booking.external_id = 'def'
+   >>> booking.save()
 
 
 Since `2.25.0 (2020-01-02)`_
 
 .. code-block:: python
 
-    >>> # since 2.25.0 reference stubs that fail to fetch will return a
+   >>> # since 2.25.0 reference stubs that fail to fetch will return a
 
-    >>> # subclass of requests.HTTPError (See: https://github.com/gadventures/gapipy/pull/119)
-    >>> # This can also be done on Query.get by passing a Falsy value for the
-    >>> # httperrors_mapped_to_none kwarg.
-    >>>
-    >>> dep = api.departures.get('404_404', httperrors_mapped_to_none=None)
-    ... # omitted stacktrace
-    HTTPError: 404 Client Error: {"http_status_code":404,"message":"Not found.","errors":[],"time":"2020-01-02T19:46:07Z","error_id":"gapi_asdf1234"} for url: https://rest.gadventures.com/departures/404_404
+   >>> # subclass of requests.HTTPError (See: https://github.com/gadventures/gapipy/pull/119)
+   >>> # This can also be done on Query.get by passing a Falsy value for the
+   >>> # httperrors_mapped_to_none kwarg.
+   >>>
+   >>> dep = api.departures.get('404_404', httperrors_mapped_to_none=None)
+   ... # omitted stacktrace
+   HTTPError: 404 Client Error: {"http_status_code":404,"message":"Not found.","errors":[],"time":"2020-01-02T19:46:07Z","error_id":"gapi_asdf1234"} for url: https://rest.gadventures.com/departures/404_404
 
-    >>> dep = api.departures.get('404404')
-    >>> dep.start_address.country
-    <Country: BR (stub)>
+   >>> dep = api.departures.get('404404')
+   >>> dep.start_address.country
+   <Country: BR (stub)>
 
-    >>> # lets have GAPI return a _404_ error here for the country stub `fetch`
-    >>> # when we attempt to retrieve the continent attribute
+   >>> # lets have GAPI return a _404_ error here for the country stub `fetch`
+   >>> # when we attempt to retrieve the continent attribute
 
-    >>> dep.start_address.country.continent  # reference/stub forces a fetch
+   >>> dep.start_address.country.continent  # reference/stub forces a fetch
 
-    >>> # pre 2.25.0 behaviour
-    ... # omitted stacktrace
-    AttributeError: 'Country' has no field 'continent' available
+   >>> # pre 2.25.0 behaviour
+   ... # omitted stacktrace
+   AttributeError: 'Country' has no field 'continent' available
 
-    >>> # post 2.25.0 behaviour
-    ... # omitted stacktrace
-    HTTPError: 404 Client Error: {"http_status_code":404,"message":"Not found.","errors":[],"time":"2020-01-02T19:46:07Z","error_id":"gapi_qwer5678"} for url: https://rest.gadventures.com/countries/BR
+   >>> # post 2.25.0 behaviour
+   ... # omitted stacktrace
+   HTTPError: 404 Client Error: {"http_status_code":404,"message":"Not found.","errors":[],"time":"2020-01-02T19:46:07Z","error_id":"gapi_qwer5678"} for url: https://rest.gadventures.com/countries/BR
 
 
 Resources
@@ -101,41 +100,43 @@ conditions). Queries are roughly analogous to Django's QuerySets.
 An API client instance has a query object for each available resource
 (accessible by an attribute named after the resource name)
 
+
 Methods on Query objects
 ========================
 
-All queries support the ``get``, ``create`` and ``options`` methods. The other methods are
-only supported for queries whose resources are listable.
+All queries support the ``get``, ``create`` and ``options`` methods. The other
+methods are only supported for queries whose resources are listable.
 
 ``options()``
-    Get the options for a single resource
+   Get the options for a single resource
 
 ``get(resource_id, [headers={}])``
-    Get a single resource; optionally passing in a dictionary of header
-    values.
+   Get a single resource; optionally passing in a dictionary of header
+   values.
 
 ``create(data)``
-    Create an instance of the query resource using the given data.
+   Create an instance of the query resource using the given data.
 
 ``all([limit=n])``
-    Generator over all resources in the current query. If ``limit`` is a
-    positive integer ``n``, then only the first ``n`` results will be returned.
+   Generator over all resources in the current query. If ``limit`` is a
+   positive integer ``n``, then only the first ``n`` results will be returned.
 
-    * A ``TypeError`` will be raised if limit is not ``None`` or ``int`` type
-    * A ``ValueError`` will be raised if ``limit <= 0``>
+   * A ``TypeError`` will be raised if limit is not ``None`` or ``int`` type
+   * A ``ValueError`` will be raised if ``limit <= 0``
 
 ``filter(field1=value1, [field2=value2, ...])``
 
 ``filter(**{"nested.field": "value"})``
-    Filter resources on the provided fields and values. Calls to ``filter`` can
-    be chained. The method will return a clone of the ``Query`` object and must
-    be stored in a separate variable in order to have access to **stacked**
-    filters.
+   Filter resources on the provided fields and values. Calls to ``filter`` can
+   be chained. The method will return a clone of the ``Query`` object and must
+   be stored in a separate variable in order to have access to **stacked**
+   filters.
 
 ``count()``
-    Return the number of resources in the current query (by reading the
-    ``count`` field on the response returned by requesting the list of
-    resources in the current query).
+   Return the number of resources in the current query (by reading the
+   ``count`` field on the response returned by requesting the list of
+   resources in the current query).
+
 
 Caching
 -------
@@ -157,15 +158,15 @@ settings. ``cached_backend`` should be a string of the fully qualified path to
 a cache backend, i.e. a subclass of ``gapipy.cache.BaseCache``. A handful of
 cache backends are available out of the box:
 
-* ``gapipy.cache.SimpleCache``
-    A simple in-memory cache for single process environments and is not
-    thread safe.
+``gapipy.cache.SimpleCache``
+   A simple in-memory cache for single process environments and is not
+   thread safe.
 
-* ``gapipy.cache.RedisCache``
-    A key-value cache store using Redis as a backend.
+``gapipy.cache.RedisCache``
+   A key-value cache store using Redis as a backend.
 
-* ``gapipy.cache.NullCache`` (Default)
-    A cache that doesn't cache.
+``gapipy.cache.NullCache`` (Default)
+   A cache that doesn't cache.
 
 Since the cache backend is defined by a python module path, you are free to use
 a cache backend that is defined outside of this project.
@@ -193,6 +194,7 @@ follows:
   Defaults to ``False``.
 
 See also:
+---------
 
 * http://www.python-requests.org/en/latest/api/#requests.adapters.HTTPAdapter
 * http://urllib3.readthedocs.io/en/latest/reference/index.html#module-urllib3.connectionpool
@@ -205,22 +207,23 @@ The only dependency needed to use the client is requests_.
 
 .. _requests: http://python-requests.org
 
+
 Testing
 -------
 
 Running tests is pretty simple. We use `nose` as the test runner. You can
 install all requirements for testing with the following::
 
-    $ pip install -r requirements-testing.txt
+   $ pip install -r requirements-testing.txt
 
 Once installed, run unit tests with::
 
-    $ nosetests -A integration!=1
+   $ nosetests -A integration!=1
 
 Otherwise, you'll want to include a GAPI Application Key so the integration
 tests can successfully hit the API::
 
-    $ export GAPI_APPLICATION_KEY=MY_SECRET_KEY; nosetests
+   $ export GAPI_APPLICATION_KEY=MY_SECRET_KEY; nosetests
 
 In addition to running the test suite against your local Python interpreter, you
 can run tests using `Tox <http://tox.testrun.org>`_. Tox allows the test suite
@@ -228,9 +231,9 @@ to be run against multiple environments, or in this case, multiple versions of
 Python. Install and run the ``tox`` command from any place in the gapipy source
 tree. You'll want to export your G API application key as well::
 
-    $ export GAPI_APPLICATION_KEY=MY_SECRET_KEY
-    $ pip install tox
-    $ tox
+   $ export GAPI_APPLICATION_KEY=MY_SECRET_KEY
+   $ pip install tox
+   $ tox
 
 Tox will attempt to run against all environments defined in the ``tox.ini``. It
 is recommended to use a tool like `pyenv <https://github.com/yyuu/pyenv>`_ to
@@ -241,44 +244,54 @@ use.
 Fields
 ------
 
-* ``_model_fields`` represent dictionary fields like so:
+* ``_model_fields`` represent dictionary fields.
 
-Note: ``_model_fields = [('address', Address)]`` and ``Address`` subclasses ``BaseModel``
+.. note::
 
-.. code-block:: python
-
-    "address": {
-      "street": "19 Charlotte St",
-      "city": "Toronto",
-      "state": {
-        "id": "CA-ON",
-        "href": "https://rest.gadventures.com/states/CA-ON",
-        "name": "Ontario"
-      },
-      "country": {
-        "id": "CA",
-        "href": "https://rest.gadventures.com/countries/CA",
-        "name": "Canada"
-      },
-      "postal_zip": "M5V 2H5"
-    }
-
-
-* ``_model_collection_fields`` represent a list of dictionary fields like so:
-
-Note: ``_model_collection_fields = [('emails', AgencyEmail),]`` and ``AgencyEmail`` subclasses ``BaseModel``
+   * ``_model_fields = [('address', Address)]`` AND
+   * ``Address`` subclasses ``BaseModel``
 
 .. code-block:: python
 
-    "emails": [
-      {
-        "type": "ALLOCATIONS_RELEASE",
-        "address": "g@gadventures.com"
-      },
-      {
-        "type": "ALLOCATIONS_RELEASE",
-        "address": "g2@gadventures.com"
+   {
+      "address": {
+         "street": "19 Charlotte St",
+         "city": "Toronto",
+         "state": {
+            "id": "CA-ON",
+            "href": "https://rest.gadventures.com/states/CA-ON",
+            "name": "Ontario"
+         },
+         "country": {
+            "id": "CA",
+            "href": "https://rest.gadventures.com/countries/CA",
+            "name": "Canada"
+         },
+         "postal_zip": "M5V 2H5"
       }
-    ]
+   }
+
+
+* ``_model_collection_fields`` represent a list of dictionary fields.
+
+.. note::
+
+   * ``_model_collection_fields = [('emails', AgencyEmail),]`` AND
+   * ``AgencyEmail`` subclasses ``BaseModel``
+
+.. code-block:: python
+
+   {
+      "emails": [
+         {
+            "type": "ALLOCATIONS_RELEASE",
+            "address": "g@gadventures.com"
+         },
+         {
+            "type": "ALLOCATIONS_RELEASE",
+            "address": "g2@gadventures.com"
+         }
+      ]
+   }
 
 * ``_resource_fields`` refer to another ``Resource``
