@@ -3,18 +3,31 @@
 History
 =======
 
-Unreleased
-----------
+2.29.0 (2021-02-05)
+-------------------
 
 * Adds ``Departure.relationships`` field via  ``DepartureRelationship`` model
 * Adds ``TourDossier.relationships`` field via ``TourDossierRelationship``
   model
 
-.. warning:: BREAKING change!
+.. warning:: BREAKING!
 
 * Moves the ``gapipy.resources.tour.itinerary.ValidDuringRange`` class over to
-  its own file ``gapipy.resources.tour._valid_during_range.ValidDuringRange``
-  so that it can be reused by the ``TourDossierRelationship`` model,
+  its own file ``gapipy.models.valid_duraing_range.ValidDuringRange``
+  so that it can be reused by the ``TourDossierRelationship`` model. Any code
+  importing the class directly will need to change the import path:
+
+   .. code-block:: python
+
+      # before
+      from gapipy.resources.tour.itinerary.ValidDuringRange
+
+      # now
+      from gapipy.models import ValidDuringRange
+
+* See `PR #128`_ for more details.
+
+.. _`PR #128`: https://github.com/gadventures/gapipy/pull/128/
 
 
 2.28.0 (2020-11-23)

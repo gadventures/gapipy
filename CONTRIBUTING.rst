@@ -76,8 +76,8 @@ Contributing
       warning: no previously-included files matching '.eggs' found under directory '*'
       warning: no previously-included files matching '*.py[co]' found under directory '*'
       total 123
-      -rw-r--r--  1 user  group  76276  5 Feb 02:53 gapipy-2.28.0.tar.gz
-      Checking dist/gapipy-2.28.0.tar.gz: PASSED
+      -rw-r--r--  1 user  group  76276  5 Feb 02:53 gapipy-a.b.c.tar.gz
+      Checking dist/gapipy-a.b.c.tar.gz: PASSED
 
 
 5. Push the new *Release* commit
