@@ -3,6 +3,7 @@
 # pylint: disable=no-member
 from __future__ import unicode_literals
 
+from gapipy.models import ValidDuringRange
 from gapipy.models.base import BaseModel
 from gapipy.resources.base import Resource
 from gapipy.resources.booking_company import BookingCompany
@@ -13,8 +14,6 @@ from gapipy.utils import (
     duration_label,
     enforce_string_type,
 )
-
-from ._valid_during_range import ValidDuringRange
 
 
 class RippleScore(BaseModel):

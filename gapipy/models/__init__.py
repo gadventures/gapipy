@@ -1,4 +1,5 @@
-# flake8: NOQA
+# flake8: noqa
+
 from .addon import AddOn
 from .address import Address
 from .advertised_departure import AdvertisedDeparture
@@ -14,5 +15,6 @@ from .international_ticket_number import InternationalTicketNumber
 from .price_band import PriceBand, SeasonalPriceBand, PP2aPrice
 from .room import AccommodationRoom, DepartureRoom
 from .traveller_height import TravellerHeight
+from .valid_during_range import ValidDuringRange
 
 from .base import DATE_FORMAT, DATE_TIME_UTC_FORMAT, DATE_TIME_LOCAL_FORMAT

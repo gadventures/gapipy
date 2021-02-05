@@ -2,14 +2,13 @@
 # Python 2 and 3
 from __future__ import unicode_literals
 
-from gapipy.models import AdvertisedDeparture
+from gapipy.models import AdvertisedDeparture, ValidDuringRange
 from gapipy.models.base import BaseModel
 from gapipy.resources.base import Resource
 from gapipy.resources.booking_company import BookingCompany
 
-from ._valid_during_range import ValidDuringRange
 
-
+# IMAGE_TYPE keys
 MAP_IMAGE_TYPE = 'MAP'
 BANNER_IMAGE_TYPE = 'BANNER'
 

@@ -161,7 +161,7 @@ class BaseModel(object):
     def _parent(self):
         if getattr(self, "_is_parent_resource", False):
             # FIXME: stop hard-coding variation_id all over the place
-            return _Parent(self._uri, self.id, getattr(self, "variation_id", None))
+            return _Parent(self._uri, self.id, getattr(self, "variation_id", None))  # pylint: disable=no-member
         return None
 
     def _set_resource_collection_field(self, field, value):
@@ -195,7 +195,7 @@ class BaseModel(object):
         if isinstance(value, BaseModel):
             return value.to_dict()
         elif isinstance(value, Query):
-            return value._to_dict()
+            return value._to_dict()  # pylint: disable=protected-access
         elif isinstance(value, Decimal):
             return str(value)
         elif isinstance(value, (datetime.date, datetime.datetime)):
