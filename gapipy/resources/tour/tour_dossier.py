@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Python 2 and 3
 from __future__ import unicode_literals
 
@@ -13,7 +14,7 @@ MAP_IMAGE_TYPE = 'MAP'
 BANNER_IMAGE_TYPE = 'BANNER'
 
 
-class Relationship(BaseModel):
+class TourDossierRelationship(BaseModel):
     _as_is_fields = [
         'type',
         'sub_type',
@@ -61,7 +62,7 @@ class TourDossier(Resource):
     _model_collection_fields = [
         ('advertised_departures', AdvertisedDeparture),
         ('booking_companies', BookingCompany),
-        ('relationships', Relationship),
+        ('relationships', TourDossierRelationship),
         ('structured_itineraries', 'Itinerary'),
     ]
 
