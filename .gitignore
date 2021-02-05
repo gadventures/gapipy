@@ -2,6 +2,7 @@
 build
 dist
 
+htmlcov/*
 docs/_build
 docs/modules.rst
 docs/gapipy.*rst
@@ -12,3 +13,4 @@ gapipy.egg-info/*
 .tox/
 .eggs/
 .python-version
+.coverage
