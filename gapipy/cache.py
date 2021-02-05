@@ -1,12 +1,19 @@
 from time import time
 
-
 try:
     # Python 2
     import cPickle as pickle
 except ImportError:
     # Python 3
     import pickle as pickle
+
+try:
+    from django.conf import settings as django_settings
+
+    django_settings.configure()
+    from django.core.cache import caches as django_caches
+except ImportError:
+    django_caches = django_settings = None
 
 
 class BaseCache(object):
@@ -17,6 +24,7 @@ class BaseCache(object):
     :param default_timeout: the default timeout that is used if no
                             timeout is specified on :meth:`set`.
     """
+
     def __init__(self, default_timeout=300, **kwargs):
         self.default_timeout = default_timeout
 
@@ -53,6 +61,7 @@ class SimpleCache(BaseCache):
     :param threshold: the maximum number of items the cache stores
                       before it starts evicting keys.
     """
+
     def __init__(self, threshold=500, default_timeout=300, **kwargs):
         super(SimpleCache, self).__init__(default_timeout, **kwargs)
         self._cache = {}
@@ -76,7 +85,7 @@ class SimpleCache(BaseCache):
             timeout = self.default_timeout
         self._prune()
         self._cache[key] = (time() + timeout, pickle.dumps(data_dict,
-                            pickle.HIGHEST_PROTOCOL))
+                                                           pickle.HIGHEST_PROTOCOL))
 
     def delete(self, key):
         return self._cache.pop(key, None)
@@ -168,3 +177,30 @@ class RedisCache(BaseCache):
 
     def is_cached(self, key):
         return self._client.exists(self.key_prefix + key)
+
+
+if django_settings:
+    class DjangoCache(BaseCache):
+        def __init__(self, *args, **kwargs):
+            assert django_settings.CACHES is not None, "No CACHES found in django settings!"
+            assert django_settings.CACHES.get('gapi') is not None, "No 'gapi' entry found in settings.CACHES!"
+            self.client = django_caches['gapi']
+
+        def clear(self):
+            self.client.clear()
+
+        def count(self):
+            """Django (up to and including 3.1) does not provide support for counting objects in the cache API."""
+            return None
+
+        def delete(self, key):
+            return self.client.delete(key)
+
+        def get(self, key):
+            return self.client.get(key)
+
+        def set(self, key, value, timeout=None):
+            self.client.set(key, value, timeout)
+
+        def is_cached(self, key):
+            return key in self.client
