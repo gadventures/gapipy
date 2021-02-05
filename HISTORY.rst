@@ -3,6 +3,20 @@
 History
 =======
 
+Unreleased
+----------
+
+* Adds ``Departure.relationships`` field via  ``DepartureRelationship`` model
+* Adds ``TourDossier.relationships`` field via ``TourDossierRelationship``
+  model
+
+.. warning:: BREAKING change!
+
+* Moves the ``gapipy.resources.tour.itinerary.ValidDuringRange`` class over to
+  its own file ``gapipy.resources.tour._valid_during_range.ValidDuringRange``
+  so that it can be reused by the ``TourDossierRelationship`` model,
+
+
 2.28.0 (2020-11-23)
 -------------------
 
