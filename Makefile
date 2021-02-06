@@ -20,6 +20,7 @@ help:
 	@echo " * lint        - check style with flake8"
 	@echo " * release     - package and upload a release"
 	@echo " * test        - run tests quickly with the default Python"
+	@echo " * version     - print the current value of gapipy.__version__"
 	@echo
 
 clean: clean-build clean-pyc
