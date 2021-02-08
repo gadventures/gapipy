@@ -3,6 +3,30 @@
 History
 =======
 
+2.30.0 (2021-02-08)
+-------------------
+
+* Adds a new cache backend; ``gapipy.cache.DjangoCache``. It requires ``Django``
+  and a ``gapi`` entry in ``settings.CACHES``. See `PR #129`_ for more details.
+
+.. _`PR #129`: https://github.com/gadventures/gapipy/pull/129/
+
+**Usage:**
+
+* Set the ``GAPI_CACHE_BACKEND`` Env varible to ``gapipy.cache.DjangoCache``.
+
+OR
+
+.. code-block:: python
+
+   from gapipy import Client
+
+   gapi = Client(
+      application_key="live_your-secret-gapi-key",
+      cache_backend="gapipy.cache.DjangoCache",
+   )
+
+
 2.29.0 (2021-02-05)
 -------------------
 
