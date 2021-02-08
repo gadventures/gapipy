@@ -1,7 +1,72 @@
 import time
-from unittest import TestCase, skipUnless
+from unittest import TestCase, skip, skipUnless
+
+import mock
 
 from gapipy import cache
+
+try:
+    from django.test import override_settings
+except ImportError:
+    override_settings = lambda *__args, **__kwargs: skip
+
+
+def _django_installed():
+    """Returns True if and only if the django module is available"""
+    try:
+        import django  # NOQA
+        return True
+    except ImportError:
+        return False
+
+
+@skipUnless(_django_installed(), 'django is not installed')
+class DjangoCacheTestCase(TestCase):
+    def setUp(self):
+        self.cache_patcher = mock.patch("gapipy.cache.django_caches")
+        self.mock_cache = self.cache_patcher.start()['gapi']
+        self.addCleanup(self.cache_patcher.stop)
+
+        self.default_settings_override = override_settings(CACHES={'gapi': {}})
+        self.default_settings_override.enable()
+        self.addCleanup(self.default_settings_override.disable)
+
+        self.client = cache.DjangoCache()
+
+    @override_settings(CACHES=None)
+    def test_caches_required(self):
+        """Should require CACHES setting."""
+        self.assertRaises(AssertionError, cache.DjangoCache)
+
+    @override_settings(CACHES={})
+    def test_gapi_cache_settings_required(self):
+        """Should require 'gapi' CACHES settings."""
+        self.assertRaises(AssertionError, cache.DjangoCache)
+
+    def test_clear(self):
+        """Should delegate 'clear' operation to django cache client."""
+        self.client.clear()
+        self.mock_cache.clear.assert_called_once()
+
+    def test_delete(self):
+        """Should delegate 'delete' operation to django cache client."""
+        self.client.delete('test-key')
+        self.mock_cache.delete.assert_called_once_with('test-key')
+
+    def test_get(self):
+        """Should delegate 'get' operation to django cache client."""
+        self.client.get('test-key')
+        self.mock_cache.get.assert_called_once_with('test-key')
+
+    def test_is_cached(self):
+        """Should delegate 'is_cached' to django cache client __contains__"""
+        self.client.is_cached('test-key')
+        self.mock_cache.__contains__.assert_called_once_with('test-key')
+
+    def test_set(self):
+        """Should delegate 'set' operation to django cache client."""
+        self.client.set('test-key', 'test-value', 'test-timeout')
+        self.mock_cache.set.assert_called_once_with('test-key', 'test-value', 'test-timeout')
 
 
 class SimpleCacheTestCase(TestCase):

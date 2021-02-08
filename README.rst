@@ -168,6 +168,9 @@ cache backends are available out of the box:
 ``gapipy.cache.NullCache`` (Default)
    A cache that doesn't cache.
 
+``gapipy.cache.DjangoCache`` (requires Django)
+   A cache which uses Django's cache settings for configuration. Requires a ``gapi`` entry in ``settings.CACHES``.
+
 Since the cache backend is defined by a python module path, you are free to use
 a cache backend that is defined outside of this project.
 
