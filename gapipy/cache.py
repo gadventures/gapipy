@@ -10,7 +10,8 @@ except ImportError:
 try:
     from django.conf import settings as django_settings
 
-    django_settings.configure()
+    if not django_settings.configured:
+        django_settings.configure()
     from django.core.cache import caches as django_caches
 except ImportError:
     django_caches = django_settings = None
