@@ -3,6 +3,17 @@
 History
 =======
 
+2.30.1 (2021-02-08)
+-------------------
+
+* Fix for `2.30.0 (2021-02-08)`_ Adds a guard against configuring Django
+  settings again as per the `Django settings docs`_. See `PR #130`_ for more
+  details.
+
+.. _`Django settings docs`: https://docs.djangoproject.com/en/3.1/topics/settings/#either-configure-or-django-settings-module-is-required
+.. _`PR #130`: https://github.com/gadventures/gapipy/pull/130
+
+
 2.30.0 (2021-02-08)
 -------------------
 
