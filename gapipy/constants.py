@@ -5,10 +5,10 @@ from requests.status_codes import codes
 # ISO Date
 DATE_FORMAT = "%Y-%m-%d"
 
-# ISO Local
+# ISO Date-Time Local
 DATE_TIME_LOCAL_FORMAT = "%Y-%m-%dT%H:%M:%S"
 
-# ISO UTC
+# ISO Date-Time UTC
 DATE_TIME_UTC_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 
 
