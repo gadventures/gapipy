@@ -1,11 +1,16 @@
-# Python 2 and 3
 from __future__ import unicode_literals
+
 import warnings
 
 from ..base import Resource
 from .departure import Departure
 from .tour_dossier import TourDossier
 
+
+_DEPRECATION_MESSAGE = (
+    "The `tours` resource has been deprecated in favour of the "
+    "`tour_dossiers` Rsource. This will be removed in the near future."
+)
 
 class Tour(Resource):
 
@@ -18,11 +23,7 @@ class Tour(Resource):
     _resource_collection_fields = [('departures', Departure)]
 
     def __init__(self, *args, **kwargs):
-        warnings.warn("""
-            The `tours` resource will be deprecated in the near
-            future in favour of `tour_dossiers`. Please reference
-            `tour_dossiers` going forward
-        """, DeprecationWarning)
+        warnings.warn(_DEPRECATION_MESSAGE, DeprecationWarning)
         super(Tour, self).__init__(*args, **kwargs)
 
     def get_map_url(self):

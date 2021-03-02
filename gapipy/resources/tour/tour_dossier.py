@@ -1,16 +1,12 @@
 # -*- coding: utf-8 -*-
-# Python 2 and 3
 from __future__ import unicode_literals
 
+from gapipy.constants import IMAGE_TYPE_BANNER
+from gapipy.constants import IMAGE_TYPE_MAP
 from gapipy.models import AdvertisedDeparture, ValidDuringRange
 from gapipy.models.base import BaseModel
 from gapipy.resources.base import Resource
 from gapipy.resources.booking_company import BookingCompany
-
-
-# IMAGE_TYPE keys
-MAP_IMAGE_TYPE = 'MAP'
-BANNER_IMAGE_TYPE = 'BANNER'
 
 
 class TourDossierRelationship(BaseModel):
@@ -72,10 +68,10 @@ class TourDossier(Resource):
         return None
 
     def get_map_url(self):
-        return self._get_image_url(MAP_IMAGE_TYPE)
+        return self._get_image_url(IMAGE_TYPE_MAP)
 
     def get_banner_url(self):
-        return self._get_image_url(BANNER_IMAGE_TYPE)
+        return self._get_image_url(IMAGE_TYPE_BANNER)
 
     def get_visited_countries(self):
         return [country['name'] for country in self.geography['visited_countries']]

@@ -4,15 +4,13 @@ from collections import namedtuple
 from copy import deepcopy
 from decimal import Decimal
 
+from gapipy.constants import DATE_FORMAT
+from gapipy.constants import DATE_TIME_LOCAL_FORMAT
+from gapipy.constants import DATE_TIME_UTC_FORMAT
 from gapipy.query import Query
-from gapipy.utils import (
-    get_resource_class_from_class_name,
-    get_resource_class_from_resource_name,
-)
+from gapipy.utils import get_resource_class_from_class_name
+from gapipy.utils import get_resource_class_from_resource_name
 
-DATE_FORMAT = '%Y-%m-%d'
-DATE_TIME_UTC_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
-DATE_TIME_LOCAL_FORMAT = "%Y-%m-%dT%H:%M:%S"
 
 # _Parent is a 3-Tuple that is used to store the based URI of a Resource, the
 # ID, and Variation ID if it has one

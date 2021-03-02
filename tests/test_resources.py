@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# Python 2 and 3
 from __future__ import unicode_literals
 
 import datetime
@@ -8,15 +7,14 @@ from unittest import TestCase
 from mock import patch
 
 from gapipy.client import Client
+from gapipy.constants import DATE_FORMAT
+from gapipy.models import AccommodationRoom
 from gapipy.query import Query
-from gapipy.models import DATE_FORMAT, AccommodationRoom
-from gapipy.resources import (
-    Departure,
-    Itinerary,
-    Promotion,
-    Tour,
-    TourDossier,
-)
+from gapipy.resources import Departure
+from gapipy.resources import Itinerary
+from gapipy.resources import Promotion
+from gapipy.resources import Tour
+from gapipy.resources import TourDossier
 from gapipy.resources.base import Resource
 
 from .fixtures import DUMMY_DEPARTURE, PPP_TOUR_DATA, PPP_DOSSIER_DATA
