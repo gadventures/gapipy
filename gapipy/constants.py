@@ -30,9 +30,9 @@ HTTPERRORS_MAPPED_TO_NONE = (
 
 # A list of OK Response codes
 ACCEPTABLE_RESPONSE_STATUS_CODES = (
-    codes.ok,        # 200
-    codes.created,   # 201
-    codes.accepted,  # 202
+    codes.OK,        # 200
+    codes.CREATED,   # 201
+    codes.ACCEPTED,  # 202
 )
 
 ALLOWED_METHODS = ["GET", "POST", "PUT", "PATCH", "OPTIONS", ]
