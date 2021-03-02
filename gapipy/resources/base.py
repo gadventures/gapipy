@@ -28,17 +28,22 @@ class Resource(BaseModel):
     def options(cls, client):
         return APIRequestor(client, cls).options()
 
-    def fetch(self):
+    def fetch(self, httperrors_mapped_to_none=None):
+        """
+        httperrors_mapped_to_none is a list of HTTP errors we will silently absorb (i.e.
+        not float up). This brings back behavior prior to 2.25.0.
+        ref: https://github.com/gadventures/gapipy/pull/119
+        """
         logger.info('Fetching %s/%s', self._resource_name, self.id)
 
         # Fetch the resource using the client bound on it, which handles cache get/set.
         resource_obj = getattr(self._client, self._resource_name).get(
             self.id,
             variation_id=getattr(self, 'variation_id', None),
-            httperrors_mapped_to_none=None)
-
-        self._fill_fields(resource_obj._raw_data)
-        self.is_stub = False
+            httperrors_mapped_to_none=httperrors_mapped_to_none)
+        if resource_obj:
+            self._fill_fields(resource_obj._raw_data)
+            self.is_stub = False
 
         return self
 
