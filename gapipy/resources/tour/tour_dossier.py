@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from gapipy.contants import IMAGE_TYPE_BANNER
-from gapipy.contants import IMAGE_TYPE_MAP
+from gapipy.constants import IMAGE_TYPE_BANNER
+from gapipy.constants import IMAGE_TYPE_MAP
 from gapipy.models import AdvertisedDeparture, ValidDuringRange
 from gapipy.models.base import BaseModel
 from gapipy.resources.base import Resource
