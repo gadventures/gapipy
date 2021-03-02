@@ -1,17 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from ..base import Resource
-from ...models.base import BaseModel
+from gapipy.models.base import BaseModel
+from gapipy.resources.base import Resource
 
-
-MAP_TYPE = 'MAP'
-OTHER_TYPE = 'OTHER'
-
-IMAGE_TYPES = (
-    MAP_TYPE,
-    OTHER_TYPE,
-)
 
 class ImageFile(BaseModel):
     _as_is_fields = [

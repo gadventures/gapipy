@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -*-
-# Python 2 and 3
+
 # pylint: disable=no-member
 from __future__ import unicode_literals
 
+from gapipy.constants import IMAGE_TYPE_MAP
 from gapipy.models import ValidDuringRange
 from gapipy.models.base import BaseModel
 from gapipy.resources.base import Resource
 from gapipy.resources.booking_company import BookingCompany
-from gapipy.resources.tour.image import Image, MAP_TYPE
-from gapipy.utils import (
-    DurationLabelMixin,
-    LocationLabelMixin,
-    duration_label,
-    enforce_string_type,
-)
+from gapipy.resources.tour.image import Image
+from gapipy.utils import DurationLabelMixin
+from gapipy.utils import LocationLabelMixin
+from gapipy.utils import duration_label
+from gapipy.utils import enforce_string_type
 
 
 class RippleScore(BaseModel):
@@ -218,7 +217,7 @@ class Itinerary(Resource):
         None if no Images are listed, or if none are marked as a map image.
         """
         for image in self.images:
-            if getattr(image, 'type', None) == MAP_TYPE:
+            if image.type == IMAGE_TYPE_MAP:
                 return image
         return None
 

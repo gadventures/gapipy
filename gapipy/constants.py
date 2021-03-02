@@ -1,5 +1,17 @@
 from requests.status_codes import codes
 
+# Date formats
+
+# ISO Date
+DATE_FORMAT = "%Y-%m-%d"
+
+# ISO Local
+DATE_TIME_LOCAL_FORMAT = "%Y-%m-%dT%H:%M:%S"
+
+# ISO UTC
+DATE_TIME_UTC_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
+
+
 # The default set of HTTP Status codes that will result in Query.get
 # returning a `None` value.
 #
@@ -16,3 +28,25 @@ HTTPERRORS_MAPPED_TO_NONE = (
     codes.GONE,       # 410
 )
 
+# A list of OK Response codes
+ACCEPTABLE_RESPONSE_STATUS_CODES = (
+    codes.ok,        # 200
+    codes.created,   # 201
+    codes.accepted,  # 202
+)
+
+ALLOWED_METHODS = ["GET", "POST", "PUT", "PATCH", "OPTIONS", ]
+
+JSON_CONTENT_TYPE = "application/json; charset=utf-8"
+
+# Resource Constants
+
+# Image Types
+IMAGE_TYPE_BANNER = "BANNER"
+IMAGE_TYPE_MAP = "MAP"
+IMAGE_TYPE_OTHER = "OTHER"
+IMAGE_TYPES = (
+    IMAGE_TYPE_BANNER,
+    IMAGE_TYPE_MAP,
+    IMAGE_TYPE_OTHER,
+)

@@ -1,20 +1,13 @@
 import sys
 from uuid import uuid1
 
-import requests
 from future.moves.urllib.parse import urlparse
 
+from gapipy.constants import ACCEPTABLE_RESPONSE_STATUS_CODES
+from gapipy.constants import ALLOWED_METHODS
+from gapipy.constants import JSON_CONTENT_TYPE
+
 from . import __title__, __version__
-
-ACCEPTABLE_RESPONSE_STATUS_CODES = (
-    requests.codes.ok,        # 200
-    requests.codes.created,   # 201
-    requests.codes.accepted,  # 202
-)
-
-ALLOWED_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'OPTIONS', ]
-
-JSON_CONTENT_TYPE = 'application/json'
 
 
 class APIRequestor(object):
