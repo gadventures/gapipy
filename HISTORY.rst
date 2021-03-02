@@ -3,6 +3,23 @@
 History
 =======
 
+2.31.0 (2021-03-02)
+-------------------
+
+* Introduce ``gapipy.constants`` module that holds common constants. See
+  `PR #132`_ for more details.
+
+* Reintroduce the ability to enable old  behaviour (pre `2.25.0 (2020-01-02)`_)
+  for ``Resource.fetch``. It adds an optional ``httperrors_mapped_to_none``
+  parameter to the method (default ``None``), where if a list of HTTP Status
+  codes is provided instead, will silently consume errors mapped to those
+  status codes and return a ``None`` value instead of raising the HTTPError.
+  See `PR #131`_ for more details.
+
+.. _`PR #131`: https://github.com/gadventures/gapipy/pull/131
+.. _`PR #132`: https://github.com/gadventures/gapipy/pull/132
+
+
 2.30.1 (2021-02-08)
 -------------------
 
