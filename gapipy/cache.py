@@ -186,6 +186,7 @@ if django_settings:
             assert django_settings.CACHES is not None, "No CACHES found in django settings!"
             assert django_settings.CACHES.get('gapi') is not None, "No 'gapi' entry found in settings.CACHES!"
             self.client = django_caches['gapi']
+            super(DjangoCache, self).__init__(*args, **kwargs)
 
         def clear(self):
             self.client.clear()
@@ -201,6 +202,8 @@ if django_settings:
             return self.client.get(key)
 
         def set(self, key, value, timeout=None):
+            if timeout is None:
+                timeout = self.default_timeout
             self.client.set(key, value, timeout)
 
         def is_cached(self, key):

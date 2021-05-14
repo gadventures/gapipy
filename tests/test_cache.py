@@ -68,6 +68,12 @@ class DjangoCacheTestCase(TestCase):
         self.client.set('test-key', 'test-value', 'test-timeout')
         self.mock_cache.set.assert_called_once_with('test-key', 'test-value', 'test-timeout')
 
+    def test_set__default_timeout(self):
+        """Should delegate 'set' operation to django cache client with default cache timeout."""
+        self.client.set('test-key', 'test-value', timeout=None)
+        self.mock_cache.set.assert_called_once_with('test-key', 'test-value', self.client.default_timeout)
+
+
 
 class SimpleCacheTestCase(TestCase):
 
