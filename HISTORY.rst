@@ -3,6 +3,19 @@
 History
 =======
 
+2.31.1 (2021-05-14)
+-------------------
+
+* Initialize the ``DjangoCache`` via the ``BaseCache`` which exposes the
+  ``default_timeout`` attribute to the class. Prior to this change, when using
+  the ``DjangoCache``, items would persist forever as no timeout would be set
+  on the entries. See `PR #133`_ for more details.
+
+.. note:: ``DjangoCache`` was introduced in `2.30.0 (2021-02-08)`_
+
+.. _`PR #133`: https://github.com/gadventures/gapipy/pull/133
+
+
 2.31.0 (2021-03-02)
 -------------------
 
