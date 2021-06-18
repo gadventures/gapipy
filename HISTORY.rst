@@ -3,6 +3,14 @@
 History
 =======
 
+2.32.0 (2021-06-18)
+-------------------
+
+* Make ``future`` requirement more flexible. See `PR #134`_ for more details.
+
+.. _`PR #134`: https://github.com/gadventures/gapipy/pull/134
+
+
 2.31.1 (2021-05-14)
 -------------------
 

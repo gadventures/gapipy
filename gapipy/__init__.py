@@ -2,6 +2,6 @@
 
 __title__ = "gapipy"
 
-__version__ = "2.31.1"
+__version__ = "2.32.0"
 
 from .client import Client  # noqa
