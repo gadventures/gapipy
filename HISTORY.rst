@@ -3,6 +3,12 @@
 History
 =======
 
+2.33.0 (2021-07-06)
+-------------------
+
+* Add ``online_preferences`` field to the ``Agency Chain`` resource.
+
+
 2.32.0 (2021-06-18)
 -------------------
 
@@ -30,7 +36,7 @@ History
 * Introduce ``gapipy.constants`` module that holds common constants. See
   `PR #132`_ for more details.
 
-* Reintroduce the ability to enable old  behaviour (pre `2.25.0 (2020-01-02)`_)
+* Reintroduce the ability to enable old behaviour (pre `2.25.0 (2020-01-02)`_)
   for ``Resource.fetch``. It adds an optional ``httperrors_mapped_to_none``
   parameter to the method (default ``None``), where if a list of HTTP Status
   codes is provided instead, will silently consume errors mapped to those
@@ -79,7 +85,7 @@ OR
 2.29.0 (2021-02-05)
 -------------------
 
-* Adds ``Departure.relationships`` field via  ``DepartureRelationship`` model
+* Adds ``Departure.relationships`` field via ``DepartureRelationship`` model
 * Adds ``TourDossier.relationships`` field via ``TourDossierRelationship``
   model
 
@@ -281,7 +287,7 @@ New behaviour with the ``Query.filter`` method:
 -------------------
 
 * Adds the ``compute_request_signature`` and ``compute_webhook_validation_key``
-  utility methods. See `PR #122`_.  
+  utility methods. See `PR #122`_.
 
 .. _`PR #122`: https://github.com/gadventures/gapipy/pull/122
 
@@ -303,7 +309,7 @@ New behaviour with the ``Query.filter`` method:
    * ActivityDossier: ``suggested_dossiers``, ``visited_countries``, ``visited_cities``
    * Departure: ``local_payments``
    * Itinerary: ``publish_state``
-   
+
 * Add ``continent`` and ``place`` references to the ``Countries`` resource. See
   `PR #115`_.
 * Accept ``additional_headers`` optional kwarg on ``create``. See `PR #114`_.
@@ -747,7 +753,7 @@ New behaviour with the ``Query.filter`` method:
 2.4.3 (2016-09-06)
 ------------------
 
-* Added ``gender`` to  ``Customer``.
+* Added ``gender`` to ``Customer``.
 * Added ``places_of_interest`` to ``Place``.
 
 
