@@ -11,6 +11,16 @@ from .tour_dossier import TourDossier
 from .departure_component import DepartureComponent
 
 
+class DepartureRelationship(BaseModel):
+    _as_is_fields = [
+        'type',
+        'sub_type',
+    ]
+    _resource_fields = [
+        ('departure', 'Departure'),
+    ]
+
+
 class LocalPayment(BaseModel):
     _as_is_fields = [
         'amount',
@@ -19,13 +29,10 @@ class LocalPayment(BaseModel):
     ]
 
 
-class DepartureRelationship(BaseModel):
+class TravelReadyPolicy(BaseModel):
     _as_is_fields = [
-        'type',
-        'sub_type',
-    ]
-    _resource_fields = [
-        ('departure', 'Departure'),
+        'code',
+        'name',
     ]
 
 
@@ -71,8 +78,9 @@ class Departure(Product):
         ('components', DepartureComponent),
     ]
     _model_fields = [
-        ('start_address', Address),
         ('finish_address', Address),
+        ('start_address', Address),
+        ('travel_ready_policy', TravelReadyPolicy),
     ]
     _model_collection_fields = [
         ('addons', AddOn),
