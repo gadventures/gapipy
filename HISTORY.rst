@@ -3,6 +3,13 @@
 History
 =======
 
+2.34.0 (2021-08-20)
+-------------------
+
+* Add ``travel_ready_policy`` model field to the ``Departure`` resource.
+  * More details can be found in our `developer docs <https://developers.gadventures.com/docs/departure.html#travel-ready-policy>`
+
+
 2.33.0 (2021-07-06)
 -------------------
 
