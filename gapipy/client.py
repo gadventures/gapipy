@@ -24,6 +24,7 @@ default_config = {
     },
     'debug': os.environ.get('GAPI_CLIENT_DEBUG', False),
     'max_retries': os.environ.get('GAPI_CLIENT_MAX_RETRIES', 0),
+    'raise_on_noop_update': os.environ.get('GAPI_CLIENT_RAISE_ON_NOOP_UPDATE', False),
     'uuid': os.environ.get('GAPI_UUID', False),
     # we don't have a nice way to intialise a dictionary from the environment,
     # so we default it to an empty dict here.
@@ -56,6 +57,7 @@ class Client(object):
         self.cache_backend = get_config(config, 'cache_backend')
         self.global_http_headers = get_config(config, 'global_http_headers')
         self.max_retries = get_config(config, 'max_retries')
+        self.raise_on_noop_update = get_config(config, 'raise_on_noop_update')
         self.uuid = get_config(config, 'uuid')
 
         # begin with default connection pool options and with overwrite any
