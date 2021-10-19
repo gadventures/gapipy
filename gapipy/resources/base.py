@@ -131,7 +131,7 @@ class Resource(BaseModel):
             result = self._create()
 
         # check if we returned a NOOP_UPDATE response, and exit early to avoid
-        # caling _fill_fields
+        # calling _fill_fields
         if result is NOOP_UPDATE:
             return self
 
