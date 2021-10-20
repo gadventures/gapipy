@@ -11,9 +11,6 @@ from gapipy.utils import enforce_string_type
 logger = logging.getLogger(__name__)
 
 
-NOOP_UPDATE = object()
-
-
 class Resource(BaseModel):
 
     _resource_name = None
@@ -102,17 +99,13 @@ class Resource(BaseModel):
         # when making a partial (PATCH) request, ensure we only include values
         # changed on self compared to the initial raw response received from
         # the G API.
+        #
+        # Added (2.35.0): If the change computed results in an empty data
+        #                 dictionary we'll raise a ValueError
         if partial:
             data = {k: v for k, v in data.items() if self._raw_data.get(k) != v}
             if not data:
-                # Added in 2.x.x: we check if a partial request generates a noop
-                # update payload and raise an error if the client has explicitly
-                # configured it.
-                if self._client.raise_on_noop_update:
-                    raise ValueError("gapipy computed no changes for this partial update request")
-
-                # otherwise return the NOOP singleton
-                return NOOP_UPDATE
+                raise ValueError("gapipy computed no changes for this partial update")
 
         return request.update(self.id, json.dumps(data), partial=partial)
 
@@ -123,15 +116,21 @@ class Resource(BaseModel):
     def save(self, partial=False):
         # due to the explicit check for `id` in __getattr__, we need to check
         # the __dict__ directly for the `id` attribute... 🐔 & 🥚 situation
-        if 'id' in self.__dict__ and self.__dict__['id']:
-            result = self._update(partial=partial)
+
+        # update if we have an `id` value
+        is_update = 'id' in self.__dict__ and self.__dict__['id']
+        if is_update:
+            # Added (2.35.0): we check if a partial update threw an exception
+            #                 and re-raise it if the client has been configured
+            #                 as such.
+            try:
+                result = self._update(partial=partial)
+            except ValueError:
+                if self._client.raise_on_empty_update:
+                    raise
+                return self
         else:
             result = self._create()
-
-        # check if we returned a NOOP_UPDATE response, and exit early to avoid
-        # calling _fill_fields
-        if result is NOOP_UPDATE:
-            return self
 
         # set result fields as attributes
         self._fill_fields(result)
