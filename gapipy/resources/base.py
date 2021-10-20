@@ -101,11 +101,9 @@ class Resource(BaseModel):
 
         # when making a partial (PATCH) request, ensure we only include values
         # changed on self compared to the initial raw response received from
-        # the G API
+        # the G API.
         if partial:
-            # NOTE: dict.items is not effecient in Python 2
             data = {k: v for k, v in data.items() if self._raw_data.get(k) != v}
-
             if not data:
                 # Added in 2.x.x: we check if a partial request generates a noop
                 # update payload and raise an error if the client has explicitly

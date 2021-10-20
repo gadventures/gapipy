@@ -5,10 +5,12 @@ from importlib import import_module
 
 from .utils import get_available_resource_classes
 
-
+# intialise logger
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.StreamHandler())
 
+
+# the default configuration dict with values pulled from the environment
 default_config = {
     'api_language': os.environ.get('GAPI_LANGUAGE'),
     'api_proxy': os.environ.get('GAPI_API_PROXY', ''),
@@ -60,8 +62,8 @@ class Client(object):
         self.raise_on_noop_update = get_config(config, 'raise_on_noop_update')
         self.uuid = get_config(config, 'uuid')
 
-        # begin with default connection pool options and with overwrite any
-        # configuration options the client has specified
+        # begin with default connection pool options and override them with
+        # the configuration options the client has specified
         self.connection_pool_options = default_config['connection_pool_options']
         self.connection_pool_options.update(get_config(config, 'connection_pool_options'))
 
