@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 import json
 import logging
 
+from gapipy.exceptions import EmptyPartialUpdateException
 from gapipy.models.base import BaseModel
 from gapipy.request import APIRequestor
 from gapipy.utils import enforce_string_type
@@ -105,7 +106,7 @@ class Resource(BaseModel):
         if partial:
             data = {k: v for k, v in data.items() if self._raw_data.get(k) != v}
             if not data:
-                raise ValueError("gapipy computed no changes for this partial update")
+                raise EmptyPartialUpdateException
 
         return request.update(self.id, json.dumps(data), partial=partial)
 
@@ -125,7 +126,7 @@ class Resource(BaseModel):
             #                 as such.
             try:
                 result = self._update(partial=partial)
-            except ValueError:
+            except EmptyPartialUpdateException:
                 if self._client.raise_on_empty_update:
                     raise
                 return self
