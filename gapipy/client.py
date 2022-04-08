@@ -5,7 +5,7 @@ from importlib import import_module
 
 from .utils import get_available_resource_classes
 
-# intialise logger
+# initialise logger
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.StreamHandler())
 
