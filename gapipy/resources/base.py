@@ -123,7 +123,7 @@ class Resource(BaseModel):
         if is_update:
             # Added (2.35.0): we check if a partial update threw an exception
             #                 and re-raise it if the client has been configured
-            #                 as such.
+            #                 to do so via raise_on_empty_update config option.
             try:
                 result = self._update(partial=partial)
             except EmptyPartialUpdateError:
