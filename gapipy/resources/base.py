@@ -102,7 +102,7 @@ class Resource(BaseModel):
         # the G API.
         #
         # Added (2.35.0): If the change computed results in an empty data
-        #                 dictionary we'll raise a ValueError
+        #                 dictionary we'll raise a EmptyPartialUpdateError
         if partial:
             data = {k: v for k, v in data.items() if self._raw_data.get(k) != v}
             if not data:
