@@ -1,9 +1,12 @@
 import time
 from unittest import TestCase, skip, skipUnless
 
-import mock
-
 from gapipy import cache
+
+try:
+    from unittest import mock  # Python 3
+except ImportError:
+    import mock  # Python 2
 
 try:
     from django.test import override_settings

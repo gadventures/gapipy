@@ -2,7 +2,6 @@ import json
 import sys
 import unittest
 
-from mock import MagicMock, patch
 from requests import HTTPError, Response
 
 from gapipy.client import Client
@@ -14,6 +13,11 @@ from gapipy.utils import get_available_resource_classes
 from .fixtures import (
     PPP_TOUR_DATA, TOUR_DOSSIER_LIST_DATA, DUMMY_DEPARTURE, DUMMY_PROMOTION,
 )
+
+try:
+    from unittest import mock  # Python 3
+except ImportError:
+    import mock  # Python 2
 
 
 class QueryKeyTestCase(unittest.TestCase):
@@ -106,13 +110,13 @@ class QueryTestCase(unittest.TestCase):
         self.cache = self.client._cache
         self.cache.clear()
 
-    @patch('gapipy.request.APIRequestor._request', return_value=PPP_TOUR_DATA)
+    @mock.patch('gapipy.request.APIRequestor._request', return_value=PPP_TOUR_DATA)
     def test_get_instance_by_id(self, mock_request):
         query = Query(self.client, Tour)
         t = query.get(1234)
         self.assertIsInstance(t, Tour)
 
-    @patch('gapipy.request.APIRequestor._request')
+    @mock.patch('gapipy.request.APIRequestor._request')
     def test_get_instance_with_forbidden_id(self, mock_request):
         response = Response()
         response.status_code = 403
@@ -132,7 +136,7 @@ class QueryTestCase(unittest.TestCase):
             context.exception.response.status_code,
             response.status_code)
 
-    @patch('gapipy.request.APIRequestor._request')
+    @mock.patch('gapipy.request.APIRequestor._request')
     def test_get_instance_with_non_existing_id(self, mock_request):
         response = Response()
         response.status_code = 404
@@ -152,7 +156,7 @@ class QueryTestCase(unittest.TestCase):
             context.exception.response.status_code,
             response.status_code)
 
-    @patch('gapipy.request.APIRequestor._request')
+    @mock.patch('gapipy.request.APIRequestor._request')
     def test_get_instance_with_gone_id(self, mock_request):
         response = Response()
         response.status_code = 410
@@ -172,7 +176,7 @@ class QueryTestCase(unittest.TestCase):
             context.exception.response.status_code,
             response.status_code)
 
-    @patch('gapipy.request.APIRequestor._request')
+    @mock.patch('gapipy.request.APIRequestor._request')
     def test_get_instance_by_id_with_non_404_error(self, mock_request):
         response = Response()
         response.status_code = 401
@@ -194,7 +198,7 @@ class QueryTestCase(unittest.TestCase):
         self.assertIsNone(
             query.get(1234, httperrors_mapped_to_none=[response.status_code]))
 
-    @patch('gapipy.request.APIRequestor._request')
+    @mock.patch('gapipy.request.APIRequestor._request')
     def test_filtered_query_returns_new_object(self, mock_request):
         """
         Arguments passed to .filter() are stored on new (copied) Query instance
@@ -208,7 +212,7 @@ class QueryTestCase(unittest.TestCase):
         self.assertFalse(query is query1)
         self.assertNotEqual(query._filters, query1._filters)
 
-    @patch('gapipy.request.APIRequestor._request')
+    @mock.patch('gapipy.request.APIRequestor._request')
     def test_filtered_query(self, mock_request):
         """
         Arguments passed to .filter() are stored on new (copied) Query instance
@@ -241,7 +245,7 @@ class QueryTestCase(unittest.TestCase):
         query.count()
         self.assertEqual(len(query._filters), 2)
 
-    @patch('gapipy.request.APIRequestor._request')
+    @mock.patch('gapipy.request.APIRequestor._request')
     def test_query_persist_filter_on_count(self, mock_request):
         query = Query(self.client, Tour)
         my_query = query.filter(tour_dossier_code='PPP')
@@ -261,26 +265,26 @@ class QueryTestCase(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, message):
                 Query(self.client, Activity).count()
 
-    @patch('gapipy.request.APIRequestor._request', return_value=DUMMY_PROMOTION)
+    @mock.patch('gapipy.request.APIRequestor._request', return_value=DUMMY_PROMOTION)
     def test_can_retrieve_single_non_listable_resource(self, mock_request):
         Query(self.client, Activity).get(1234)
         mock_request.assert_called_once_with(
             '/activities/1234', 'GET', additional_headers=None)
 
-    @patch('gapipy.request.APIRequestor._request', return_value=DUMMY_DEPARTURE)
+    @mock.patch('gapipy.request.APIRequestor._request', return_value=DUMMY_DEPARTURE)
     def test_can_retrieve_single_subresource_without_parent(self, mock_request):
         Query(self.client, Departure).get(1234)
         mock_request.assert_called_once_with(
             '/departures/1234', 'GET', additional_headers=None)
 
-    @patch('gapipy.request.APIRequestor._request', return_value=TOUR_DOSSIER_LIST_DATA)
+    @mock.patch('gapipy.request.APIRequestor._request', return_value=TOUR_DOSSIER_LIST_DATA)
     def test_count(self, mock_request):
         query = Query(self.client, TourDossier)
         count = query.count()
         self.assertIsInstance(count, int)
         self.assertEqual(count, 3)
 
-    @patch('gapipy.request.APIRequestor._request', return_value=TOUR_DOSSIER_LIST_DATA)
+    @mock.patch('gapipy.request.APIRequestor._request', return_value=TOUR_DOSSIER_LIST_DATA)
     def test_fetch_all(self, mock_request):
 
         query = Query(self.client, TourDossier).all()
@@ -296,7 +300,7 @@ class QueryTestCase(unittest.TestCase):
         mock_request.assert_called_once_with(
             '/tour_dossiers', 'GET', params={})
 
-    @patch('gapipy.request.APIRequestor._request', return_value=TOUR_DOSSIER_LIST_DATA)
+    @mock.patch('gapipy.request.APIRequestor._request', return_value=TOUR_DOSSIER_LIST_DATA)
     def test_fetch_all_with_limit(self, mock_request):
 
         query = Query(self.client, TourDossier).all(limit=2)
@@ -341,7 +345,7 @@ class QueryCacheTestCase(unittest.TestCase):
         self.cache = self.client._cache
         self.cache.clear()
 
-    @patch('gapipy.request.APIRequestor._request', return_value=PPP_TOUR_DATA)
+    @mock.patch('gapipy.request.APIRequestor._request', return_value=PPP_TOUR_DATA)
     def test_resources_are_cached(self, mock_request):
         query = Query(self.client, Tour)
 
@@ -367,10 +371,10 @@ class QueryCacheTestCase(unittest.TestCase):
         query = Query(self.client, Tour)
 
         # act like we already have the data in our cache
-        mock_cache_get = MagicMock(return_value=PPP_TOUR_DATA)
+        mock_cache_get = mock.MagicMock(return_value=PPP_TOUR_DATA)
         self.cache.get = mock_cache_get
 
-        mock_cache_set = MagicMock()
+        mock_cache_set = mock.MagicMock()
         self.cache.set = mock_cache_set
 
         query.get(21346)
@@ -383,7 +387,7 @@ class MockResource(Resource):
     _resource_name = 'mocks'
 
 
-@patch('gapipy.request.APIRequestor._request')
+@mock.patch('gapipy.request.APIRequestor._request')
 class UpdateCreateResourceTestCase(unittest.TestCase):
 
     def setUp(self):
