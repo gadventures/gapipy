@@ -83,7 +83,8 @@ class ResourceTestCase(TestCase):
         # Force a fetch.
         assert t.departures_start_date
 
-        mock_fetch.assert_called_once()
+        self.assertEqual(len(mock_fetch.mock_calls), 1)
+
         self.assertFalse(t.is_stub)
         self.assertEqual(
             t.departures_start_date,

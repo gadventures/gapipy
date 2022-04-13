@@ -49,7 +49,7 @@ class DjangoCacheTestCase(TestCase):
     def test_clear(self):
         """Should delegate 'clear' operation to django cache client."""
         self.client.clear()
-        self.mock_cache.clear.assert_called_once()
+        self.assertEqual(len(self.mock_cache.clear.mock_calls), 1)
 
     def test_delete(self):
         """Should delegate 'delete' operation to django cache client."""
