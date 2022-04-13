@@ -104,15 +104,15 @@ class BaseModel(object):
     def _model_cls(self, field):
         # Find what model class this field is in reference to by plucking it
         # from the set of all fields that allow this type of definition.
-        fields = (
-            self._model_fields
-            + self._model_collection_fields
-            + self._resource_fields
-            + self._resource_collection_fields
-        )
+        fields = (self._model_fields
+                  + self._model_collection_fields
+                  + self._resource_fields
+                  + self._resource_collection_fields)
+
         model_cls = [cls for f, cls in fields if f == field][0]
 
         # FIXME: This will not work for the model_*_fields.
+
         # Python 2 has basestring, Python 3 str
         str_or_base = False
         if sys.version_info.major < 3:
