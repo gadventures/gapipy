@@ -3,7 +3,6 @@
 
 class GapipyException(Exception):
     """Generic base-class for all gapipy exception-types."""
-    pass
 
 
 class EmptyPartialUpdateError(ValueError, GapipyException):
