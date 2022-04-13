@@ -20,12 +20,6 @@ with open("requirements.txt") as reqs:
         if line:
             requirements.append(line.strip("\n"))
 
-test_requirements = [
-    "mock",
-    "nose",
-    "nose-parameterized",
-]
-
 setup(
     name="gapipy",
     version=gapipy.__version__,
@@ -53,6 +47,4 @@ setup(
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
     ],
-    tests_require=test_requirements,
-    test_suite="nose.collector",
 )
