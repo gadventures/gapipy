@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 import json
 import logging
 
+from gapipy.exceptions import EmptyPartialUpdateError
 from gapipy.models.base import BaseModel
 from gapipy.request import APIRequestor
 from gapipy.utils import enforce_string_type
@@ -93,10 +94,19 @@ class Resource(BaseModel):
     def _update(self, partial=False):
         request = APIRequestor(self._client, self)
 
+        # payload to send
         data = self.to_dict()
+
+        # when making a partial (PATCH) request, ensure we only include values
+        # changed on self compared to the initial raw response received from
+        # the G API.
+        #
+        # Added (2.35.0): If the change computed results in an empty data
+        #                 dictionary we'll raise a EmptyPartialUpdateError
         if partial:
-            # .items isn't effecient in Python 2
             data = {k: v for k, v in data.items() if self._raw_data.get(k) != v}
+            if not data:
+                raise EmptyPartialUpdateError
 
         return request.update(self.id, json.dumps(data), partial=partial)
 
@@ -105,13 +115,24 @@ class Resource(BaseModel):
         return request.create(self.to_json())
 
     def save(self, partial=False):
-        # due to the explicit check for `id` in __getattr__, we
-        # need to check the __dict__ directly for the `id`
-        # attribute... 🐔 & 🥚 situation
-        if 'id' in self.__dict__ and self.__dict__['id']:
-            result = self._update(partial=partial)
+        # due to the explicit check for `id` in __getattr__, we need to check
+        # the __dict__ directly for the `id` attribute... 🐔 & 🥚 situation
+
+        # update if we have an `id` value
+        is_update = 'id' in self.__dict__ and self.__dict__['id']
+        if is_update:
+            # Added (2.35.0): we check if a partial update threw an exception
+            #                 and re-raise it if the client has been configured
+            #                 to do so via raise_on_empty_update config option.
+            try:
+                result = self._update(partial=partial)
+            except EmptyPartialUpdateError:
+                if self._client.raise_on_empty_update:
+                    raise
+                return self
         else:
             result = self._create()
-        # set reslt fields as attributes
+
+        # set result fields as attributes
         self._fill_fields(result)
         return self

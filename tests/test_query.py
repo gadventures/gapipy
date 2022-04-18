@@ -6,6 +6,7 @@ from mock import MagicMock, patch
 from requests import HTTPError, Response
 
 from gapipy.client import Client
+from gapipy.exceptions import EmptyPartialUpdateError
 from gapipy.query import Query
 from gapipy.resources import Activity, Departure, Tour, TourDossier
 from gapipy.resources.base import Resource
@@ -470,3 +471,57 @@ class UpdateCreateResourceTestCase(unittest.TestCase):
         mock_request.assert_called_with(
             '/mocks/1', 'PATCH', data=json.dumps(changed))
         self.assertEqual(r.to_dict(), r_data)
+
+    def test_empty_partial_update_object__raise(self, mock_request):
+        """Should raise an EmptyPartialUpdateError."""
+
+        # Configure our client to raise an error in the case of an "empty"
+        # partial update
+        self.client.raise_on_empty_update = True
+
+        # Set up a mock resource with some basic data
+        data = {
+            'first_name': 'Jon',
+            'last_name': 'Ive',
+            'id': 1,
+        }
+        mock_request.return_value = data
+        resource = MockResource(data, client=self.client)
+
+        # Now do a partial-save, without having changed any data -- we should
+        # get an exception here!
+        with self.assertRaises(EmptyPartialUpdateError):
+            resource.save(partial=True)
+
+        # Confirm that no requests have happened
+        self.assertEqual(mock_request.mock_calls, [])
+
+        # Our resource's data remains unchanged
+        self.assertEqual(resource.to_dict(), data)
+
+    def test_empty_partial_update_object__no_raise(self, mock_request):
+        """Should NOT raise an EmptyPartialUpdateError."""
+
+        # Configure our client NOT to raise an error in tehe case of an "empty"
+        # partial update
+        self.client.raise_on_empty_update = False
+
+        # Set up a mock resource with some basic data
+        data = {
+            'first_name': 'Jon',
+            'last_name': 'Ive',
+            'id': 1,
+        }
+        mock_request.return_value = data
+        resource = MockResource(data, client=self.client)
+
+        # Now do a partial-save, without having changed any data -- we should
+        # NOT get an exception here, because of our initial client config.
+        resource.save(partial=True)
+
+        # We will not see any requests -- the empty-update still preempts that
+        # from happening, even when we configure the exception off.
+        self.assertEqual(mock_request.mock_calls, [])
+
+        # Our resource's data remains unchanged
+        self.assertEqual(resource.to_dict(), data)
