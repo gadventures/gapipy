@@ -3,6 +3,35 @@
 History
 =======
 
+2.35.0 (2022-04-18)
+-------------------
+
+* Add new ``Client`` configuration value that will raise an error when an empty
+  partial update (PATCH) payload is computed by gapipy. See `Issue #136`_ and
+  the corresponding `PR #137`_ for more details.
+
+  * The new Client configuration kwarg is ``raise_on_empty_update``, whose
+    default value is ``False``, and can also be set by passing it as an
+    environment variable ``GAPI_CLIENT_RAISE_ON_EMPTY_UPDATE``. If this config
+    value is set, then a call to ``Resource.save`` with ``partial=True`` will
+    raise the new ``EmptyPartialUpdateError`` if an empty payload is computed.
+
+   .. code-block:: python
+
+      from gapipy import Client
+
+      gapi = Client(application_key="your_api_key", raise_on_empty_update=True)
+      departure_service = gapi.departure_services.get(123456)
+
+      # we've changed nothing and are calling a partial save (PATCH)
+      #
+      # NOTE: the new EmptyPartialUpdateError will be raised here
+      departure_service.save(partial=True)
+
+.. _`Issue #136`: https://github.com/gadventures/gapipy/issues/136
+.. _`PR #137`: https://github.com/gadventures/gapipy/pull/137
+
+
 2.34.0 (2021-08-20)
 -------------------
 

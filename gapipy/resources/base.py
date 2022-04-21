@@ -115,20 +115,29 @@ class Resource(BaseModel):
         return request.create(self.to_json())
 
     def save(self, partial=False):
-        # due to the explicit check for `id` in __getattr__, we need to check
-        # the __dict__ directly for the `id` attribute... 🐔 & 🥚 situation
+        """
+        Save the current state of the resource to GAPI. If a new instance, it
+        will result in a POST request to the G API, otherwise depending on the
+        value of partial, will result in a PUT request if partial is `False`
+        otherwise a PATCH request.
+
+        Added (2.35.0): we check if a partial update threw an exception and
+                        re-raise it if the client has been configured to do so
+                        via raise_on_empty_update config option.
+        """
 
         # update if we have an `id` value
+        #
+        # due to the explicit check for `id` in __getattr__, we need to check
+        # the __dict__ directly for the `id` attribute... 🐔 & 🥚 situation
         is_update = 'id' in self.__dict__ and self.__dict__['id']
         if is_update:
-            # Added (2.35.0): we check if a partial update threw an exception
-            #                 and re-raise it if the client has been configured
-            #                 to do so via raise_on_empty_update config option.
             try:
                 result = self._update(partial=partial)
             except EmptyPartialUpdateError:
                 if self._client.raise_on_empty_update:
                     raise
+                # return early to avoid calling _fill_fields unnecessarily
                 return self
         else:
             result = self._create()
