@@ -12,16 +12,16 @@ help:
 	@echo " Make targets"
 	@echo " ------------"
 	@echo
-	@echo " clean-build - remove build artifacts"
-	@echo " clean-pyc   - remove Python file artifacts"
-	@echo " coverage    - check code coverage quickly with the default Python"
-	@echo " dist        - package and check release"
-	@echo " docs        - generate Sphinx HTML documentation, including API docs"
-	@echo " help        - print this help doc"
-	@echo " lint        - check style with flake8"
-	@echo " release     - package and upload a release"
-	@echo " test        - run tests quickly with the default Python"
-	@echo " version     - print the current value of gapipy.__version__"
+	@echo " clean-build  - remove build artifacts"
+	@echo " clean-pyc    - remove Python file artifacts"
+	@echo " coverage     - check code coverage quickly with the default Python"
+	@echo " dist-check   - package and check release"
+	@echo " dist-release - package and upload a release"
+	@echo " docs         - generate Sphinx HTML documentation, including API docs"
+	@echo " help         - print this help doc"
+	@echo " lint         - check style with flake8"
+	@echo " test         - run tests quickly with the default Python"
+	@echo " version      - print the current value of gapipy.__version__"
 	@echo
 
 clean: clean-build clean-pyc
@@ -59,7 +59,7 @@ test:
 
 test-coverage: test coverage
 
-dist: clean version
+dist-check: clean version
 	@python setup.py -q sdist
 	@twine check dist/gapipy-${VERSION}.tar.gz
 
