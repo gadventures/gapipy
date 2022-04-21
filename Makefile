@@ -63,5 +63,5 @@ dist-check: clean version
 	@python setup.py -q sdist
 	@twine check dist/gapipy-${VERSION}.tar.gz
 
-dist-release: clean dist
+dist-release: clean dist-check
 	@twine upload dist/gapipy-$(VERSION).tar.gz
