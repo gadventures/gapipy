@@ -4,8 +4,6 @@ from __future__ import unicode_literals
 import datetime
 from unittest import TestCase
 
-from mock import patch
-
 from gapipy.client import Client
 from gapipy.constants import DATE_FORMAT
 from gapipy.models import AccommodationRoom
@@ -19,6 +17,10 @@ from gapipy.resources.base import Resource
 
 from .fixtures import DUMMY_DEPARTURE, PPP_TOUR_DATA, PPP_DOSSIER_DATA
 
+try:
+    from unittest import mock  # Python 3
+except ImportError:
+    import mock  # Python 2
 
 class ResourceTestCase(TestCase):
 
@@ -44,7 +46,7 @@ class ResourceTestCase(TestCase):
         self.assertEqual(data['date_field'], '2013-02-18')
         self.assertEqual(data['date_field_utc'], '2013-02-18T18:17:20Z')
 
-    @patch('gapipy.request.APIRequestor._request', return_value=PPP_DOSSIER_DATA)
+    @mock.patch('gapipy.request.APIRequestor._request', return_value=PPP_DOSSIER_DATA)
     def test_instantiate_from_raw_data(self, _):
         t = Tour(PPP_TOUR_DATA, client=self.client)
         self.assertIsInstance(t, Tour)
@@ -53,7 +55,7 @@ class ResourceTestCase(TestCase):
         self.assertIsInstance(t.tour_dossier, TourDossier)
         self.assertIsInstance(t.departures, Query)
 
-    @patch('gapipy.request.APIRequestor._request')
+    @mock.patch('gapipy.request.APIRequestor._request')
     def test_populate_stub(self, mock_fetch):
         mock_fetch.return_value = {
             'id': 1,
@@ -81,7 +83,8 @@ class ResourceTestCase(TestCase):
         # Force a fetch.
         assert t.departures_start_date
 
-        mock_fetch.assert_called_once()
+        self.assertEqual(len(mock_fetch.mock_calls), 1)
+
         self.assertFalse(t.is_stub)
         self.assertEqual(
             t.departures_start_date,
@@ -164,7 +167,7 @@ class AccommodationRoomTestCase(TestCase):
 
 
 class PromotionTestCase(TestCase):
-    @patch('gapipy.request.APIRequestor._request')
+    @mock.patch('gapipy.request.APIRequestor._request')
     def test_product_type_is_set_properly(self, mock_request):
         data = {
             'products': [

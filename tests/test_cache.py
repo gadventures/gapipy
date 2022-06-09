@@ -1,9 +1,12 @@
 import time
 from unittest import TestCase, skip, skipUnless
 
-import mock
-
 from gapipy import cache
+
+try:
+    from unittest import mock  # Python 3
+except ImportError:
+    import mock  # Python 2
 
 try:
     from django.test import override_settings
@@ -46,7 +49,7 @@ class DjangoCacheTestCase(TestCase):
     def test_clear(self):
         """Should delegate 'clear' operation to django cache client."""
         self.client.clear()
-        self.mock_cache.clear.assert_called_once()
+        self.assertEqual(len(self.mock_cache.clear.mock_calls), 1)
 
     def test_delete(self):
         """Should delegate 'delete' operation to django cache client."""
