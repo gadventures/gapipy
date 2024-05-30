@@ -3,6 +3,17 @@
 History
 =======
 
+2.36.0 (unreleased)
+-------------------
+
+* Add ``contact_us`` field to the ``AgenchChain`` resource. This field can be
+  ``None``, however should a value be present, it will be an object with three
+  accessible attributes: ``email``, ``phone_number``, and ``website_url``. See
+  the `PR #141`_ for more details.
+
+.. _`PR #141`: https://github.com/gadventures/gapipy/pull/141
+
+
 2.35.0 (2022-04-18)
 -------------------
 

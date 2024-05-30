@@ -2,7 +2,16 @@
 from __future__ import unicode_literals
 
 from gapipy.resources.base import Resource
+from gapipy.resources.base import BaseModel
 from gapipy.resources.booking_company import BookingCompany
+
+
+class ContactUs(BaseModel):
+    _as_is_fields = [
+        "email",
+        "phone_number",
+        "website_url",
+    ]
 
 
 class AgencyChain(Resource):
@@ -24,6 +33,10 @@ class AgencyChain(Resource):
     _date_time_fields_local = [
         "date_created",
         "date_last_modified",
+    ]
+
+    _model_fields = [
+        ("contact_us", ContactUs),
     ]
 
     _resource_fields = [
