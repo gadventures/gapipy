@@ -3,7 +3,7 @@
 History
 =======
 
-2.36.0 (unreleased)
+2.36.0 (2024-05-30)
 -------------------
 
 * Add ``contact_us`` field to the ``AgenchChain`` resource. This field can be
