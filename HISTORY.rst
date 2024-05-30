@@ -50,7 +50,7 @@ History
 * More details can be found in our developer documentation.
   c.f. `Departure travel-ready-policy`_
 
-.. _`Departure travle-ready-policy`: https://developers.gadventures.com/docs/departure.html#travel-ready-policy
+.. _`Departure travel-ready-policy`: https://developers.gadventures.com/docs/departure.html#travel-ready-policy
 
 
 2.33.0 (2021-07-06)
