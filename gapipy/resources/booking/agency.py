@@ -32,6 +32,7 @@ class Agency(Resource):
         'passenger_notifications',
         'agent_notifications',
         'preferred_display_name',
+        'abta_number',
     ]
     _date_time_fields_local = [
         'date_created',
