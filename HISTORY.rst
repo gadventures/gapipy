@@ -3,6 +3,15 @@
 History
 =======
 
+Unreleased (YYYY-MM-DD)
+-----------------------
+
+* Add ``abta_number`` field to the ``Agency`` resource. This field is a string
+  that represents the ABTA number of the agency. See `PR #142`_ for more
+  details.
+
+.. _`PR #142`: https://github.com/gadventures/gapipy/pull/142
+
 2.36.0 (2024-05-30)
 -------------------
 
