@@ -9,13 +9,18 @@ Unreleased (YYYY-MM-DD)
 * Add ``abta_number`` field to the ``Agency`` resource. This field is a string
   that represents the ABTA number of the agency. See `PR #142`_ for more
   details.
+* Add ``primary_country`` field to the ``ActivityDossier`` resource. This field
+  can be ``None``, however should a value be present, it will be an object
+  referencing a ``Country`` resource. See `PR #143`_ for more details.
 
 .. _`PR #142`: https://github.com/gadventures/gapipy/pull/142
+.. _`PR #143`: https://github.com/gadventures/gapipy/pull/143
+
 
 2.36.0 (2024-05-30)
 -------------------
 
-* Add ``contact_us`` field to the ``AgenchChain`` resource. This field can be
+* Add ``contact_us`` field to the ``AgencyChain`` resource. This field can be
   ``None``, however should a value be present, it will be an object with three
   accessible attributes: ``email``, ``phone_number``, and ``website_url``. See
   the `PR #141`_ for more details.
