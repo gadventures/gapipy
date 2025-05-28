@@ -13,6 +13,7 @@ from .itinerary import (
     OptionalActivity,
 )
 from .promotion import Promotion
+from .regional_connector import RegionalConnector
 from .room_upgrade import RoomUpgrade
 from .single_supplement import SingleSupplement
 from .tour import Tour
