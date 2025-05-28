@@ -18,6 +18,7 @@ from .service import (
     FlightService,
     InsuranceService,
     MerchandiseService,
+    RoomUpgradeService,
     SingleSupplementService,
     TransportService,
 )

@@ -12,6 +12,7 @@ from .tour import (
     ItineraryHighlights,
     Merchandise,
     Promotion,
+    RoomUpgrade,
     SingleSupplement,
     Tour,
     TourCategory,
@@ -55,6 +56,7 @@ from .booking import (
     Refund,
     Requirement,
     RequirementSet,
+    RoomUpgradeService,
     Override,
     OverrideReason,
 )
@@ -86,6 +88,7 @@ available_public_resources = [
     'Checkin',
     'Merchandise',
     'Promotion',
+    'RoomUpgrade',
     'SingleSupplement',
     'Tour',
     'TourCategory',
@@ -139,6 +142,7 @@ available_private_resources = [
     'Refund',
     'Requirement',
     'RequirementSet',
+    'RoomUpgradeService',
     'SingleSupplementService',
     'TransportService',
 ]
