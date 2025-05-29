@@ -21,6 +21,8 @@ from gapipy.resources.tour import (
     Accommodation,
     Activity,
     Merchandise,
+    RegionalConnector,
+    RoomUpgrade,
     Transport,
     SingleSupplement,
 )
@@ -116,6 +118,8 @@ class ServiceProduct(Service):
             'activity_services': Activity,
             'merchandise_services': Merchandise,
             'single_supplement_services': SingleSupplement,
+            'regional_connector_services': RegionalConnector,
+            'room_upgrade_services': RoomUpgrade,
         }
         return mapping[self._resource_name]
 
@@ -264,6 +268,23 @@ class MerchandiseService(ServiceProduct):
             ('associated_services', AssociatedService),
         ])
 
+class RegionalConnectorService(ServiceProduct):
+    _resource_name = 'regional_connector_services'
+
+    @property
+    def _model_collection_fields(self):
+        return (super(RegionalConnectorService, self)._model_collection_fields + [
+            ('associated_services', AssociatedService),
+        ])
+
+class RoomUpgradeService(ServiceProduct):
+    _resource_name = 'room_upgrade_services'
+
+    @property
+    def _model_collection_fields(self):
+        return (super(RoomUpgradeService, self)._model_collection_fields + [
+            ('associated_services', AssociatedService),
+        ])
 
 class SingleSupplementService(ServiceProduct):
     _resource_name = 'single_supplement_services'

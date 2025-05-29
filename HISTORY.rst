@@ -3,6 +3,15 @@
 History
 =======
 
+
+Unreleased (YYYY-MM-DD)
+-----------------------
+
+* Add new resources for "room upgrade" and "regional connector" products: ``room_upgrades``, ``room_upgrade_services``, ``regional_connectors``, and ``regional_connectors_services``. See `PR #143`_ for more details.
+
+.. _`PR #143`: https://github.com/gadventures/gapipy/pull/143
+
+
 2.37.0 (2025-02-19)
 -------------------
 
