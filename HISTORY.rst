@@ -3,6 +3,14 @@
 History
 =======
 
+2.39.0-rc1 (2025-08-14)
+-----------------------
+
+* Remove ``costs`` and ``has_costs`` fields from the ``AccommodationDossier``
+  and ``ActivityDossier`` resources
+* Moves the ``AccommodationDossier.features`` field from the as-is-fields to
+  the model-collection-fields as references to the ``DossierFeature`` resource.
+
 
 2.38.0 (2025-05-29)
 -------------------
