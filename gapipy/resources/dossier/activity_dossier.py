@@ -42,6 +42,7 @@ class ActivityDossier(Resource, DossierDetailsMixin, DurationLabelMixin, Locatio
     _resource_fields = [
         ('start_location', 'Place'),
         ('end_location', 'Place'),
+        ('primary_country', 'Country'),
     ]
 
     _model_collection_fields = [
