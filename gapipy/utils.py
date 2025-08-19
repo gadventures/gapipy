@@ -198,6 +198,7 @@ def compute_request_signature(app_key, request_body):
         encode_if_not_bytes(request_body),
         hashlib.sha256).hexdigest()
 
+
 def compute_webhook_validation_key(app_key):
     """
     Given an application key, compute the SHA256 hex digest (aka "Webhooks
