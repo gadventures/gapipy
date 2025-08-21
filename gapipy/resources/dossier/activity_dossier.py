@@ -18,7 +18,6 @@ class ActivityDossier(Resource, DossierDetailsMixin, DurationLabelMixin, Locatio
         'href',
         'name',
         'type',
-        'costs',
         'currency',
         'distance_max',
         'distance_min',
@@ -26,7 +25,6 @@ class ActivityDossier(Resource, DossierDetailsMixin, DurationLabelMixin, Locatio
         'duration_max',
         'duration_min',
         'flags',
-        'has_costs',
         'physical_grading',
         'price_per_group_max',
         'price_per_group_min',
@@ -44,6 +42,7 @@ class ActivityDossier(Resource, DossierDetailsMixin, DurationLabelMixin, Locatio
     _resource_fields = [
         ('start_location', 'Place'),
         ('end_location', 'Place'),
+        ('primary_country', 'Country'),
     ]
 
     _model_collection_fields = [

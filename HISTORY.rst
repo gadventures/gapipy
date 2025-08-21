@@ -3,11 +3,24 @@
 History
 =======
 
+2.39.0-rc1 (2025-08-19)
+-----------------------
+
+* Remove ``costs`` and ``has_costs`` fields from the ``AccommodationDossier``
+  and ``ActivityDossier`` resources.
+* Moves the ``AccommodationDossier.features`` field from the as-is-fields to
+  the model-collection-fields as references to the ``DossierFeature`` resource.
+* Expose the ``primary_country`` field on the ``ActivityDossier`` resource.
+  This references the ``Country`` resource.
+* See `PR #145`_ for more details.
+
+.. _`PR #145`: https://github.com/gadventures/gapipy/pull/145
+
 
 2.38.0 (2025-05-29)
 -------------------
 
-* Add new resources for "room upgrade" and "regional connector" products: 
+* Add new resources for "room upgrade" and "regional connector" products:
   ``room_upgrades``, ``room_upgrade_services``, ``regional_connectors``, and
   ``regional_connectors_services``. See `PR #143`_ for more details.
 

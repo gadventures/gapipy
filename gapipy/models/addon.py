@@ -14,8 +14,9 @@ class AddOn(BaseModel, RelatedResourceMixin):
     def __repr__(self):
         return '<{0} ({1})>'.format(self.__class__.__name__, self.product.name)
 
-    # product is marked as as-is, so we can turn it into a dynamically-typed resource, based on product['type']
-    # Is there a better way?
+    # product is marked as as-is, so we can turn it into a dynamically-typed
+    # resource, based on product['type'].
+    # TODO(ammaar): Is there a better way?
     def _fill_fields(self, data):
         super(AddOn, self)._fill_fields(data)
         r = {
