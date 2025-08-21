@@ -3,8 +3,8 @@
 History
 =======
 
-2.39.0-rc1 (2025-08-19)
------------------------
+2.39.0 (2025-08-21)
+-------------------
 
 * Remove ``costs`` and ``has_costs`` fields from the ``AccommodationDossier``
   and ``ActivityDossier`` resources.
