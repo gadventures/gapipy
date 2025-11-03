@@ -61,7 +61,7 @@ class Query(object):
         )
 
     def get(self, resource_id, variation_id=None, cached=True, headers=None,
-            httperrors_mapped_to_none=HTTPERRORS_MAPPED_TO_NONE):
+            httperrors_mapped_to_none=HTTPERRORS_MAPPED_TO_NONE, timeout=None):
         """
         Returns an instance of the query resource with the given `resource_id`
         (and optional `variation_id`).
@@ -78,13 +78,17 @@ class Query(object):
         allow all raised `HTTPErrors` to escape this method, you can pass
         something Falsey as `httperrors_mapped_to_none` like a `None` or an
         empty list.
+
+        If the timeout is provided, force the request to timeout after
+        provided number of seconds.
         """
         try:
             data = self.get_resource_data(
                 resource_id,
                 variation_id=variation_id,
                 cached=cached,
-                headers=headers
+                headers=headers,
+                timeout=timeout
             )
         except HTTPError as e:
             if httperrors_mapped_to_none and e.response.status_code in httperrors_mapped_to_none:
@@ -93,7 +97,7 @@ class Query(object):
         resource_object = self.resource(data, client=self._client)
         return resource_object
 
-    def get_resource_data(self, resource_id, variation_id=None, cached=True, headers=None):
+    def get_resource_data(self, resource_id, variation_id=None, cached=True, headers=None, timeout=None):
         """
         Returns a dictionary of resource data, which is used to initialize
         a Resource object in the `get` method.
@@ -107,7 +111,7 @@ class Query(object):
 
         # Cache miss; get fresh data from the backend, set in cache
         requestor = APIRequestor(self._client, self.resource)
-        out = requestor.get(resource_id, variation_id=variation_id, headers=headers)
+        out = requestor.get(resource_id, variation_id=variation_id, headers=headers, timeout=timeout)
         if out is not None:
             self._client._cache.set(key, out)
         self._filters = {}

@@ -13,3 +13,6 @@ class EmptyPartialUpdateError(ValueError, GapipyException):
             args = ("gapipy computed no changes for partial update",)
 
         super(EmptyPartialUpdateError, self).__init__(*args)
+
+class TimeoutError(GapipyException):
+    """A request was made that has timed out."""

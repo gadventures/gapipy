@@ -2,10 +2,13 @@ import sys
 from uuid import uuid1
 
 from future.moves.urllib.parse import urlparse
+from future.utils import raise_from
+import requests.exceptions
 
 from gapipy.constants import ACCEPTABLE_RESPONSE_STATUS_CODES
 from gapipy.constants import ALLOWED_METHODS
 from gapipy.constants import JSON_CONTENT_TYPE
+from gapipy.exceptions import TimeoutError
 
 from . import __title__, __version__
 
@@ -18,7 +21,7 @@ class APIRequestor(object):
         self.params = params
         self.parent = parent
 
-    def _request(self, uri, method, data=None, params=None, additional_headers=None):
+    def _request(self, uri, method, data=None, params=None, additional_headers=None, timeout=None):
         """Make an HTTP request to a target API method with proper headers."""
 
         assert method in ALLOWED_METHODS, "Only {} are allowed.".format(', '.join(ALLOWED_METHODS))
@@ -28,7 +31,7 @@ class APIRequestor(object):
             if not params:
                 params = {}
             params['uuid'] = str(uuid1())
-        response = self._make_call(method, url, headers, data, params)
+        response = self._make_call(method, url, headers, data, params, timeout)
         return response
 
     def _get_url(self, uri):
@@ -82,7 +85,7 @@ class APIRequestor(object):
 
         return headers
 
-    def _make_call(self, method, url, headers, data, params):
+    def _make_call(self, method, url, headers, data, params, timeout):
         """Make the actual request to the API, using the given URL, headers,
         data and extra parameters.
         """
@@ -90,7 +93,13 @@ class APIRequestor(object):
 
         self.client.logger.debug('Making a {0} request to {1}'.format(method, url))
 
-        response = requests_call(url, headers=headers, data=data, params=params)
+        try:
+            response = requests_call(url, headers=headers, data=data, params=params, timeout=timeout)
+        except requests.exceptions.Timeout as exc:
+            if timeout is not None:
+                raise_from(TimeoutError, exc)
+            raise
+
         if response.status_code in ACCEPTABLE_RESPONSE_STATUS_CODES:
             return response.json()
         else:
@@ -118,7 +127,7 @@ class APIRequestor(object):
         """
         return self._request('/{0}'.format(self._get_uri()), 'OPTIONS')
 
-    def get(self, resource_id=None, uri=None, variation_id=None, headers=None):
+    def get(self, resource_id=None, uri=None, variation_id=None, headers=None, timeout=None):
         """
         Get a single resource with the given resource_id or uri
 
@@ -134,7 +143,7 @@ class APIRequestor(object):
         if variation_id:
             components.append(str(variation_id))
         uri = '/'.join(components)
-        return self._request(uri, 'GET', additional_headers=headers)
+        return self._request(uri, 'GET', additional_headers=headers, timeout=timeout)
 
     def update(self, resource_id, data, partial=True, uri=None):
         """

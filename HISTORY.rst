@@ -3,6 +3,14 @@
 History
 =======
 
+2.41.0 (2025-11-25)
+-------------------
+
+* Add `gapipy.exceptions.TimeoutError` which can be raised when the `timeout` parameter is passed to `Query.get`
+
+.. _`PR #146`: https://github.com/gadventures/gapipy/pull/146
+
+
 2.40.0 (2025-11-06)
 -------------------
 

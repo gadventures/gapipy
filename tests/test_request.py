@@ -1,7 +1,9 @@
 import sys
 import unittest
+import requests
 
 from gapipy.client import Client
+from gapipy.exceptions import TimeoutError
 from gapipy.models.base import _Parent
 from gapipy.request import APIRequestor
 
@@ -28,7 +30,7 @@ class APIRequestorTestCase(unittest.TestCase):
     def test_get_resource_by_id(self, mock_request):
         requestor = APIRequestor(self.client, self.resources)
         requestor.get(1234)
-        mock_request.assert_called_once_with('/resources/1234', 'GET', additional_headers=None)
+        mock_request.assert_called_once_with('/resources/1234', 'GET', additional_headers=None, timeout=None)
 
     @mock.patch('gapipy.request.APIRequestor._request')
     def test_get_with_null_resource_id_and_uri_raises_error(self, mock_request):
@@ -45,7 +47,7 @@ class APIRequestorTestCase(unittest.TestCase):
     def test_get_with_falsy_resource_id_does_not_raise_error(self, mock_request):
         requestor = APIRequestor(self.client, self.resources)
         requestor.get(0)
-        mock_request.assert_called_once_with('/resources/0', 'GET', additional_headers=None)
+        mock_request.assert_called_once_with('/resources/0', 'GET', additional_headers=None, timeout=None)
 
     @mock.patch('gapipy.request.APIRequestor._request')
     def test_list_resource(self, mock_request):
@@ -114,7 +116,7 @@ class APIRequestorTestCase(unittest.TestCase):
         self.client.uuid = True
         requestor = APIRequestor(self.client, self.resources)
         requestor.list_raw()
-        params_arg = mock_make_call.call_args[0][-1]
+        params_arg = mock_make_call.call_args[0][-2]
         self.assertTrue('uuid' in params_arg)
 
     @mock.patch('gapipy.request.APIRequestor._make_call')
@@ -123,7 +125,7 @@ class APIRequestorTestCase(unittest.TestCase):
         requestor = APIRequestor(self.client, self.resources)
         requestor.params = {'test': '1234'}
         requestor.list_raw()
-        params_arg = mock_make_call.call_args[0][-1]
+        params_arg = mock_make_call.call_args[0][-2]
         self.assertEqual(params_arg['test'], '1234')
         self.assertTrue('uuid' in params_arg)
 
@@ -200,3 +202,15 @@ class APIRequestorTestCase(unittest.TestCase):
         # ... but we still other header values from the config that do not
         # collide with headers gapipy writes
         self.assertEqual(request_headers['X-Zoidberg'], header_value)
+
+    @mock.patch('gapipy.request.APIRequestor._request', side_effect=TimeoutError)
+    def test_api_requestor_gapipy_timeout_error_is_raised(self, mock_request):
+        requestor = APIRequestor(self.client, self.resources)
+        with self.assertRaises(TimeoutError):
+            requestor._request('/foo', 'GET')
+
+    @mock.patch('gapipy.request.APIRequestor._request', side_effect=requests.exceptions.Timeout)
+    def test_api_requestor_requests_timeout_is_raised(self, mock_request):
+        requestor = APIRequestor(self.client, self.resources)
+        with self.assertRaises(requests.exceptions.Timeout):
+            requestor._request('/foo', 'GET')

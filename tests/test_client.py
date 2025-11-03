@@ -128,4 +128,3 @@ class ClientTestCase(unittest.TestCase):
         https_retries = client_with_retries.requestor.adapters['https://'].max_retries.total
 
         self.assertEqual(https_retries, expected_retries)
-
