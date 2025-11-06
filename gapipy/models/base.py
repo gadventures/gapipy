@@ -40,6 +40,19 @@ class BaseModel(object):
         self._fill_fields(data)
 
     def _fill_fields(self, data):
+        """
+        Populates this objects fields based on the provided data dict.
+        """
+        # we _must_ do a deepcopy here, as _fill_fields is also called in
+        # Resource.save(), where the object instance is updated with new
+        # data returned as a result of the save operation to GAPI.
+        #
+        # The _better_ way to handle this would be to return a new instance of
+        # the object from save(), in keeping with the concept of immutability,
+        # but that would be a breaking change
+        self._raw_data = deepcopy(data)
+
+        # proceed to fill the fields
         first = lambda l: [pair[0] for pair in l]
 
         # Initially we populate base fields, as model/resource fields may rely
