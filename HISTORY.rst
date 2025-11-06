@@ -3,6 +3,19 @@
 History
 =======
 
+2.40.0-rc1 (2025-11-06)
+-----------------------
+
+* HOTFIX for 2.39.0: Reverts the removal of the `self._raw_data = deepcopy(data)`
+  in ``BaseModel._fill_fields``. This line is necessary to ensure that the
+  ``_raw_data`` attribute is updated with new data returned as a result of the
+  request made in ``Resource.save()``. This bug was introduced in `PR #145`_.
+* NOTE: All other changes in 2.39.0 will remain.
+* See `PR #147`_ for more details.
+
+.. _`PR #147`: https://github.com/gadventures/gapipy/pull/147
+
+
 2.39.0 (2025-08-21)
 -------------------
 
