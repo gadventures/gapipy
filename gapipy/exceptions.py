@@ -11,8 +11,8 @@ class EmptyPartialUpdateError(ValueError, GapipyException):
         """Initialize with a default message if the caller hasn't supplied anything."""
         if not args:
             args = ("gapipy computed no changes for partial update",)
-
         super(EmptyPartialUpdateError, self).__init__(*args)
+
 
 class TimeoutError(GapipyException):
     """A request was made that has timed out."""
