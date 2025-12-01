@@ -3,9 +3,10 @@ import sys
 import unittest
 
 from requests import HTTPError, Response
+import requests.exceptions
 
 from gapipy.client import Client
-from gapipy.exceptions import EmptyPartialUpdateError
+from gapipy.exceptions import EmptyPartialUpdateError, TimeoutError
 from gapipy.query import Query
 from gapipy.resources import Activity, Departure, Tour, TourDossier
 from gapipy.resources.base import Resource
@@ -270,13 +271,13 @@ class QueryTestCase(unittest.TestCase):
     def test_can_retrieve_single_non_listable_resource(self, mock_request):
         Query(self.client, Activity).get(1234)
         mock_request.assert_called_once_with(
-            '/activities/1234', 'GET', additional_headers=None)
+            '/activities/1234', 'GET', additional_headers=None, timeout=None)
 
     @mock.patch('gapipy.request.APIRequestor._request', return_value=DUMMY_DEPARTURE)
     def test_can_retrieve_single_subresource_without_parent(self, mock_request):
         Query(self.client, Departure).get(1234)
         mock_request.assert_called_once_with(
-            '/departures/1234', 'GET', additional_headers=None)
+            '/departures/1234', 'GET', additional_headers=None, timeout=None)
 
     @mock.patch('gapipy.request.APIRequestor._request', return_value=TOUR_DOSSIER_LIST_DATA)
     def test_count(self, mock_request):
@@ -529,3 +530,32 @@ class UpdateCreateResourceTestCase(unittest.TestCase):
 
         # Our resource's data remains unchanged
         self.assertEqual(resource.to_dict(), data)
+
+class QueryTimeoutTestCase(unittest.TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        self.query = Query(self.client, MockResource)
+
+    @mock.patch('requests.sessions.Session.request', side_effect=requests.exceptions.Timeout)
+    def test_get_raises_gapipy_timeout_when_timeout_is_set(self, mock_request_call):
+        """
+        When a timeout occurs and the `timeout` parameter was provided,
+        a `TimeoutError` should be raised.
+        """
+        with self.assertRaises(TimeoutError):
+            self.query.get(resource_id=1, timeout=0.001)
+
+        # We can still assert that the call was made with the correct timeout
+        # The mock is called with (method, url, params, data, headers, ... timeout)
+        # Check the kwargs for the timeout.
+        self.assertEqual(mock_request_call.call_args[1]['timeout'], 0.001)
+
+    @mock.patch('requests.sessions.Session.request', side_effect=requests.exceptions.Timeout)
+    def test_get_raises_requests_timeout_when_timeout_is_not_set(self, mock_request_call):
+        """
+        When a timeout occurs but the `timeout` parameter was not provided,
+        the original `requests.exceptions.Timeout` should be raised.
+        """
+        with self.assertRaises(requests.exceptions.Timeout):
+            self.query.get(resource_id=1) # No timeout parameter
