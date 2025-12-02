@@ -3,10 +3,26 @@
 History
 =======
 
-2.41.0 (2025-11-25)
+2.41.0 (2025-12-02)
 -------------------
 
-* Add `gapipy.exceptions.TimeoutError` which can be raised when the `timeout` parameter is passed to `Query.get`
+* Add `gapipy.exceptions.TimeoutError`, which can be raised when the optional
+  `timeout` parameter is passed to `Query.get`. Without providing the `timeout`
+  parameter, the default behaviour remains unchanged, where a `requests`
+  Timeout exception is raised.
+* See `PR #146`_ for more details.
+
+  .. code-block:: python
+
+    from gapipy import Client
+
+    gapi = Client(application_key="your_api_key")
+    try:
+        departure_service = gapi.departure_services.get(123456, timeout=1)
+    except gapi.exceptions.TimeoutError:
+        # handle exception
+    else:
+        ... # success
 
 .. _`PR #146`: https://github.com/gadventures/gapipy/pull/146
 
