@@ -13,3 +13,4 @@ class BookingCompany(Resource):
         'href',
         'name',
     ]
+    _date_time_fields_utc = ['date_last_modified']
