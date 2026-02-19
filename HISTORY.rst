@@ -3,6 +3,15 @@
 History
 =======
 
+2.42.0 (2026-02-19)
+-------------------
+
+* Adds ``date_last_modified`` field to the ``BookingCompany`` resource.
+* See `PR #149`_ for more details.
+
+.. _`PR #149`: https://github.com/gadventures/gapipy/pull/149
+
+
 2.41.0 (2025-12-02)
 -------------------
 
