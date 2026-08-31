@@ -3,6 +3,17 @@
 History
 =======
 
+2.43.0 (2026-08-31)
+-------------------
+
+* Adds ``applied_promotions`` field to the ``Service`` resource, supporting
+  multiple promotions applied to a service. The singular ``applied_promotion``
+  field is retained for backwards compatibility.
+* See `PR #150`_ for more details.
+
+.. _`PR #150`: https://github.com/gadventures/gapipy/pull/150
+
+
 2.42.0 (2026-02-19)
 -------------------
 
