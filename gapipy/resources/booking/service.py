@@ -61,6 +61,7 @@ class Service(with_metaclass(TypeBasedServiceMeta, Resource)):
             'type',
             'sub_type',
             'applied_promotion',
+            'applied_promotions',
             'flags',
             'status',
             'status_transitions',
