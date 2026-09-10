@@ -17,6 +17,7 @@ default_config = {
     'api_root': os.environ.get('GAPI_API_ROOT', 'https://rest.gadventures.com'),
     'application_key': os.environ.get('GAPI_APPLICATION_KEY'),
     'cache_backend': os.environ.get('GAPI_CACHE_BACKEND', 'gapipy.cache.NullCache'),
+    'async_cache_backend': os.environ.get('GAPI_ASYNC_CACHE_BACKEND', 'gapipy.async_cache.AsyncNullCache'),
     'cache_options': {'threshold': 500, 'default_timeout': 3600},
     'connection_pool_options': {
         'enable': os.environ.get('GAPI_CLIENT_CONNECTION_POOL_ENABLE', False),

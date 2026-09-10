@@ -33,6 +33,9 @@ setup(
     package_dir={"gapipy": "gapipy"},
     include_package_data=True,
     install_requires=requirements,
+    extras_require={
+        "redis-async": ["redis>=5.0"],
+    },
     python_requires=">=3.11",
     license="MIT",
     zip_safe=False,

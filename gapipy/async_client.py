@@ -1,6 +1,7 @@
 """Async gapipy client. `httpx.AsyncClient(http2=True)` transport by default."""
 import inspect
 from copy import deepcopy
+from importlib import import_module
 from typing import Optional
 from urllib.parse import urlparse
 
@@ -109,6 +110,32 @@ class AsyncQuery(object):
     def __aiter__(self):
         return self.all()
 
+    async def afirst(self):
+        """First result or None."""
+        async for item in self.all(limit=1):
+            return item
+        return None
+
+    async def acount(self):
+        """Total count reported by GAPI on the first list page."""
+        requestor = AsyncAPIRequestor(
+            self._client, self.resource, params=self._filters, parent=self.parent,
+        )
+        page = await requestor.list_raw()
+        return page.get("count")
+
+    async def aexists(self):
+        """True if the query has at least one result. Short-circuits after first page."""
+        requestor = AsyncAPIRequestor(
+            self._client, self.resource, params=self._filters, parent=self.parent,
+        )
+        page = await requestor.list_raw()
+        return bool(page.get("results"))
+
+    async def alist(self, limit=None):
+        """Materialize the async generator into a list."""
+        return [item async for item in self.all(limit=limit)]
+
     async def all(self, limit=None):
         """Async generator hydrating every record across every page."""
         if limit is not None:
@@ -136,7 +163,16 @@ class AsyncClient(_BaseClient):
         self._load_common_config(config)
         self._init_seams()
         self._httpx = httpx.AsyncClient(http2=http2, transport=transport)
+        self._set_cache_instance(
+            get_config(config, 'async_cache_backend'),
+            get_config(config, 'cache_options'),
+        )
         self._attach_queries(AsyncQuery)
+
+    def _set_cache_instance(self, backend_path, cache_options):
+        module_name, class_name = backend_path.rsplit('.', 1)
+        cache_cls = getattr(import_module(module_name), class_name)
+        self._cache = cache_cls(**cache_options)
 
     async def aclose(self):
         await self._httpx.aclose()
