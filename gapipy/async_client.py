@@ -1,4 +1,5 @@
 """Async gapipy client. `httpx.AsyncClient(http2=True)` transport by default."""
+import inspect
 from typing import Optional
 
 import httpx
@@ -25,7 +26,9 @@ class AsyncAPIRequestor(_BaseAPIRequestor):
             raise
 
         for callback in self.client._response_callbacks:
-            callback(response)
+            result = callback(response)
+            if inspect.isawaitable(result):
+                await result
 
         if response.status_code in ACCEPTABLE_RESPONSE_STATUS_CODES:
             return response.json()
