@@ -136,6 +136,14 @@ class BaseModel(object):
             if isinstance(model_cls, str):
                 str_or_base = True
         if str_or_base:
+            # Prefer the client's per-instance registry so extension packages
+            # can register their own resources without patching the shim.
+            client = getattr(self, "_client", None)
+            if client is not None:
+                try:
+                    return client.get_resource_class_by_name(model_cls)
+                except KeyError:
+                    pass
             model_cls = get_resource_class_from_class_name(model_cls)
         return model_cls
 
