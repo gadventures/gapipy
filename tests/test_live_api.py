@@ -7,12 +7,6 @@ from unittest import TestCase
 import pytest
 from parameterized import parameterized
 
-integration = pytest.mark.integration
-
-
-def attr(_name):
-    return integration
-
 from gapipy.client import Client
 from gapipy.resources import (
     Accommodation,
@@ -51,7 +45,7 @@ from gapipy.resources import (
 )
 
 
-@attr('integration')
+@pytest.mark.integration
 class TourTestCase(TestCase):
 
     @classmethod
@@ -62,7 +56,7 @@ class TourTestCase(TestCase):
         self.tour = TourTestCase.tour
 
 
-@attr('integration')
+@pytest.mark.integration
 class TourDossierTestCase(TestCase):
 
     @classmethod
@@ -105,7 +99,7 @@ class TourDossierTestCase(TestCase):
             self.assertIsInstance(category, str)
 
 
-@attr('integration')
+@pytest.mark.integration
 class LiveAPITestCase(TestCase):
 
     resources = [

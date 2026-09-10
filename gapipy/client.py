@@ -50,6 +50,11 @@ def get_config(config, name):
 
 class Client(object):
 
+    @classmethod
+    def register_config_defaults(cls, defaults):
+        """Merge keys into default_config; applies to future Clients only."""
+        default_config.update(defaults)
+
     def __init__(self, **config):
         # configuration attributes
         self.api_language = get_config(config, 'api_language')
@@ -78,12 +83,30 @@ class Client(object):
         # set the requestor
         self._set_requestor(self.connection_pool_options, self.max_retries)
 
+        # Extension seams.
+        self._resource_registry = {}
+        self._response_callbacks = []
+
         # Prevent install issues where setup.py digs down the path and
         # eventually fails on a missing requests requirement by importing Query
         # only where it's needed.
         from .query import Query
         for resource in get_available_resource_classes():
+            self.register_resource(resource)
             setattr(self, resource._resource_name, Query(self, resource))
+
+    def register_resource(self, resource_cls):
+        """Register a resource class, keyed by both class name and _resource_name."""
+        self._resource_registry[resource_cls.__name__] = resource_cls
+        self._resource_registry[resource_cls._resource_name] = resource_cls
+
+    def get_resource_class_by_name(self, name):
+        """Resolve a resource class by class name or _resource_name."""
+        return self._resource_registry[name]
+
+    def on_response(self, callback):
+        """Register a post-response callback fired with the raw Response."""
+        self._response_callbacks.append(callback)
 
     def _set_cache_instance(self, cache_options):
         cache_backend = self.cache_backend

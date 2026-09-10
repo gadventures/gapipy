@@ -101,6 +101,8 @@ class APIRequestor(object):
             # otherwise re-raise the original exception
             raise
         else:
+            for callback in self.client._response_callbacks:
+                callback(response)
             if response.status_code in ACCEPTABLE_RESPONSE_STATUS_CODES:
                 return response.json()
             # raise error if non 4xx or 5xx response status
