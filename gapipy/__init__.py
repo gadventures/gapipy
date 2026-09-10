@@ -5,3 +5,4 @@ __title__ = "gapipy"
 __version__ = "2.42.0"
 
 from .client import Client  # noqa
+from .async_client import AsyncClient  # noqa

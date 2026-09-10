@@ -48,52 +48,29 @@ def get_config(config, name):
     return config.get(name, default_config[name])
 
 
-class Client(object):
+class _BaseClient(object):
+    """Shared extension seams and common config for sync + async Clients."""
 
     @classmethod
     def register_config_defaults(cls, defaults):
         """Merge keys into default_config; applies to future Clients only."""
         default_config.update(defaults)
 
-    def __init__(self, **config):
-        # configuration attributes
+    def _init_seams(self):
+        """Initialize the registry + callback lists. Call from subclass __init__."""
+        self._resource_registry = {}
+        self._response_callbacks = []
+
+    def _load_common_config(self, config):
+        """Read the config keys sync and async Clients share."""
         self.api_language = get_config(config, 'api_language')
         self.api_proxy = get_config(config, 'api_proxy')
         self.api_root = get_config(config, 'api_root')
         self.application_key = get_config(config, 'application_key')
-        self.cache_backend = get_config(config, 'cache_backend')
         self.global_http_headers = get_config(config, 'global_http_headers')
         self.max_retries = get_config(config, 'max_retries')
         self.raise_on_empty_update = get_config(config, 'raise_on_empty_update')
         self.uuid = get_config(config, 'uuid')
-
-        # begin with default connection pool options and override them with
-        # the configuration options the client has specified
-        self.connection_pool_options = default_config['connection_pool_options']
-        self.connection_pool_options.update(get_config(config, 'connection_pool_options'))
-
-        # init logger
-        log_level = 'DEBUG' if get_config(config, 'debug') else 'ERROR'
-        self.logger = logger
-        self.logger.setLevel(log_level)
-
-        # init cache
-        self._set_cache_instance(get_config(config, 'cache_options'))
-
-        # set the requestor
-        self._set_requestor(self.connection_pool_options, self.max_retries)
-
-        # Extension seams.
-        self._resource_registry = {}
-        self._response_callbacks = []
-
-        # Prevent install issues where setup.py digs down the path and
-        # eventually fails on a missing requests requirement by importing Query
-        # only where it's needed.
-        from .query import Query
-        for resource in get_available_resource_classes():
-            self.register_resource(resource)
-            setattr(self, resource._resource_name, Query(self, resource))
 
     def register_resource(self, resource_cls):
         """Register a resource class, keyed by both class name and _resource_name."""
@@ -107,6 +84,38 @@ class Client(object):
     def on_response(self, callback):
         """Register a post-response callback fired with the raw Response."""
         self._response_callbacks.append(callback)
+
+    def _attach_queries(self, query_cls):
+        """Register built-in resources and hang a `query_cls` per resource off `self`."""
+        for resource in get_available_resource_classes():
+            self.register_resource(resource)
+            setattr(self, resource._resource_name, query_cls(self, resource))
+
+
+class Client(_BaseClient):
+
+    def __init__(self, **config):
+        self._load_common_config(config)
+        self.cache_backend = get_config(config, 'cache_backend')
+
+        # begin with default connection pool options and override them with
+        # the configuration options the client has specified
+        self.connection_pool_options = default_config['connection_pool_options']
+        self.connection_pool_options.update(get_config(config, 'connection_pool_options'))
+
+        log_level = 'DEBUG' if get_config(config, 'debug') else 'ERROR'
+        self.logger = logger
+        self.logger.setLevel(log_level)
+
+        self._set_cache_instance(get_config(config, 'cache_options'))
+        self._set_requestor(self.connection_pool_options, self.max_retries)
+
+        self._init_seams()
+
+        # Import Query lazily — top-level import breaks some CI environments
+        # where `requests` isn't yet installed during setup.py discovery.
+        from .query import Query
+        self._attach_queries(Query)
 
     def _set_cache_instance(self, cache_options):
         cache_backend = self.cache_backend

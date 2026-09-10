@@ -12,13 +12,54 @@ from gapipy.exceptions import TimeoutError
 from . import __title__, __version__
 
 
-class APIRequestor(object):
+class _BaseAPIRequestor(object):
+    """Transport-agnostic URL, URI, and header construction."""
 
     def __init__(self, client, resource, params=None, parent=None):
         self.client = client
         self.resource = resource
         self.params = params
         self.parent = parent
+
+    def _get_uri(self):
+        """Return the URI for the resource being requested."""
+        if isinstance(self.resource, str):
+            return self.resource
+        if self.resource._uri:
+            return self.resource._uri
+        return self.resource._resource_name
+
+    def _get_url(self, uri):
+        """Return the full URL to make a request to for the given `uri`."""
+        if '://' in uri:
+            url = uri
+        else:
+            url = self.client.api_root + uri
+        # Strip out the proxy from the url. The client only wants to return urls
+        # with the API_PROXY, but not actually query on them.
+        if self.client.api_proxy:
+            url = url.replace(self.client.api_proxy, '')
+        return url
+
+    def _get_headers(self, method, additional_headers):
+        """Return the HTTP headers for a request."""
+        headers = {}
+        if self.client.global_http_headers:
+            headers.update(self.client.global_http_headers)
+        headers['User-Agent'] = '{0}/{1}'.format(__title__, __version__)
+        headers['X-Application-Key'] = self.client.application_key
+        if method in ('POST', 'PUT', 'PATCH'):
+            headers['Content-Type'] = JSON_CONTENT_TYPE
+        if self.client.api_language:
+            headers['Accept-Language'] = self.client.api_language
+        if additional_headers:
+            headers.update(additional_headers)
+        if self.client.api_proxy:
+            headers['X-Api-Proxy'] = self.client.api_proxy
+        return headers
+
+
+class APIRequestor(_BaseAPIRequestor):
 
     def _request(self, uri, method, data=None, params=None, additional_headers=None, timeout=None):
         """Make an HTTP request to a target API method with proper headers."""
@@ -32,57 +73,6 @@ class APIRequestor(object):
             params['uuid'] = str(uuid1())
         response = self._make_call(method, url, headers, data, params, timeout)
         return response
-
-    def _get_url(self, uri):
-        """Return the full URL to make a request to for the given `uri`"""
-
-        # Support supplying a full url
-        if '://' in uri:
-            url = uri
-        else:
-            url = self.client.api_root + uri
-
-        # Strip out the proxy from the url. The client only wants to return urls
-        # with the API_PROXY, but not actually query on them.
-        api_proxy = self.client.api_proxy
-        if api_proxy:
-            url = url.replace(api_proxy, '')
-
-        return url
-
-    def _get_headers(self, method, additional_headers):
-        """Return a dictionary of HTTP headers to set on the request to the API."""
-
-        # Start with an empty collection of headers
-        headers = {}
-
-        # If our client was configured to send some headers globally on all
-        # requests, include those
-        if self.client.global_http_headers:
-            headers.update(self.client.global_http_headers)
-
-        # Add the identification + auth headers
-        headers.update({
-            'User-Agent': '{0}/{1}'.format(__title__, __version__),
-            'X-Application-Key': self.client.application_key,
-        })
-
-        # gapipy works in JSON. Ensure the receiving API is aware of the type of
-        # payload being sent.
-        if method in ('POST', 'PUT', 'PATCH'):
-            headers['Content-Type'] = JSON_CONTENT_TYPE
-
-        if self.client.api_language:
-            headers['Accept-Language'] = self.client.api_language
-
-        # If this specific call included additional headers, include them
-        if additional_headers:
-            headers.update(additional_headers)
-
-        if self.client.api_proxy:
-            headers.update({'X-Api-Proxy': self.client.api_proxy})
-
-        return headers
 
     def _make_call(self, method, url, headers, data, params, timeout):
         """Make the actual request to the API, using the given URL, headers,
@@ -108,15 +98,6 @@ class APIRequestor(object):
             # raise error if non 4xx or 5xx response status
             response.reason = response.text
             return response.raise_for_status()
-
-    def _get_uri(self):
-        """Return the URI for the resource being requested."""
-        if isinstance(self.resource, str):
-            return self.resource
-
-        if self.resource._uri:
-            return self.resource._uri
-        return self.resource._resource_name
 
     def options(self):
         """
