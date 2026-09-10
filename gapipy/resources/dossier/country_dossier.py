@@ -1,5 +1,4 @@
 # Python 2 and 3
-from __future__ import unicode_literals
 
 from gapipy.resources.base import Resource
 from gapipy.models.base import BaseModel

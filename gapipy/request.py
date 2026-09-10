@@ -1,7 +1,7 @@
 from uuid import uuid1
 
-from future.moves.urllib.parse import urlparse
-from future.utils import PY2, raise_from, raise_with_traceback
+from urllib.parse import urlparse
+
 import requests.exceptions
 
 from gapipy.constants import ACCEPTABLE_RESPONSE_STATUS_CODES
@@ -97,9 +97,9 @@ class APIRequestor(object):
         except requests.exceptions.Timeout as exc:
             # if a timeout is defined, chain it to and raise our TimeoutError
             if timeout:
-                raise_from(TimeoutError, exc)
+                raise TimeoutError from exc
             # otherwise re-raise the original exception
-            raise_with_traceback(exc)
+            raise
         else:
             if response.status_code in ACCEPTABLE_RESPONSE_STATUS_CODES:
                 return response.json()
@@ -108,17 +108,9 @@ class APIRequestor(object):
             return response.raise_for_status()
 
     def _get_uri(self):
-        """
-        Return the URI for the resource being requested
-
-        n.b. Python 2 has `basestring` and Python 3 has `str`
-        """
-        if PY2:
-            if isinstance(self.resource, basestring):
-                return self.resource
-        else:
-            if isinstance(self.resource, str):
-                return self.resource
+        """Return the URI for the resource being requested."""
+        if isinstance(self.resource, str):
+            return self.resource
 
         if self.resource._uri:
             return self.resource._uri

@@ -4,8 +4,14 @@ returned by the API is detected.
 import sys
 from unittest import TestCase
 
-from nose.plugins.attrib import attr
-from nose_parameterized import parameterized
+import pytest
+from parameterized import parameterized
+
+integration = pytest.mark.integration
+
+
+def attr(_name):
+    return integration
 
 from gapipy.client import Client
 from gapipy.resources import (

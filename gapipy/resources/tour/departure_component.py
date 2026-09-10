@@ -1,5 +1,4 @@
 # Python 2 and 3
-from __future__ import unicode_literals
 
 from ...models.base import BaseModel
 from ...utils import get_resource_class_from_resource_name

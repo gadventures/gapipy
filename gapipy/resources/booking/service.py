@@ -1,8 +1,3 @@
-# Python 2 and 3
-from __future__ import unicode_literals
-
-from future.utils import with_metaclass
-
 from gapipy.models import (
     ArrivalFlightDetail,
     AssociatedService,
@@ -46,8 +41,7 @@ class TypeBasedServiceMeta(type):
         return type.__call__(new_class, *args, **kwargs)
 
 
-# with_metaclass is Python 2 and Python 3 method to allow metaclasses
-class Service(with_metaclass(TypeBasedServiceMeta, Resource)):
+class Service(Resource, metaclass=TypeBasedServiceMeta):
     _resource_name = 'services'
     _is_listable = False
     _is_parent_resource = True

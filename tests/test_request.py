@@ -9,10 +9,7 @@ from gapipy.request import APIRequestor
 
 from .fixtures import FIRST_PAGE_LIST_DATA, SECOND_PAGE_LIST_DATA
 
-try:
-    from unittest import mock  # Python 3
-except ImportError:
-    import mock  # Python 2
+from unittest import mock
 
 
 class Resources(object):

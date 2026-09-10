@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 
 from gapipy.constants import IMAGE_TYPE_BANNER
 from gapipy.constants import IMAGE_TYPE_MAP

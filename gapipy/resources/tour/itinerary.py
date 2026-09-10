@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 # pylint: disable=no-member
-from __future__ import unicode_literals
 
 from gapipy.constants import IMAGE_TYPE_MAP
 from gapipy.models import ValidDuringRange

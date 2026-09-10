@@ -1,5 +1,4 @@
 # Python 2 and 3
-from __future__ import unicode_literals
 
 from gapipy.models import PriceBand
 from gapipy.resources.booking_company import BookingCompany

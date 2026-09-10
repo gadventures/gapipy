@@ -1,5 +1,4 @@
 # Python 2 and 3
-from __future__ import unicode_literals
 
 from gapipy.models import Address, AccommodationRoom
 from gapipy.utils import enforce_string_type
