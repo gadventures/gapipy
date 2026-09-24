@@ -3,6 +3,12 @@
 History
 =======
 
+Unreleased (YYYY-MM-DD)
+-----------------------
+
+* Add the ``LocalPayment`` resource for the ``local_payments`` endpoint.
+
+
 2.42.0 (2026-02-19)
 -------------------
 
