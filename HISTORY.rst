@@ -9,6 +9,8 @@ Unreleased (YYYY-MM-DD)
 * Add the ``LocalPayment`` resource for the ``local_payments`` endpoint.
 * Add the ``approximate_amount_with_local_payments`` price field to the
   ``Departure`` room prices, their promotions, and ``lowest_pp2a_prices``.
+* Add the ``approximate_amount_with_local_payments`` field to
+  ``TourDossier.advertised_departures``.
 
 .. warning:: BREAKING!
 

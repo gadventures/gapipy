@@ -4,7 +4,12 @@ class Room(BaseModel):
     _as_is_fields = ['code', 'name']
 
 class AdvertisedDeparture(BaseModel):
-    _as_is_fields = ["previous_amount", "currency", "amount"]
+    _as_is_fields = [
+        "previous_amount",
+        "currency",
+        "amount",
+        "approximate_amount_with_local_payments",
+    ]
     _model_fields = [
         ('room', Room),
     ]
