@@ -1,5 +1,5 @@
 from .addon import AddOn
-from .price_band import PriceBand, SeasonalPriceBand
+from .price_band import DeparturePriceBand, PriceBand, SeasonalPriceBand
 from .base import BaseModel
 from ..utils import enforce_string_type
 
@@ -55,6 +55,7 @@ class DepartureRoom(Room):
 
     @property
     def _model_collection_fields(self):
-        return super(DepartureRoom, self)._model_collection_fields + [
+        return [
             ('addons', AddOn),
+            ('price_bands', DeparturePriceBand),
         ]
