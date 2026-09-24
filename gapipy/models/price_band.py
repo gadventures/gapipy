@@ -21,6 +21,19 @@ class Price(BaseModel):
         return [('promotions', PricePromotion)]
 
 
+class DeparturePrice(Price):
+    @property
+    def _price_fields(self):
+        return super(DeparturePrice, self)._price_fields + [
+            'approximate_amount_with_local_payments',
+        ]
+
+    @property
+    def _model_collection_fields(self):
+        from .price_promotion import DeparturePricePromotion
+        return [('promotions', DeparturePricePromotion)]
+
+
 class PriceBand(BaseModel):
     _as_is_fields = [
         'code', 'max_age', 'max_travellers', 'min_age',
@@ -37,6 +50,13 @@ class PriceBand(BaseModel):
         return list(self.prices.keys())
 
 
+class DeparturePriceBand(PriceBand):
+
+    @property
+    def _model_collection_fields(self):
+        return [('prices', DeparturePrice)]
+
+
 class SeasonalPriceBand(PriceBand):
 
     @property
@@ -49,4 +69,4 @@ class SeasonalPriceBand(PriceBand):
 
 class PP2aPrice(BaseModel):
     _as_is_fields = ['currency']
-    _price_fields = ['amount']
+    _price_fields = ['amount', 'approximate_amount_with_local_payments']

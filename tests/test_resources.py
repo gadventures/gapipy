@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 import datetime
+from decimal import Decimal
 from unittest import TestCase
 
 from gapipy.client import Client
@@ -10,6 +11,7 @@ from gapipy.models import AccommodationRoom
 from gapipy.query import Query
 from gapipy.resources import Departure
 from gapipy.resources import Itinerary
+from gapipy.resources import LocalPayment
 from gapipy.resources import Promotion
 from gapipy.resources import Tour
 from gapipy.resources import TourDossier
@@ -209,6 +211,52 @@ class PricePromotionTestCase(TestCase):
         for price in prices:
             promotion = price.promotions[0].to_dict()
             self.assertTrue('amount' in promotion)
+
+
+class DepartureLocalPaymentsTestCase(TestCase):
+    def test_approximate_amount_with_local_payments(self):
+        price = {
+            'currency': 'USD',
+            'amount': '1000.00',
+            'approximate_amount_with_local_payments': '1200.00',
+        }
+        departure = Departure({
+            'id': "1",
+            'lowest_pp2a_prices': [price],
+            'rooms': [{
+                'price_bands': [{
+                    'prices': [dict(price, promotions=[{
+                        'id': "2",
+                        'amount': '900.00',
+                        'approximate_amount_with_local_payments': '1100.00',
+                    }])],
+                }],
+            }],
+        }, client=Client())
+
+        room_price = departure.rooms[0].price_bands[0].prices[0]
+        self.assertEqual(departure.lowest_pp2a_prices[0].approximate_amount_with_local_payments, Decimal('1200.00'))
+        self.assertEqual(room_price.approximate_amount_with_local_payments, Decimal('1200.00'))
+        self.assertEqual(room_price.promotions[0].approximate_amount_with_local_payments, Decimal('1100.00'))
+
+    def test_approximate_amount_with_local_payments_is_departure_only(self):
+        room = AccommodationRoom({
+            'price_bands': [{
+                'prices': [{'currency': 'USD', 'approximate_amount_with_local_payments': '1200.00'}],
+            }],
+        }, client=Client())
+        self.assertFalse(hasattr(room.price_bands[0].prices[0], 'approximate_amount_with_local_payments'))
+
+    def test_local_payments_are_stubs(self):
+        departure = Departure({
+            'id': 1,
+            'local_payments': [{'id': 3, 'amount': '200.00', 'currency': 'USD', 'label': 'Kitty'}],
+        }, client=Client())
+
+        local_payment = departure.local_payments[0]
+        self.assertIsInstance(local_payment, LocalPayment)
+        self.assertTrue(local_payment.is_stub)
+        self.assertEqual(local_payment.amount, Decimal('200.00'))
 
 
 class DepartureAddonTestCase(TestCase):

@@ -3,6 +3,33 @@
 History
 =======
 
+Unreleased (YYYY-MM-DD)
+-----------------------
+
+* Add the ``LocalPayment`` resource for the ``local_payments`` endpoint.
+* Add the ``approximate_amount_with_local_payments`` price field to the
+  ``Departure`` room prices, their promotions, and ``lowest_pp2a_prices``.
+* Add the ``approximate_amount_with_local_payments`` field to
+  ``TourDossier.advertised_departures``.
+
+.. warning:: BREAKING!
+
+* Make ``Departure.local_payments`` a list of ``LocalPayment`` resource stubs.
+  Accessing a field absent from the inline payload (e.g. ``sell_currencies``)
+  fetches the full ``local_payments`` resource. The ``amount`` field is now a
+  ``Decimal`` instead of a ``str``.
+
+.. code-block:: python
+
+   # before
+   >>> api.departures.get(1387990).local_payments[0].amount
+   '200.00'
+
+   # now
+   >>> api.departures.get(1387990).local_payments[0].amount
+   Decimal('200.00')
+
+
 2.42.0 (2026-02-19)
 -------------------
 
