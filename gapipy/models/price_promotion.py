@@ -16,3 +16,11 @@ class PricePromotion(Promotion):
     @property
     def _price_fields(self):
         return super(PricePromotion, self)._price_fields + ['amount']
+
+
+class DeparturePricePromotion(PricePromotion):
+    @property
+    def _price_fields(self):
+        return super(DeparturePricePromotion, self)._price_fields + [
+            'approximate_amount_with_local_payments',
+        ]

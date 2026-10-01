@@ -12,6 +12,7 @@ from .itinerary import (
     ItineraryMedia,
     OptionalActivity,
 )
+from .local_payment import LocalPayment
 from .promotion import Promotion
 from .regional_connector import RegionalConnector
 from .room_upgrade import RoomUpgrade

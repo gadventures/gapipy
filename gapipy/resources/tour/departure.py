@@ -10,6 +10,7 @@ from gapipy.resources.booking_company import BookingCompany
 from gapipy.resources.product import Product
 
 from .departure_component import DepartureComponent
+from .local_payment import LocalPayment
 from .tour_dossier import TourDossier
 
 
@@ -20,14 +21,6 @@ class DepartureRelationship(BaseModel):
     ]
     _resource_fields = [
         ("departure", "Departure"),
-    ]
-
-
-class LocalPayment(BaseModel):
-    _as_is_fields = [
-        "amount",
-        "currency",
-        "label",
     ]
 
 
