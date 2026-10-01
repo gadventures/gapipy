@@ -22,6 +22,7 @@ class AddOn(BaseModel, RelatedResourceMixin):
         r = {
             'activities': 'Activity',
             'accommodations': 'Accommodation',
+            'flex_plans': 'FlexPlan',
             'transports': 'Transport',
             'single_supplements': 'SingleSupplement',
         }.get(self.product['type'])

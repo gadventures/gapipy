@@ -1,9 +1,12 @@
 # flake8: NOQA
 from .accommodation import Accommodation
 from .activity import Activity
-from .merchandise import Merchandise
+from .cancellation_term import CancellationTerm
 from .departure import Departure
 from .departure_component import DepartureComponent
+from .flex_cancellation_term import FlexCancellationTerm
+from .flex_plan import FlexPlan
+from .flex_tier import FlexTier
 from .image import Image
 from .itinerary import (
     Duration,
@@ -12,6 +15,7 @@ from .itinerary import (
     ItineraryMedia,
     OptionalActivity,
 )
+from .merchandise import Merchandise
 from .promotion import Promotion
 from .regional_connector import RegionalConnector
 from .room_upgrade import RoomUpgrade

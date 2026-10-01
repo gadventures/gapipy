@@ -16,20 +16,22 @@ from gapipy.models import (
 from gapipy.models.base import BaseModel
 from gapipy.resources.base import Resource
 from gapipy.resources.tour import (
-    Departure,
-    DepartureComponent,
     Accommodation,
     Activity,
+    Departure,
+    DepartureComponent,
+    FlexPlan,
     Merchandise,
     RegionalConnector,
     RoomUpgrade,
-    Transport,
     SingleSupplement,
+    Transport,
 )
 from gapipy.utils import get_resource_class_from_resource_name
 
-from .customer import Customer
 from .declined_reason import DeclinedReason
+from .flex_plan_service_addon import FlexPlanServiceAddon
+from .service_cancellation_term import ServiceCancellationTerm
 
 
 class TypeBasedServiceMeta(type):
@@ -103,7 +105,7 @@ class Service(with_metaclass(TypeBasedServiceMeta, Resource)):
     @property
     def _model_collection_fields(self):
         return [
-            ('customers', Customer),
+            ('customers', 'Customer'),
             ('documents', DocumentInfo),
         ]
 
@@ -112,14 +114,15 @@ class ServiceProduct(Service):
     def _get_product(self):
         # Return the appropriate product based on the parent service.
         mapping = {
-            'departure_services': Departure,
             'accommodation_services': Accommodation,
-            'transport_services': Transport,
             'activity_services': Activity,
+            'departure_services': Departure,
+            'flex_plan_services': FlexPlan,
             'merchandise_services': Merchandise,
-            'single_supplement_services': SingleSupplement,
             'regional_connector_services': RegionalConnector,
             'room_upgrade_services': RoomUpgrade,
+            'single_supplement_services': SingleSupplement,
+            'transport_services': Transport,
         }
         return mapping[self._resource_name]
 
@@ -169,7 +172,7 @@ class DepartureServiceFlight(BaseModel):
     ]
 
     _resource_fields = [
-        ('customer', Customer),
+        ('customer', 'Customer'),
     ]
 
 
@@ -205,12 +208,12 @@ class DepartureService(ServiceProduct):
     def _model_collection_fields(self):
         return super(DepartureService, self)._model_collection_fields + [
             ('arrival_flight_details', ArrivalFlightDetail),
+            ('arriving_flights', DepartureServiceFlight),
+            ('departing_flights', DepartureServiceFlight),
             ('departure_flight_details', DepartureFlightDetail),
             ('incomplete_requirements', IncompleteRequirement),
             ('international_ticket_numbers', InternationalTicketNumber),
             ('rooms', DepartureServiceRoom),
-            ('arriving_flights', DepartureServiceFlight),
-            ('departing_flights', DepartureServiceFlight),
             ('traveller_heights', TravellerHeight),
         ]
 
@@ -373,4 +376,36 @@ class FlightService(Service):
     def _model_collection_fields(self):
         return super(FlightService, self)._model_collection_fields + [
             ('associated_services', AssociatedService),
+        ]
+
+# {
+#     "effective_days": {
+#         "from_start_date": null,
+#         "to_start_date": 60
+#     },
+#     "effective_from_date": null,
+#     "effective_from_datetime_utc": null,
+#     "effective_until_date": "2026-09-01",
+#     "effective_until_datetime_utc": "2026-09-02T04:00:00Z",
+#     "refund_amount": "1299.00",
+#     "travel_credit_amount": "0.00"
+# }
+
+
+
+
+class FlexPlanService(ServiceProduct):
+    _resource_name = "flex_plan_services"
+    
+    @property
+    def _resource_fields(self):
+        return super(FlexPlanService, self)._resource_fields + [
+            ("cancellation_terms", ServiceCancellationTerm),
+        ]
+
+    @property
+    def _model_collection_fields(self):
+        return super(FlexPlanService, self)._model_collection_fields + [
+            ('associated_services', AssociatedService),
+            ('flex_plan_addons', FlexPlanServiceAddon),
         ]
