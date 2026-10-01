@@ -25,7 +25,7 @@ class LocalPayment(Resource):
         "href",
         "currency",
         "description",
-        "included_in_total",
+        "included_in_approximate_total",
         "label",
         "price_type",
     ]
