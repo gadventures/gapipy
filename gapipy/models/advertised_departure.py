@@ -9,6 +9,7 @@ class AdvertisedDeparture(BaseModel):
         "currency",
         "amount",
         "approximate_amount_with_local_payments",
+        "approximate_previous_amount_with_local_payments",
     ]
     _model_fields = [
         ('room', Room),

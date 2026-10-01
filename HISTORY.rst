@@ -11,6 +11,8 @@ Unreleased (YYYY-MM-DD)
   ``Departure`` room prices, their promotions, and ``lowest_pp2a_prices``.
 * Add the ``approximate_amount_with_local_payments`` field to
   ``TourDossier.advertised_departures``.
+* Add the ``approximate_previous_amount_with_local_payments`` field to
+  ``TourDossier.advertised_departures``.
 
 .. warning:: BREAKING!
 
