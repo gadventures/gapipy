@@ -211,7 +211,7 @@ class Itinerary(Resource):
         ('highlights', ItineraryHighlights),
     ]
 
-    _date_time_fields_utc = ['date_last_modified']
+    _date_time_fields_local = ['date_last_modified']
 
     def get_map_image(self):
         """
