@@ -3,6 +3,15 @@
 History
 =======
 
+2.43.0 (2026-10-21)
+-------------------
+
+* Adds ``date_last_modified`` field to the ``Itinerary`` resource.
+* See `PR #153`_ for more details.
+
+.. _`PR #153`: https://github.com/gadventures/gapipy/pull/153
+
+
 2.42.0 (2026-02-19)
 -------------------
 

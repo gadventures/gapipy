@@ -211,6 +211,8 @@ class Itinerary(Resource):
         ('highlights', ItineraryHighlights),
     ]
 
+    _date_time_fields_local = ['date_last_modified']
+
     def get_map_image(self):
         """
         Returns the first Image in our list that claims to be a map. Returns
