@@ -12,7 +12,7 @@ from .document_info import DocumentInfo
 from .dossier_feature import DossierFeatureParent, DossierFeatureChild
 from .incomplete_requirement import IncompleteRequirement
 from .international_ticket_number import InternationalTicketNumber
-from .price_band import PriceBand, SeasonalPriceBand, PP2aPrice
+from .price_band import DeparturePrice, DeparturePriceBand, PriceBand, SeasonalPriceBand, PP2aPrice
 from .room import AccommodationRoom, DepartureRoom
 from .traveller_height import TravellerHeight
 from .valid_during_range import ValidDuringRange
