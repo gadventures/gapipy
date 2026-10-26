@@ -3,8 +3,8 @@
 History
 =======
 
-Unreleased (YYYY-MM-DD)
------------------------
+2.44.0 (2026-10-26)
+-------------------
 
 * Add the ``LocalPayment`` resource for the ``local_payments`` endpoint.
 * Add the ``approximate_amount_with_local_payments`` price field to the
@@ -30,6 +30,10 @@ Unreleased (YYYY-MM-DD)
    # now
    >>> api.departures.get(1387990).local_payments[0].amount
    Decimal('200.00')
+
+* See `PR #151`_ for more details.
+
+.. _`PR #151`: https://github.com/gadventures/gapipy/pull/151
 
 
 2.43.0 (2026-10-21)
